@@ -38,5 +38,12 @@ namespace QuanLyKhachSan
             txtPassword.UseSystemPasswordChar = true;
             pictureBox3.BackColor = Color.White;
         }
+
+        private void btnDangNhap_Click(object sender, EventArgs e)
+        {
+            TrangChu trangChu = new TrangChu();
+            trangChu.Show();
+            this.Hide();
+        }
     }
 }

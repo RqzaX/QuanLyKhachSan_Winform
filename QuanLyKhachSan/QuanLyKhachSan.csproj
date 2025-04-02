@@ -82,6 +82,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TrangChu.resx">
+      <DependentUpon>TrangChu.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -109,6 +112,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\iconfinder-lock-4341303_120563.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\homemono_105947.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\group-profile-users_icon-icons.com_73540.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\homemono_105947 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\round-account-button-with-user-inside_icon-icons.com_72596.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\meeting-room_116766.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\meeting-room_118926.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bill_4477.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report_document_finance_business_analysis_analytics_chart_icon_188615.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancelled_rule_icon_217027.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
