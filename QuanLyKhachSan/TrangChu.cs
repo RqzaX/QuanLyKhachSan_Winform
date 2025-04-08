@@ -23,6 +23,8 @@ namespace QuanLyKhachSan
             form.Dock = DockStyle.Fill;
             panelChinh.Controls.Add(form);
             form.Show();
+            contextMenuProfile.BackColor = Color.LightSteelBlue;
+            contextMenuProfile.ForeColor = Color.Black;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -46,6 +48,29 @@ namespace QuanLyKhachSan
         {
             DatPhong datPhong = new DatPhong();
             LoadFormIntoPanel(datPhong);
+        }
+
+        private void btnMyProfile_Click(object sender, EventArgs e)
+        {
+            contextMenuProfile.Show(btnMyProfile, new Point(0, btnMyProfile.Height));
+        }
+
+        private void thôngTinCáNhânToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Thông tin cá nhân");
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Hide();
+        }
+
+        private void btnKhach_Click(object sender, EventArgs e)
+        {
+            Khach k = new Khach();
+            LoadFormIntoPanel(k);
         }
     }
 }

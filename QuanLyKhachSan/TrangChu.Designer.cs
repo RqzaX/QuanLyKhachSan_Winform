@@ -28,9 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChu));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelChinh = new System.Windows.Forms.Panel();
+            this.contextMenuProfile = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnMyProfile = new System.Windows.Forms.Button();
             this.btnQuyDinh = new System.Windows.Forms.Button();
             this.btnNhanVien = new System.Windows.Forms.Button();
             this.btnDatPhong = new System.Windows.Forms.Button();
@@ -39,12 +43,16 @@
             this.btnPhong = new System.Windows.Forms.Button();
             this.btnKhach = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.thôngTinCáNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
+            this.contextMenuProfile.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.panel1.Controls.Add(this.btnMyProfile);
             this.panel1.Controls.Add(this.btnQuyDinh);
             this.panel1.Controls.Add(this.btnNhanVien);
             this.panel1.Controls.Add(this.btnDatPhong);
@@ -66,6 +74,39 @@
             this.panelChinh.Name = "panelChinh";
             this.panelChinh.Size = new System.Drawing.Size(1604, 1046);
             this.panelChinh.TabIndex = 1;
+            // 
+            // contextMenuProfile
+            // 
+            this.contextMenuProfile.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuProfile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.thôngTinCáNhânToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.đăngXuấtToolStripMenuItem});
+            this.contextMenuProfile.Name = "contextMenuStrip1";
+            this.contextMenuProfile.Size = new System.Drawing.Size(201, 62);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(197, 6);
+            // 
+            // btnMyProfile
+            // 
+            this.btnMyProfile.ContextMenuStrip = this.contextMenuProfile;
+            this.btnMyProfile.FlatAppearance.BorderSize = 0;
+            this.btnMyProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMyProfile.Font = new System.Drawing.Font("Corbel", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMyProfile.ForeColor = System.Drawing.Color.White;
+            this.btnMyProfile.Image = global::QuanLyKhachSan.Properties.Resources.setting_icon_184083;
+            this.btnMyProfile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMyProfile.Location = new System.Drawing.Point(-3, 936);
+            this.btnMyProfile.Name = "btnMyProfile";
+            this.btnMyProfile.Size = new System.Drawing.Size(324, 110);
+            this.btnMyProfile.TabIndex = 9;
+            this.btnMyProfile.Text = "Võ Văn Thuận\r\nQuản Lý";
+            this.btnMyProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnMyProfile.UseVisualStyleBackColor = true;
+            this.btnMyProfile.Click += new System.EventHandler(this.btnMyProfile_Click);
             // 
             // btnQuyDinh
             // 
@@ -173,6 +214,7 @@
             this.btnKhach.TabIndex = 3;
             this.btnKhach.Text = "Khách";
             this.btnKhach.UseVisualStyleBackColor = true;
+            this.btnKhach.Click += new System.EventHandler(this.btnKhach_Click);
             // 
             // button1
             // 
@@ -190,6 +232,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // thôngTinCáNhânToolStripMenuItem
+            // 
+            this.thôngTinCáNhânToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources._1486564400_account_81513;
+            this.thôngTinCáNhânToolStripMenuItem.Name = "thôngTinCáNhânToolStripMenuItem";
+            this.thôngTinCáNhânToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.thôngTinCáNhânToolStripMenuItem.Text = "Thông tin cá nhân";
+            this.thôngTinCáNhânToolStripMenuItem.Click += new System.EventHandler(this.thôngTinCáNhânToolStripMenuItem_Click);
+            // 
+            // đăngXuấtToolStripMenuItem
+            // 
+            this.đăngXuấtToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources.logout_icon_151219;
+            this.đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
+            this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
+            this.đăngXuấtToolStripMenuItem.Click += new System.EventHandler(this.đăngXuấtToolStripMenuItem_Click);
+            // 
             // TrangChu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -204,6 +262,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.TrangChu_Load);
             this.panel1.ResumeLayout(false);
+            this.contextMenuProfile.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -220,5 +279,10 @@
         private System.Windows.Forms.Button btnKhach;
         private System.Windows.Forms.Button btnNhanVien;
         private System.Windows.Forms.Panel panelChinh;
+        private System.Windows.Forms.Button btnMyProfile;
+        private System.Windows.Forms.ContextMenuStrip contextMenuProfile;
+        private System.Windows.Forms.ToolStripMenuItem thôngTinCáNhânToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
     }
 }

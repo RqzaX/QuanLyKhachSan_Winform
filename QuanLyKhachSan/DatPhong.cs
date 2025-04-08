@@ -20,84 +20,87 @@ namespace QuanLyKhachSan
         private void DatPhong_Load(object sender, EventArgs e)
         {
             //cbbLoaiPhong.SelectedIndex = 0;
-            LoadPhongIntoPanel();
         }
-        private void LoadPhongIntoPanel()
+        private void AddNewButtonNextToExisting(Button existingButton, string soPhong, string trangThai, string loaiGiuong)
         {
-            using (var db = new AppDbContext())
+            // Tạo Button mới
+            Button newButton = new Button
             {
-                // Lấy dữ liệu kết hợp 2 bảng bằng LINQ
-                var query = from p in db.Phongs.Include(p => p.LoaiPhong)
-                            select p;
+                Size = new Size(200, 150), // Kích thước hình vuông
+                Text = $"➜ {soPhong}\n\n➜ {trangThai}\n\n➜ {loaiGiuong}",
+                TextAlign = ContentAlignment.MiddleLeft,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                BackColor = GetStatusColor(trangThai), // Màu nền theo trạng thái
+                Tag = soPhong // Lưu thông tin phòng (tùy chọn)
+            };
 
-                var phongList = query.ToList();
-                RenderPhongButtons(phongList);
-            }
-        }
-        private void RenderPhongButtons(List<Phong> phongList)
-        {
-            panelPhong.Controls.Clear(); // Xóa nút cũ
+            // Đặt vị trí kế bên Button hiện tại
+            newButton.Location = new Point(
+                existingButton.Right + 10, // Cách Button cũ 10 pixels
+                existingButton.Top
+            );
 
-            int buttonSize = 150; // Kích thước button (vuông)
-            int spacing = 10;     // Khoảng cách giữa các button
-            int x = spacing, y = spacing;
-
-            foreach (var phong in phongList)
+            // Kiểm tra nếu vượt quá chiều rộng Panel thì xuống dòng
+            if (newButton.Right > panelPhong.Width)
             {
-                // Tạo button
-                Button btn = new Button
-                {
-                    Size = new Size(buttonSize, buttonSize),
-                    Location = new Point(x, y),
-                    Text = $"Số phòng: {phong.SoPhong}\n" +
-                           $"Loại: {phong.LoaiPhong.TenLoai}\n" +
-                           $"Trạng thái: {phong.TrangThai}",
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    BackColor = GetStatusColor(phong.TrangThai),
-                    Tag = phong.PhongId // Lưu ID để xử lý sự kiện
-                };
-
-                // Định dạng button
-                btn.Font = new Font("Arial", 10, FontStyle.Bold);
-                btn.Click += PhongButton_Click; // Gắn sự kiện click
-
-                // Thêm vào Panel
-                panelPhong.Controls.Add(btn);
-
-                // Cập nhật vị trí cho button tiếp theo
-                x += buttonSize + spacing;
-                if (x + buttonSize > panelPhong.Width)
-                {
-                    x = spacing;
-                    y += buttonSize + spacing;
-                }
+                newButton.Location = new Point(
+                    10, // Về đầu dòng
+                    existingButton.Bottom + 10 // Xuống dưới Button cũ
+                );
             }
-        }
 
-        // Hàm lấy màu theo trạng thái
+            // Thêm sự kiện Click
+            newButton.Click += (sender, e) =>
+            {
+                MessageBox.Show($"Đã chọn: {soPhong}\nTrạng thái: {trangThai}");
+            };
+
+            // Thêm Button vào Panel
+            panelPhong.Controls.Add(newButton);
+        }
         private Color GetStatusColor(string trangThai)
         {
             switch (trangThai.ToLower())
             {
                 case "trống": return Color.LightGreen;
-                case "đã đặt": return Color.Orange;
-                case "đang sửa": return Color.LightCoral;
+                case "đã đặt": return Color.LightSalmon;
+                case "đang sửa": return Color.LightGray;
                 default: return Color.White;
             }
         }
-        private void PhongButton_Click(object sender, EventArgs e)
+        private void RearrangeButtonsInPanel()
         {
-            Button btn = (Button)sender;
-            int phongId = (int)btn.Tag;
+            int x = 10, y = 10; // Vị trí bắt đầu
+            int spacing = 10;    // Khoảng cách giữa các Button
 
-            using (var db = new AppDbContext())
+            foreach (Control control in panelPhong.Controls)
             {
-                var phong = db.Phongs.FirstOrDefault(p => p.PhongId == phongId);
-                if (phong != null)
+                if (control is Button btn)
                 {
-                    MessageBox.Show($"Đã chọn phòng: {phong.SoPhong}\nTrạng thái: {phong.TrangThai}");
+                    btn.Location = new Point(x, y);
+                    x += btn.Width + spacing;
+
+                    // Xuống dòng nếu vượt quá chiều rộng Panel
+                    if (x + btn.Width > panelPhong.Width)
+                    {
+                        x = 10;
+                        y += btn.Height + spacing;
+                    }
                 }
             }
+        }
+
+        private void btnPhong101_Click(object sender, EventArgs e)
+        {
+            // Ví dụ: Thêm phòng mới kế bên btnPhong101
+            //AddNewButtonNextToExisting(btnPhong101, "Phòng số 102", "Trống", "Giường đôi");
+            //RearrangeButtonsInPanel();
+        }
+
+        private void btnTaoPhongMoi_Click(object sender, EventArgs e)
+        {
+            TaoPhongMoi form = new TaoPhongMoi();
+            form.ShowDialog();
         }
     }
 }

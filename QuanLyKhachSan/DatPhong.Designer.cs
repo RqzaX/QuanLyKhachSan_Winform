@@ -49,9 +49,9 @@
             // txtTimPhong
             // 
             this.txtTimPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimPhong.Location = new System.Drawing.Point(122, 202);
+            this.txtTimPhong.Location = new System.Drawing.Point(41, 202);
             this.txtTimPhong.Name = "txtTimPhong";
-            this.txtTimPhong.Size = new System.Drawing.Size(339, 38);
+            this.txtTimPhong.Size = new System.Drawing.Size(420, 38);
             this.txtTimPhong.TabIndex = 1;
             // 
             // btnTimPhong
@@ -72,7 +72,7 @@
             this.cbbLoaiPhong.FormattingEnabled = true;
             this.cbbLoaiPhong.Location = new System.Drawing.Point(595, 203);
             this.cbbLoaiPhong.Name = "cbbLoaiPhong";
-            this.cbbLoaiPhong.Size = new System.Drawing.Size(217, 37);
+            this.cbbLoaiPhong.Size = new System.Drawing.Size(268, 37);
             this.cbbLoaiPhong.TabIndex = 3;
             // 
             // btnTaoPhongMoi
@@ -87,6 +87,7 @@
             this.btnTaoPhongMoi.TabIndex = 4;
             this.btnTaoPhongMoi.Text = "Tạo phòng mới";
             this.btnTaoPhongMoi.UseVisualStyleBackColor = false;
+            this.btnTaoPhongMoi.Click += new System.EventHandler(this.btnTaoPhongMoi_Click);
             // 
             // panelPhong
             // 
@@ -94,7 +95,7 @@
             this.panelPhong.BackColor = System.Drawing.Color.White;
             this.panelPhong.Location = new System.Drawing.Point(41, 263);
             this.panelPhong.Name = "panelPhong";
-            this.panelPhong.Size = new System.Drawing.Size(1521, 637);
+            this.panelPhong.Size = new System.Drawing.Size(1521, 771);
             this.panelPhong.TabIndex = 5;
             // 
             // DatPhong
