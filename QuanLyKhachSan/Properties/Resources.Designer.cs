@@ -73,6 +73,16 @@ namespace QuanLyKhachSan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _3709753_call_customer_relation_service_support_108076 {
+            get {
+                object obj = ResourceManager.GetObject("3709753-call-customer-relation-service-support_108076", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap bill_4477 {
             get {
                 object obj = ResourceManager.GetObject("bill_4477", resourceCulture);

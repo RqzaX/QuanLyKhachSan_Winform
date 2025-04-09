@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.btnCheckINOUT = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -47,23 +46,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Chào mừng Trang chủ";
             // 
-            // btnCheckINOUT
-            // 
-            this.btnCheckINOUT.BackColor = System.Drawing.Color.Transparent;
-            this.btnCheckINOUT.FlatAppearance.BorderSize = 0;
-            this.btnCheckINOUT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCheckINOUT.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckINOUT.ForeColor = System.Drawing.Color.White;
-            this.btnCheckINOUT.Image = global::QuanLyKhachSan.Properties.Resources.check_icon_icons1;
-            this.btnCheckINOUT.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCheckINOUT.Location = new System.Drawing.Point(499, 503);
-            this.btnCheckINOUT.Name = "btnCheckINOUT";
-            this.btnCheckINOUT.Size = new System.Drawing.Size(513, 114);
-            this.btnCheckINOUT.TabIndex = 7;
-            this.btnCheckINOUT.Text = "Check IN/OUT Nhân viên";
-            this.btnCheckINOUT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCheckINOUT.UseVisualStyleBackColor = false;
-            // 
             // button6
             // 
             this.button6.BackColor = System.Drawing.Color.Moccasin;
@@ -72,7 +54,7 @@
             this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Image = global::QuanLyKhachSan.Properties.Resources.clean_icon_215881__2_;
             this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button6.Location = new System.Drawing.Point(995, 731);
+            this.button6.Location = new System.Drawing.Point(999, 477);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(312, 114);
             this.button6.TabIndex = 6;
@@ -88,7 +70,7 @@
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Image = global::QuanLyKhachSan.Properties.Resources.phone_call_auricular_symbol_in_black_icon_icons_com_56483__1_;
             this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button5.Location = new System.Drawing.Point(595, 731);
+            this.button5.Location = new System.Drawing.Point(599, 477);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(338, 114);
             this.button5.TabIndex = 5;
@@ -104,7 +86,7 @@
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.Location = new System.Drawing.Point(223, 731);
+            this.button4.Location = new System.Drawing.Point(227, 477);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(303, 114);
             this.button4.TabIndex = 4;
@@ -151,7 +133,6 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1462, 1046);
             this.ControlBox = false;
-            this.Controls.Add(this.btnCheckINOUT);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -176,6 +157,5 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button btnCheckINOUT;
     }
 }

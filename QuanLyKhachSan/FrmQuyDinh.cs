@@ -8,22 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace QuanLyKhachSan
 {
-    public partial class TrangChu2 : Form
+    public partial class FrmQuyDinh : Form
     {
-        public TrangChu2()
+        public FrmQuyDinh()
         {
             InitializeComponent();
-        }
-
-        private void TrangChu2_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void TrangChu2_FormClosing(object sender, FormClosingEventArgs e)
-        {
         }
     }
 }

@@ -41,7 +41,8 @@ namespace QuanLyKhachSan
 
         private void btnQuyDinh_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Chức năng đang trong tình trạng Phát triển.", "Thử lại sau", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            FrmQuyDinh frm = new FrmQuyDinh();
+            LoadFormIntoPanel(frm);
         }
 
         private void btnDatPhong_Click(object sender, EventArgs e)
@@ -57,7 +58,7 @@ namespace QuanLyKhachSan
 
         private void thôngTinCáNhânToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Thông tin cá nhân");
+            
         }
 
         private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +72,30 @@ namespace QuanLyKhachSan
         {
             Khach k = new Khach();
             LoadFormIntoPanel(k);
+        }
+
+        private void btnNhanVien_Click(object sender, EventArgs e)
+        {
+            FrmNhanVien frmNhanVien = new FrmNhanVien();
+            LoadFormIntoPanel(frmNhanVien);
+        }
+
+        private void btnHoaDon_Click(object sender, EventArgs e)
+        {
+            FrmHoaDon frmHoa = new FrmHoaDon();
+            LoadFormIntoPanel(frmHoa);
+        }
+
+        private void btnDichVu_Click(object sender, EventArgs e)
+        {
+            FrmDichVu frm = new FrmDichVu();
+            LoadFormIntoPanel(frm);
+        }
+
+        private void btnBaoCao_Click(object sender, EventArgs e)
+        {
+            FrmBaoCao frm = new FrmBaoCao();
+            LoadFormIntoPanel(frm);
         }
     }
 }
