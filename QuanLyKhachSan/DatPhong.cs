@@ -102,5 +102,11 @@ namespace QuanLyKhachSan
             TaoPhongMoi form = new TaoPhongMoi();
             form.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ChiTietPhong chiTietPhong = new ChiTietPhong();
+            chiTietPhong.ShowDialog();
+        }
     }
 }

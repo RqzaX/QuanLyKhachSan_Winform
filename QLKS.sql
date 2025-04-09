@@ -1,6 +1,6 @@
-﻿CREATE DATABASE QLKS2
+﻿CREATE DATABASE QLKS
 go
-USE QLKS2
+USE QLKS
 go
 -- 1. Bảng phân quyền nhân viên
 CREATE TABLE VaiTro (
