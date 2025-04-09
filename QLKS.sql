@@ -150,4 +150,3 @@ INSERT INTO HoaDon (dat_phong_id, nhan_vien_id, tong_tien) VALUES
 go
 INSERT INTO ThanhToan (hoa_don_id, so_tien, phuong_thuc) VALUES
 (1, 5650000, 'tien_mat');
-

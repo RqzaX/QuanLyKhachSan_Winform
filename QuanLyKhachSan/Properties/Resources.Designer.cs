@@ -253,6 +253,36 @@ namespace QuanLyKhachSan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PhongBaoTri {
+            get {
+                object obj = ResourceManager.GetObject("PhongBaoTri", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PhongDaCoKhach {
+            get {
+                object obj = ResourceManager.GetObject("PhongDaCoKhach", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PhongDaDat {
+            get {
+                object obj = ResourceManager.GetObject("PhongDaDat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap report_document_finance_business_analysis_analytics_chart_icon_188615 {
             get {
                 object obj = ResourceManager.GetObject("report_document_finance_business_analysis_analytics_chart_icon_188615", resourceCulture);
@@ -276,6 +306,26 @@ namespace QuanLyKhachSan.Properties {
         internal static System.Drawing.Bitmap setting_icon_184083 {
             get {
                 object obj = ResourceManager.GetObject("setting_icon_184083", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap televisionshelf_117768 {
+            get {
+                object obj = ResourceManager.GetObject("televisionshelf_117768", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap televisionshelf_117768__1_ {
+            get {
+                object obj = ResourceManager.GetObject("televisionshelf_117768 (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
