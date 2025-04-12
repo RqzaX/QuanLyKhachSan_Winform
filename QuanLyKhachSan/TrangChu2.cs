@@ -25,5 +25,11 @@ namespace QuanLyKhachSan
         private void TrangChu2_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
+
+        private void btnGoiDonPhong_Click(object sender, EventArgs e)
+        {
+            GoiDonPhong frm = new GoiDonPhong();
+            frm.ShowDialog();
+        }
     }
 }

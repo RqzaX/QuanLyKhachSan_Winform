@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnGoiDonPhong = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,21 +45,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Chào mừng Trang chủ";
             // 
-            // button6
+            // btnGoiDonPhong
             // 
-            this.button6.BackColor = System.Drawing.Color.Moccasin;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Image = global::QuanLyKhachSan.Properties.Resources.clean_icon_215881__2_;
-            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button6.Location = new System.Drawing.Point(855, 477);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(312, 114);
-            this.button6.TabIndex = 6;
-            this.button6.Text = "Gọi Dọn Phòng";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.UseVisualStyleBackColor = false;
+            this.btnGoiDonPhong.BackColor = System.Drawing.Color.Moccasin;
+            this.btnGoiDonPhong.FlatAppearance.BorderSize = 0;
+            this.btnGoiDonPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGoiDonPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGoiDonPhong.Image = global::QuanLyKhachSan.Properties.Resources.clean_icon_215881__2_;
+            this.btnGoiDonPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnGoiDonPhong.Location = new System.Drawing.Point(855, 477);
+            this.btnGoiDonPhong.Name = "btnGoiDonPhong";
+            this.btnGoiDonPhong.Size = new System.Drawing.Size(312, 114);
+            this.btnGoiDonPhong.TabIndex = 6;
+            this.btnGoiDonPhong.Text = "Gọi Dọn Phòng";
+            this.btnGoiDonPhong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGoiDonPhong.UseVisualStyleBackColor = false;
+            this.btnGoiDonPhong.Click += new System.EventHandler(this.btnGoiDonPhong_Click);
             // 
             // button4
             // 
@@ -116,7 +117,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1462, 1046);
             this.ControlBox = false;
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.btnGoiDonPhong);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -137,6 +138,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnGoiDonPhong;
     }
 }

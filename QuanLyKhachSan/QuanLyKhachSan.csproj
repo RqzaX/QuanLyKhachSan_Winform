@@ -15,6 +15,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,6 +89,12 @@
     <Compile Include="ChiTietPhongTrong.Designer.cs">
       <DependentUpon>ChiTietPhongTrong.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChonPhongChuyen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChonPhongChuyen.Designer.cs">
+      <DependentUpon>ChonPhongChuyen.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmDatPhong.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +106,12 @@
     </Compile>
     <Compile Include="FrmBaoCao.Designer.cs">
       <DependentUpon>FrmBaoCao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GoiDonPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GoiDonPhong.Designer.cs">
+      <DependentUpon>GoiDonPhong.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmPhong.cs">
       <SubType>Form</SubType>
@@ -116,17 +143,23 @@
     <Compile Include="FrmNhanVien.Designer.cs">
       <DependentUpon>FrmNhanVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="Khach.cs">
+    <Compile Include="FrmKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Khach.Designer.cs">
-      <DependentUpon>Khach.cs</DependentUpon>
+    <Compile Include="FrmKhachHang.Designer.cs">
+      <DependentUpon>FrmKhachHang.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChiTietPhongDatTruoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChiTietPhongDatTruoc.Designer.cs">
+      <DependentUpon>ChiTietPhongDatTruoc.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,11 +168,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLKS.dbml</DependentUpon>
     </Compile>
-    <Compile Include="TaoPhongMoi.cs">
+    <Compile Include="ThemChucVu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TaoPhongMoi.Designer.cs">
-      <DependentUpon>TaoPhongMoi.cs</DependentUpon>
+    <Compile Include="ThemChucVu.Designer.cs">
+      <DependentUpon>ThemChucVu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThemLoaiPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThemLoaiPhong.Designer.cs">
+      <DependentUpon>ThemLoaiPhong.cs</DependentUpon>
     </Compile>
     <Compile Include="TrangChu.cs">
       <SubType>Form</SubType>
@@ -153,17 +192,26 @@
     <Compile Include="TrangChu2.Designer.cs">
       <DependentUpon>TrangChu2.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ChiTietPhongDatTruoc.resx">
+      <DependentUpon>ChiTietPhongDatTruoc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChiTietPhongSuDung.resx">
       <DependentUpon>ChiTietPhongSuDung.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChiTietPhongTrong.resx">
       <DependentUpon>ChiTietPhongTrong.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChonPhongChuyen.resx">
+      <DependentUpon>ChonPhongChuyen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmDatPhong.resx">
       <DependentUpon>FrmDatPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmBaoCao.resx">
       <DependentUpon>FrmBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GoiDonPhong.resx">
+      <DependentUpon>GoiDonPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPhong.resx">
       <DependentUpon>FrmPhong.cs</DependentUpon>
@@ -180,8 +228,8 @@
     <EmbeddedResource Include="FrmNhanVien.resx">
       <DependentUpon>FrmNhanVien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Khach.resx">
-      <DependentUpon>Khach.cs</DependentUpon>
+    <EmbeddedResource Include="FrmKhachHang.resx">
+      <DependentUpon>FrmKhachHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -197,8 +245,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="TaoPhongMoi.resx">
-      <DependentUpon>TaoPhongMoi.cs</DependentUpon>
+    <EmbeddedResource Include="ThemChucVu.resx">
+      <DependentUpon>ThemChucVu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThemLoaiPhong.resx">
+      <DependentUpon>ThemLoaiPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrangChu.resx">
       <DependentUpon>TrangChu.cs</DependentUpon>
@@ -302,6 +353,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\room_icon_144154.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txtTimPhong = new System.Windows.Forms.TextBox();
-            this.btnTimPhong = new System.Windows.Forms.Button();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.cbbLoaiPhong = new System.Windows.Forms.ComboBox();
             this.panelPhong = new System.Windows.Forms.Panel();
             this.button9 = new System.Windows.Forms.Button();
@@ -58,34 +57,25 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "ĐẶT PHÒNG";
             // 
-            // txtTimPhong
+            // txtTimKiem
             // 
-            this.txtTimPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimPhong.Location = new System.Drawing.Point(41, 202);
-            this.txtTimPhong.Name = "txtTimPhong";
-            this.txtTimPhong.Size = new System.Drawing.Size(420, 38);
-            this.txtTimPhong.TabIndex = 1;
-            // 
-            // btnTimPhong
-            // 
-            this.btnTimPhong.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.btnTimPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTimPhong.ForeColor = System.Drawing.Color.White;
-            this.btnTimPhong.Location = new System.Drawing.Point(460, 199);
-            this.btnTimPhong.Name = "btnTimPhong";
-            this.btnTimPhong.Size = new System.Drawing.Size(111, 46);
-            this.btnTimPhong.TabIndex = 2;
-            this.btnTimPhong.Text = "Tìm";
-            this.btnTimPhong.UseVisualStyleBackColor = false;
+            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(41, 202);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(420, 38);
+            this.txtTimKiem.TabIndex = 1;
+            this.txtTimKiem.Enter += new System.EventHandler(this.txtTimKiem_Enter);
+            this.txtTimKiem.Leave += new System.EventHandler(this.txtTimKiem_Leave);
             // 
             // cbbLoaiPhong
             // 
             this.cbbLoaiPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbLoaiPhong.FormattingEnabled = true;
-            this.cbbLoaiPhong.Location = new System.Drawing.Point(595, 203);
+            this.cbbLoaiPhong.Location = new System.Drawing.Point(520, 205);
             this.cbbLoaiPhong.Name = "cbbLoaiPhong";
             this.cbbLoaiPhong.Size = new System.Drawing.Size(268, 37);
             this.cbbLoaiPhong.TabIndex = 3;
+            this.cbbLoaiPhong.Enter += new System.EventHandler(this.cbbLoaiPhong_Enter);
             // 
             // panelPhong
             // 
@@ -219,6 +209,7 @@
             this.button8.Text = "Phòng 105\r\nGiường đôi\r\n\r\nĐã đặt\r\n7:00 23/04/2025";
             this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button4
             // 
@@ -286,8 +277,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.panelPhong);
             this.Controls.Add(this.cbbLoaiPhong);
-            this.Controls.Add(this.btnTimPhong);
-            this.Controls.Add(this.txtTimPhong);
+            this.Controls.Add(this.txtTimKiem);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmDatPhong";
@@ -302,8 +292,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTimPhong;
-        private System.Windows.Forms.Button btnTimPhong;
+        private System.Windows.Forms.TextBox txtTimKiem;
         private System.Windows.Forms.ComboBox cbbLoaiPhong;
         private System.Windows.Forms.Panel panelPhong;
         private System.Windows.Forms.Button button1;

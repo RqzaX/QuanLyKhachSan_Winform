@@ -70,7 +70,7 @@ namespace QuanLyKhachSan
 
         private void btnKhach_Click(object sender, EventArgs e)
         {
-            Khach k = new Khach();
+            FrmKhachHang k = new FrmKhachHang();
             LoadFormIntoPanel(k);
         }
 

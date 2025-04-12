@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace QuanLyKhachSan
 {
-    public partial class Khach : Form
+    public partial class FrmKhachHang : Form
     {
         private QLKSDataContext db = new QLKSDataContext();
-        public Khach()
+        public FrmKhachHang()
         {
             InitializeComponent();
         }
@@ -24,6 +24,8 @@ namespace QuanLyKhachSan
             LoadKhachHang();
             FixColumnHeaders();
             dgvKhachHang.Columns[0].Visible = false;
+            txtTimKiem.Text = "Tìm kiếm khách hàng";
+            txtTimKiem.ForeColor = Color.Gray;
         }
 
         private void Khach_FormClosing(object sender, FormClosingEventArgs e)
@@ -96,6 +98,24 @@ namespace QuanLyKhachSan
                 {
                     column.HeaderText = columnMappings[column.Name];
                 }
+            }
+        }
+
+        private void txtTimKiem_Enter(object sender, EventArgs e)
+        {
+            if (txtTimKiem.Text == "Tìm kiếm khách hàng")
+            {
+                txtTimKiem.Text = "";
+                txtTimKiem.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtTimKiem_Leave(object sender, EventArgs e)
+        {
+            if(txtTimKiem.Text.Length == 0)
+            {
+                txtTimKiem.Text = "Tìm kiếm khách hàng";
+                txtTimKiem.ForeColor = Color.Gray;
             }
         }
     }

@@ -38,6 +38,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -46,12 +47,14 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtMatKhau = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtTaiKhoan = new System.Windows.Forms.TextBox();
+            this.btnThemChucVu = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -125,6 +128,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtTimKiem);
             this.groupBox2.Controls.Add(this.dgvKhachHang);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(539, 216);
@@ -133,6 +137,15 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách nhân viên";
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(715, 0);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(374, 34);
+            this.txtTimKiem.TabIndex = 15;
+            this.txtTimKiem.Leave += new System.EventHandler(this.txtTimKiem_Leave);
             // 
             // dgvKhachHang
             // 
@@ -196,6 +209,7 @@
             this.txtMaKH.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMaKH.Location = new System.Drawing.Point(174, 75);
             this.txtMaKH.Name = "txtMaKH";
+            this.txtMaKH.ReadOnly = true;
             this.txtMaKH.Size = new System.Drawing.Size(331, 30);
             this.txtMaKH.TabIndex = 1;
             // 
@@ -204,7 +218,7 @@
             this.button1.BackColor = System.Drawing.Color.LightGreen;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(186, 575);
+            this.button1.Location = new System.Drawing.Point(167, 557);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 62);
             this.button1.TabIndex = 0;
@@ -223,6 +237,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnThemChucVu);
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.label9);
@@ -249,13 +265,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin chi tiết nhân viên";
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.LemonChiffon;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.Black;
+            this.button2.Location = new System.Drawing.Point(321, 557);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(148, 62);
+            this.button2.TabIndex = 19;
+            this.button2.Text = "Sửa";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
             // comboBox1
             // 
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(174, 216);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(331, 33);
+            this.comboBox1.Size = new System.Drawing.Size(284, 33);
             this.comboBox1.TabIndex = 18;
             // 
             // checkBox1
@@ -306,6 +334,19 @@
             this.txtTaiKhoan.Size = new System.Drawing.Size(338, 30);
             this.txtTaiKhoan.TabIndex = 13;
             // 
+            // btnThemChucVu
+            // 
+            this.btnThemChucVu.BackColor = System.Drawing.Color.Lime;
+            this.btnThemChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThemChucVu.ForeColor = System.Drawing.Color.Black;
+            this.btnThemChucVu.Location = new System.Drawing.Point(464, 215);
+            this.btnThemChucVu.Name = "btnThemChucVu";
+            this.btnThemChucVu.Size = new System.Drawing.Size(37, 37);
+            this.btnThemChucVu.TabIndex = 20;
+            this.btnThemChucVu.Text = "✚";
+            this.btnThemChucVu.UseVisualStyleBackColor = false;
+            this.btnThemChucVu.Click += new System.EventHandler(this.btnThemChucVu_Click);
+            // 
             // FrmNhanVien
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -319,7 +360,9 @@
             this.Name = "FrmNhanVien";
             this.Text = "FrmNhanVien";
             this.Load += new System.EventHandler(this.FrmNhanVien_Load);
+            this.Enter += new System.EventHandler(this.FrmNhanVien_Enter);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -352,5 +395,8 @@
         private System.Windows.Forms.TextBox txtMatKhau;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtTaiKhoan;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnThemChucVu;
     }
 }

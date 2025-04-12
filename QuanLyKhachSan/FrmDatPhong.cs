@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,8 @@ namespace QuanLyKhachSan
         private void DatPhong_Load(object sender, EventArgs e)
         {
             //cbbLoaiPhong.SelectedIndex = 0;
+            txtTimKiem.Text = "Tìm kiếm phòng";
+            txtTimKiem.ForeColor = Color.Gray;
         }
         private void AddNewButtonNextToExisting(Button existingButton, string soPhong, string trangThai, string loaiGiuong)
         {
@@ -99,7 +102,7 @@ namespace QuanLyKhachSan
 
         private void btnTaoPhongMoi_Click(object sender, EventArgs e)
         {
-            TaoPhongMoi form = new TaoPhongMoi();
+            ThemLoaiPhong form = new ThemLoaiPhong();
             form.ShowDialog();
         }
 
@@ -112,6 +115,36 @@ namespace QuanLyKhachSan
         private void button2_Click(object sender, EventArgs e)
         {
             ChiTietPhongSuDung frm = new ChiTietPhongSuDung();
+            frm.ShowDialog();
+        }
+
+        private void txtTimKiem_Enter(object sender, EventArgs e)
+        {
+            if (txtTimKiem.Text == "Tìm kiếm phòng")
+            {
+                txtTimKiem.Text = "";
+                txtTimKiem.ForeColor = Color.Black;
+            }
+        }
+
+        private void txtTimKiem_Leave(object sender, EventArgs e)
+        {
+            if (txtTimKiem.Text.Length == 0)
+            {
+                txtTimKiem.Text = "Tìm kiếm phòng";
+                txtTimKiem.ForeColor = Color.Gray;
+            }
+        }
+
+        private void cbbLoaiPhong_Enter(object sender, EventArgs e)
+        {
+            txtTimKiem.Text = "";
+            txtTimKiem.ForeColor = Color.Black;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            ChiTietPhongDatTruoc frm = new ChiTietPhongDatTruoc();
             frm.ShowDialog();
         }
     }
