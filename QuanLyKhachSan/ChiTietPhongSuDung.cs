@@ -32,5 +32,11 @@ namespace QuanLyKhachSan
         {
             comboBox1.SelectedIndex = 0;
         }
+
+        private void btnChuyenPhong_Click(object sender, EventArgs e)
+        {
+            ChonPhongChuyen frm = new ChonPhongChuyen();
+            frm.ShowDialog();
+        }
     }
 }

@@ -62,13 +62,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btnChuyenPhong = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatDichVu)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -344,6 +345,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnChuyenPhong);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.comboBox1);
@@ -470,37 +472,29 @@
             this.groupBox6.Text = "Số tiền cần thanh toán";
             this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
             // 
-            // label13
+            // groupBox7
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(15, 42);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(311, 27);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Tiền thuê phòng: 999999";
+            this.groupBox7.Controls.Add(this.radioButton3);
+            this.groupBox7.Controls.Add(this.radioButton1);
+            this.groupBox7.Controls.Add(this.radioButton2);
+            this.groupBox7.Location = new System.Drawing.Point(459, 57);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(507, 74);
+            this.groupBox7.TabIndex = 3;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Hình thức thanh toán";
             // 
-            // label14
+            // radioButton3
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(15, 79);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(272, 27);
-            this.label14.TabIndex = 1;
-            this.label14.Text = "Tiền dịch vụ: 999999";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Lime;
-            this.label15.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(454, 24);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(519, 27);
-            this.label15.TabIndex = 2;
-            this.label15.Text = "Tổng tiền cần thanh toán: 9.999.999 vnđ";
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton3.Location = new System.Drawing.Point(359, 39);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(142, 29);
+            this.radioButton3.TabIndex = 5;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "Thẻ tín dụng";
+            this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
@@ -526,29 +520,50 @@
             this.radioButton2.Text = "Chuyển khoản";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // label15
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton3.Location = new System.Drawing.Point(359, 39);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(142, 29);
-            this.radioButton3.TabIndex = 5;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Thẻ tín dụng";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Lime;
+            this.label15.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Black;
+            this.label15.Location = new System.Drawing.Point(454, 24);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(519, 27);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "Tổng tiền cần thanh toán: 9.999.999 vnđ";
             // 
-            // groupBox7
+            // label14
             // 
-            this.groupBox7.Controls.Add(this.radioButton3);
-            this.groupBox7.Controls.Add(this.radioButton1);
-            this.groupBox7.Controls.Add(this.radioButton2);
-            this.groupBox7.Location = new System.Drawing.Point(459, 57);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(507, 74);
-            this.groupBox7.TabIndex = 3;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Hình thức thanh toán";
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(15, 79);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(272, 27);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Tiền dịch vụ: 999999";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(15, 42);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(311, 27);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Tiền thuê phòng: 999999";
+            // 
+            // btnChuyenPhong
+            // 
+            this.btnChuyenPhong.BackColor = System.Drawing.Color.AliceBlue;
+            this.btnChuyenPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChuyenPhong.ForeColor = System.Drawing.Color.Black;
+            this.btnChuyenPhong.Location = new System.Drawing.Point(155, 269);
+            this.btnChuyenPhong.Name = "btnChuyenPhong";
+            this.btnChuyenPhong.Size = new System.Drawing.Size(295, 49);
+            this.btnChuyenPhong.TabIndex = 48;
+            this.btnChuyenPhong.Text = "Chuyển phòng khác";
+            this.btnChuyenPhong.UseVisualStyleBackColor = false;
+            this.btnChuyenPhong.Click += new System.EventHandler(this.btnChuyenPhong_Click);
             // 
             // ChiTietPhongSuDung
             // 
@@ -630,5 +645,6 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.Button btnChuyenPhong;
     }
 }
