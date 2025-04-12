@@ -13,16 +13,17 @@ namespace QuanLyKhachSan
 {
     public partial class Khach : Form
     {
-        //private QLKSDataContext db = new QLKSDataContext();
+        private QLKSDataContext db = new QLKSDataContext();
         public Khach()
         {
             InitializeComponent();
-            //LoadKhachHang();
-            //FixColumnHeaders();
         }
 
         private void Khach_Load(object sender, EventArgs e)
         {
+            LoadKhachHang();
+            FixColumnHeaders();
+            dgvKhachHang.Columns[0].Visible = false;
         }
 
         private void Khach_FormClosing(object sender, FormClosingEventArgs e)
@@ -31,43 +32,43 @@ namespace QuanLyKhachSan
         }
         private void dgvKhachHang_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //if (e.RowIndex >= 0)
-            //{
-            //    int id = Convert.ToInt32(dgvKhachHang.Rows[e.RowIndex].Cells["khach_hang_id"].Value);
+            if (e.RowIndex >= 0)
+            {
+                int id = Convert.ToInt32(dgvKhachHang.Rows[e.RowIndex].Cells["khach_hang_id"].Value);
 
-            //    if (dgvKhachHang.Columns[e.ColumnIndex].Name == "Thao tác")
-            //    {
-            //        // Xử lý xóa
-            //        if (MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này?", "Xác nhận",
-            //            MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //        {
-            //            var kh = db.KhachHangs.SingleOrDefault(x => x.khach_hang_id == id);
-            //            if (kh != null)
-            //            {
-            //                db.KhachHangs.DeleteOnSubmit(kh);
-            //                db.SubmitChanges();
-            //                LoadKhachHang();
-            //            }
-            //        }
-            //    }
-            //}
+                if (dgvKhachHang.Columns[e.ColumnIndex].Name == "Thao tác")
+                {
+                    // Xử lý xóa
+                    if (MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này?", "Xác nhận",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        var kh = db.KhachHangs.SingleOrDefault(x => x.khach_hang_id == id);
+                        if (kh != null)
+                        {
+                            db.KhachHangs.DeleteOnSubmit(kh);
+                            db.SubmitChanges();
+                            LoadKhachHang();
+                        }
+                    }
+                }
+            }
         }
-        //private void LoadKhachHang()
-        //{
-        //    var khachHangs = from kh in db.KhachHangs
-        //                     select new
-        //                     {
-        //                         kh.khach_hang_id,
-        //                         kh.ho_ten,
-        //                         kh.dia_chi,
-        //                         kh.so_dien_thoai,
-        //                         kh.email,
-        //                         kh.cccd
-        //                     };
+        private void LoadKhachHang()
+        {
+            var khachHangs = from kh in db.KhachHangs
+                             select new
+                             {
+                                 kh.khach_hang_id,
+                                 kh.ho_ten,
+                                 kh.dia_chi,
+                                 kh.so_dien_thoai,
+                                 kh.email,
+                                 kh.cccd
+                             };
 
-        //    dgvKhachHang.DataSource = khachHangs.ToList();
-        //    AddButtonColumn();
-        //}
+            dgvKhachHang.DataSource = khachHangs.ToList();
+            AddButtonColumn();
+        }
         private void AddButtonColumn()
         {
             DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();

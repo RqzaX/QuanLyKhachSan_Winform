@@ -1,6 +1,6 @@
 ﻿namespace QuanLyKhachSan
 {
-    partial class DatPhong
+    partial class FrmDatPhong
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,6 @@
             this.txtTimPhong = new System.Windows.Forms.TextBox();
             this.btnTimPhong = new System.Windows.Forms.Button();
             this.cbbLoaiPhong = new System.Windows.Forms.ComboBox();
-            this.btnTaoPhongMoi = new System.Windows.Forms.Button();
             this.panelPhong = new System.Windows.Forms.Panel();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
@@ -87,20 +86,6 @@
             this.cbbLoaiPhong.Name = "cbbLoaiPhong";
             this.cbbLoaiPhong.Size = new System.Drawing.Size(268, 37);
             this.cbbLoaiPhong.TabIndex = 3;
-            // 
-            // btnTaoPhongMoi
-            // 
-            this.btnTaoPhongMoi.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.btnTaoPhongMoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTaoPhongMoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTaoPhongMoi.ForeColor = System.Drawing.Color.White;
-            this.btnTaoPhongMoi.Location = new System.Drawing.Point(1253, 191);
-            this.btnTaoPhongMoi.Name = "btnTaoPhongMoi";
-            this.btnTaoPhongMoi.Size = new System.Drawing.Size(309, 58);
-            this.btnTaoPhongMoi.TabIndex = 4;
-            this.btnTaoPhongMoi.Text = "Tạo phòng mới";
-            this.btnTaoPhongMoi.UseVisualStyleBackColor = false;
-            this.btnTaoPhongMoi.Click += new System.EventHandler(this.btnTaoPhongMoi_Click);
             // 
             // panelPhong
             // 
@@ -276,6 +261,7 @@
             this.button2.Text = "Phòng 102\r\nGiường đôi\r\n\r\nĐã có khách";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
@@ -292,20 +278,19 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // DatPhong
+            // FrmDatPhong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1604, 1046);
             this.ControlBox = false;
             this.Controls.Add(this.panelPhong);
-            this.Controls.Add(this.btnTaoPhongMoi);
             this.Controls.Add(this.cbbLoaiPhong);
             this.Controls.Add(this.btnTimPhong);
             this.Controls.Add(this.txtTimPhong);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "DatPhong";
+            this.Name = "FrmDatPhong";
             this.Text = "DatPhong";
             this.Load += new System.EventHandler(this.DatPhong_Load);
             this.panelPhong.ResumeLayout(false);
@@ -320,7 +305,6 @@
         private System.Windows.Forms.TextBox txtTimPhong;
         private System.Windows.Forms.Button btnTimPhong;
         private System.Windows.Forms.ComboBox cbbLoaiPhong;
-        private System.Windows.Forms.Button btnTaoPhongMoi;
         private System.Windows.Forms.Panel panelPhong;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button9;

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace QuanLyKhachSan
 {
-    public partial class DatPhong : Form
+    public partial class FrmDatPhong : Form
     {
-        public DatPhong()
+        public FrmDatPhong()
         {
             InitializeComponent();
         }
@@ -105,8 +105,14 @@ namespace QuanLyKhachSan
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ChiTietPhong chiTietPhong = new ChiTietPhong();
+            ChiTietPhongTrong chiTietPhong = new ChiTietPhongTrong();
             chiTietPhong.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ChiTietPhongSuDung frm = new ChiTietPhongSuDung();
+            frm.ShowDialog();
         }
     }
 }

@@ -36,6 +36,7 @@
             this.contextMenuProfile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.panelChinh = new System.Windows.Forms.Panel();
+            this.btnPhong = new System.Windows.Forms.Button();
             this.btnDichVu = new System.Windows.Forms.Button();
             this.btnMyProfile = new System.Windows.Forms.Button();
             this.btnQuyDinh = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.panel1.Controls.Add(this.btnPhong);
             this.panel1.Controls.Add(this.btnDichVu);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
@@ -114,6 +116,22 @@
             this.panelChinh.Size = new System.Drawing.Size(1654, 1046);
             this.panelChinh.TabIndex = 1;
             // 
+            // btnPhong
+            // 
+            this.btnPhong.FlatAppearance.BorderSize = 0;
+            this.btnPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPhong.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPhong.ForeColor = System.Drawing.Color.White;
+            this.btnPhong.Image = global::QuanLyKhachSan.Properties.Resources.room_icon_144154;
+            this.btnPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPhong.Location = new System.Drawing.Point(0, 484);
+            this.btnPhong.Name = "btnPhong";
+            this.btnPhong.Size = new System.Drawing.Size(324, 76);
+            this.btnPhong.TabIndex = 13;
+            this.btnPhong.Text = "Phòng";
+            this.btnPhong.UseVisualStyleBackColor = true;
+            this.btnPhong.Click += new System.EventHandler(this.btnPhong_Click);
+            // 
             // btnDichVu
             // 
             this.btnDichVu.FlatAppearance.BorderSize = 0;
@@ -122,7 +140,7 @@
             this.btnDichVu.ForeColor = System.Drawing.Color.White;
             this.btnDichVu.Image = global::QuanLyKhachSan.Properties.Resources._3709753_call_customer_relation_service_support_108076;
             this.btnDichVu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDichVu.Location = new System.Drawing.Point(-3, 566);
+            this.btnDichVu.Location = new System.Drawing.Point(-3, 648);
             this.btnDichVu.Name = "btnDichVu";
             this.btnDichVu.Size = new System.Drawing.Size(324, 76);
             this.btnDichVu.TabIndex = 12;
@@ -154,7 +172,7 @@
             this.btnQuyDinh.ForeColor = System.Drawing.Color.White;
             this.btnQuyDinh.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
             this.btnQuyDinh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnQuyDinh.Location = new System.Drawing.Point(-3, 730);
+            this.btnQuyDinh.Location = new System.Drawing.Point(-3, 812);
             this.btnQuyDinh.Name = "btnQuyDinh";
             this.btnQuyDinh.Size = new System.Drawing.Size(324, 76);
             this.btnQuyDinh.TabIndex = 8;
@@ -202,7 +220,7 @@
             this.btnBaoCao.ForeColor = System.Drawing.Color.White;
             this.btnBaoCao.Image = global::QuanLyKhachSan.Properties.Resources.report_document_finance_business_analysis_analytics_chart_icon_188615;
             this.btnBaoCao.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBaoCao.Location = new System.Drawing.Point(0, 648);
+            this.btnBaoCao.Location = new System.Drawing.Point(0, 730);
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(324, 76);
             this.btnBaoCao.TabIndex = 7;
@@ -218,7 +236,7 @@
             this.btnHoaDon.ForeColor = System.Drawing.Color.White;
             this.btnHoaDon.Image = global::QuanLyKhachSan.Properties.Resources.bill_4477;
             this.btnHoaDon.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnHoaDon.Location = new System.Drawing.Point(-3, 484);
+            this.btnHoaDon.Location = new System.Drawing.Point(-3, 566);
             this.btnHoaDon.Name = "btnHoaDon";
             this.btnHoaDon.Size = new System.Drawing.Size(324, 76);
             this.btnHoaDon.TabIndex = 6;
@@ -313,5 +331,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnDichVu;
+        private System.Windows.Forms.Button btnPhong;
     }
 }

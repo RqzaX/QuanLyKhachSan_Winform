@@ -10,23 +10,27 @@ using System.Windows.Forms;
 
 namespace QuanLyKhachSan
 {
-    public partial class FrmNhanVien : Form
+    public partial class ChiTietPhongSuDung : Form
     {
-        public FrmNhanVien()
+        public ChiTietPhongSuDung()
         {
             InitializeComponent();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void groupBox6_Enter(object sender, EventArgs e)
         {
-            txtTaiKhoan.Enabled = checkBox1.Checked;
-            txtMatKhau.Enabled = checkBox1.Checked;
+
         }
 
-        private void FrmNhanVien_Load(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            txtTaiKhoan.Enabled = false;
-            txtMatKhau.Enabled = false;
+            if (checkBox1.Checked) dateTimePicker3.Enabled = true;
+            else dateTimePicker3.Enabled = false;
+        }
+
+        private void ChiTietPhongSuDung_Load(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = 0;
         }
     }
 }

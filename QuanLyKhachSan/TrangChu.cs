@@ -47,7 +47,7 @@ namespace QuanLyKhachSan
 
         private void btnDatPhong_Click(object sender, EventArgs e)
         {
-            DatPhong datPhong = new DatPhong();
+            FrmDatPhong datPhong = new FrmDatPhong();
             LoadFormIntoPanel(datPhong);
         }
 
@@ -76,14 +76,14 @@ namespace QuanLyKhachSan
 
         private void btnNhanVien_Click(object sender, EventArgs e)
         {
-            FrmNhanVien frmNhanVien = new FrmNhanVien();
-            LoadFormIntoPanel(frmNhanVien);
+            FrmNhanVien frm = new FrmNhanVien();
+            LoadFormIntoPanel(frm);
         }
 
         private void btnHoaDon_Click(object sender, EventArgs e)
         {
-            FrmHoaDon frmHoa = new FrmHoaDon();
-            LoadFormIntoPanel(frmHoa);
+            FrmHoaDon frm = new FrmHoaDon();
+            LoadFormIntoPanel(frm);
         }
 
         private void btnDichVu_Click(object sender, EventArgs e)
@@ -95,6 +95,12 @@ namespace QuanLyKhachSan
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
             FrmBaoCao frm = new FrmBaoCao();
+            LoadFormIntoPanel(frm);
+        }
+
+        private void btnPhong_Click(object sender, EventArgs e)
+        {
+            FrmPhong frm = new FrmPhong();
             LoadFormIntoPanel(frm);
         }
     }
