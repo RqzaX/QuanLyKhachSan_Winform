@@ -31,22 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChu));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnPhong = new System.Windows.Forms.Button();
-            this.btnDichVu = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnMyProfile = new System.Windows.Forms.Button();
             this.contextMenuProfile = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.thôngTinCáNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnQuyDinh = new System.Windows.Forms.Button();
-            this.btnNhanVien = new System.Windows.Forms.Button();
-            this.btnDatPhong = new System.Windows.Forms.Button();
-            this.btnBaoCao = new System.Windows.Forms.Button();
-            this.btnHoaDon = new System.Windows.Forms.Button();
-            this.btnKhach = new System.Windows.Forms.Button();
-            this.btnTrangChu = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.chứcNăngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quảnLýKhuyênMãiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +59,18 @@
             this.xuấtHóaĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xuấtChoTiếtHóaĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelChinh = new System.Windows.Forms.Panel();
+            this.btnPhong = new System.Windows.Forms.Button();
+            this.btnDichVu = new System.Windows.Forms.Button();
+            this.btnMyProfile = new System.Windows.Forms.Button();
+            this.btnQuyDinh = new System.Windows.Forms.Button();
+            this.btnNhanVien = new System.Windows.Forms.Button();
+            this.btnDatPhong = new System.Windows.Forms.Button();
+            this.btnBaoCao = new System.Windows.Forms.Button();
+            this.btnHoaDon = new System.Windows.Forms.Button();
+            this.btnKhach = new System.Windows.Forms.Button();
+            this.btnTrangChu = new System.Windows.Forms.Button();
+            this.thôngTinCáNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.contextMenuProfile.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -99,44 +99,6 @@
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // btnPhong
-            // 
-            this.btnPhong.BackColor = System.Drawing.Color.Transparent;
-            this.btnPhong.FlatAppearance.BorderSize = 0;
-            this.btnPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPhong.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPhong.ForeColor = System.Drawing.Color.White;
-            this.btnPhong.Image = global::QuanLyKhachSan.Properties.Resources.room_icon_144154;
-            this.btnPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPhong.Location = new System.Drawing.Point(0, 484);
-            this.btnPhong.Name = "btnPhong";
-            this.btnPhong.Size = new System.Drawing.Size(324, 76);
-            this.btnPhong.TabIndex = 13;
-            this.btnPhong.Text = "Phòng";
-            this.btnPhong.UseVisualStyleBackColor = false;
-            this.btnPhong.Click += new System.EventHandler(this.btnPhong_Click);
-            this.btnPhong.MouseEnter += new System.EventHandler(this.btnPhong_MouseEnter);
-            this.btnPhong.MouseLeave += new System.EventHandler(this.btnPhong_MouseLeave);
-            // 
-            // btnDichVu
-            // 
-            this.btnDichVu.BackColor = System.Drawing.Color.Transparent;
-            this.btnDichVu.FlatAppearance.BorderSize = 0;
-            this.btnDichVu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDichVu.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDichVu.ForeColor = System.Drawing.Color.White;
-            this.btnDichVu.Image = global::QuanLyKhachSan.Properties.Resources._3709753_call_customer_relation_service_support_108076;
-            this.btnDichVu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDichVu.Location = new System.Drawing.Point(-3, 648);
-            this.btnDichVu.Name = "btnDichVu";
-            this.btnDichVu.Size = new System.Drawing.Size(324, 76);
-            this.btnDichVu.TabIndex = 12;
-            this.btnDichVu.Text = "Dịch Vụ";
-            this.btnDichVu.UseVisualStyleBackColor = false;
-            this.btnDichVu.Click += new System.EventHandler(this.btnDichVu_Click);
-            this.btnDichVu.MouseEnter += new System.EventHandler(this.btnDichVu_MouseEnter);
-            this.btnDichVu.MouseLeave += new System.EventHandler(this.btnDichVu_MouseLeave);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -159,23 +121,6 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Võ Văn Thuận";
             // 
-            // btnMyProfile
-            // 
-            this.btnMyProfile.BackColor = System.Drawing.Color.Transparent;
-            this.btnMyProfile.ContextMenuStrip = this.contextMenuProfile;
-            this.btnMyProfile.FlatAppearance.BorderSize = 0;
-            this.btnMyProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMyProfile.Font = new System.Drawing.Font("Corbel", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMyProfile.ForeColor = System.Drawing.Color.White;
-            this.btnMyProfile.Image = global::QuanLyKhachSan.Properties.Resources.setting_icon_184083;
-            this.btnMyProfile.Location = new System.Drawing.Point(222, 965);
-            this.btnMyProfile.Name = "btnMyProfile";
-            this.btnMyProfile.Size = new System.Drawing.Size(99, 78);
-            this.btnMyProfile.TabIndex = 9;
-            this.btnMyProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMyProfile.UseVisualStyleBackColor = false;
-            this.btnMyProfile.Click += new System.EventHandler(this.btnMyProfile_Click);
-            // 
             // contextMenuProfile
             // 
             this.contextMenuProfile.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -186,159 +131,10 @@
             this.contextMenuProfile.Name = "contextMenuStrip1";
             this.contextMenuProfile.Size = new System.Drawing.Size(201, 62);
             // 
-            // thôngTinCáNhânToolStripMenuItem
-            // 
-            this.thôngTinCáNhânToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources._1486564400_account_81513;
-            this.thôngTinCáNhânToolStripMenuItem.Name = "thôngTinCáNhânToolStripMenuItem";
-            this.thôngTinCáNhânToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
-            this.thôngTinCáNhânToolStripMenuItem.Text = "Thông tin cá nhân";
-            this.thôngTinCáNhânToolStripMenuItem.Click += new System.EventHandler(this.thôngTinCáNhânToolStripMenuItem_Click);
-            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(197, 6);
-            // 
-            // đăngXuấtToolStripMenuItem
-            // 
-            this.đăngXuấtToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources.logout_icon_151219;
-            this.đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
-            this.đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
-            this.đăngXuấtToolStripMenuItem.Click += new System.EventHandler(this.đăngXuấtToolStripMenuItem_Click);
-            // 
-            // btnQuyDinh
-            // 
-            this.btnQuyDinh.BackColor = System.Drawing.Color.Transparent;
-            this.btnQuyDinh.FlatAppearance.BorderSize = 0;
-            this.btnQuyDinh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnQuyDinh.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQuyDinh.ForeColor = System.Drawing.Color.White;
-            this.btnQuyDinh.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
-            this.btnQuyDinh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnQuyDinh.Location = new System.Drawing.Point(-3, 812);
-            this.btnQuyDinh.Name = "btnQuyDinh";
-            this.btnQuyDinh.Size = new System.Drawing.Size(324, 76);
-            this.btnQuyDinh.TabIndex = 8;
-            this.btnQuyDinh.Text = "Quy Định";
-            this.btnQuyDinh.UseVisualStyleBackColor = false;
-            this.btnQuyDinh.Click += new System.EventHandler(this.btnQuyDinh_Click);
-            this.btnQuyDinh.MouseEnter += new System.EventHandler(this.btnQuyDinh_MouseEnter);
-            this.btnQuyDinh.MouseLeave += new System.EventHandler(this.btnQuyDinh_MouseLeave);
-            // 
-            // btnNhanVien
-            // 
-            this.btnNhanVien.BackColor = System.Drawing.Color.Transparent;
-            this.btnNhanVien.FlatAppearance.BorderSize = 0;
-            this.btnNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNhanVien.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhanVien.ForeColor = System.Drawing.Color.White;
-            this.btnNhanVien.Image = global::QuanLyKhachSan.Properties.Resources.group_profile_users_icon_icons_com_73540;
-            this.btnNhanVien.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNhanVien.Location = new System.Drawing.Point(0, 402);
-            this.btnNhanVien.Name = "btnNhanVien";
-            this.btnNhanVien.Size = new System.Drawing.Size(324, 76);
-            this.btnNhanVien.TabIndex = 2;
-            this.btnNhanVien.Text = "Nhân Viên";
-            this.btnNhanVien.UseVisualStyleBackColor = false;
-            this.btnNhanVien.Click += new System.EventHandler(this.btnNhanVien_Click);
-            this.btnNhanVien.MouseEnter += new System.EventHandler(this.btnNhanVien_MouseEnter);
-            this.btnNhanVien.MouseLeave += new System.EventHandler(this.btnNhanVien_MouseLeave);
-            // 
-            // btnDatPhong
-            // 
-            this.btnDatPhong.BackColor = System.Drawing.Color.Transparent;
-            this.btnDatPhong.FlatAppearance.BorderSize = 0;
-            this.btnDatPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDatPhong.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDatPhong.ForeColor = System.Drawing.Color.White;
-            this.btnDatPhong.Image = global::QuanLyKhachSan.Properties.Resources.meeting_room_118926;
-            this.btnDatPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDatPhong.Location = new System.Drawing.Point(0, 238);
-            this.btnDatPhong.Name = "btnDatPhong";
-            this.btnDatPhong.Size = new System.Drawing.Size(324, 76);
-            this.btnDatPhong.TabIndex = 5;
-            this.btnDatPhong.Text = "Đặt Phòng";
-            this.btnDatPhong.UseVisualStyleBackColor = false;
-            this.btnDatPhong.Click += new System.EventHandler(this.btnDatPhong_Click);
-            this.btnDatPhong.MouseEnter += new System.EventHandler(this.btnDatPhong_MouseEnter);
-            this.btnDatPhong.MouseLeave += new System.EventHandler(this.btnDatPhong_MouseLeave);
-            // 
-            // btnBaoCao
-            // 
-            this.btnBaoCao.BackColor = System.Drawing.Color.Transparent;
-            this.btnBaoCao.FlatAppearance.BorderSize = 0;
-            this.btnBaoCao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBaoCao.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBaoCao.ForeColor = System.Drawing.Color.White;
-            this.btnBaoCao.Image = global::QuanLyKhachSan.Properties.Resources.report_document_finance_business_analysis_analytics_chart_icon_188615;
-            this.btnBaoCao.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBaoCao.Location = new System.Drawing.Point(0, 730);
-            this.btnBaoCao.Name = "btnBaoCao";
-            this.btnBaoCao.Size = new System.Drawing.Size(324, 76);
-            this.btnBaoCao.TabIndex = 7;
-            this.btnBaoCao.Text = "Báo Cáo";
-            this.btnBaoCao.UseVisualStyleBackColor = false;
-            this.btnBaoCao.Click += new System.EventHandler(this.btnBaoCao_Click);
-            this.btnBaoCao.MouseEnter += new System.EventHandler(this.btnBaoCao_MouseEnter);
-            this.btnBaoCao.MouseLeave += new System.EventHandler(this.btnBaoCao_MouseLeave);
-            // 
-            // btnHoaDon
-            // 
-            this.btnHoaDon.BackColor = System.Drawing.Color.Transparent;
-            this.btnHoaDon.FlatAppearance.BorderSize = 0;
-            this.btnHoaDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnHoaDon.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHoaDon.ForeColor = System.Drawing.Color.White;
-            this.btnHoaDon.Image = global::QuanLyKhachSan.Properties.Resources.bill_4477;
-            this.btnHoaDon.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnHoaDon.Location = new System.Drawing.Point(0, 566);
-            this.btnHoaDon.Name = "btnHoaDon";
-            this.btnHoaDon.Size = new System.Drawing.Size(324, 76);
-            this.btnHoaDon.TabIndex = 6;
-            this.btnHoaDon.Text = "Hóa Đơn";
-            this.btnHoaDon.UseVisualStyleBackColor = false;
-            this.btnHoaDon.Click += new System.EventHandler(this.btnHoaDon_Click);
-            this.btnHoaDon.MouseEnter += new System.EventHandler(this.btnHoaDon_MouseEnter);
-            this.btnHoaDon.MouseLeave += new System.EventHandler(this.btnHoaDon_MouseLeave);
-            // 
-            // btnKhach
-            // 
-            this.btnKhach.BackColor = System.Drawing.Color.Transparent;
-            this.btnKhach.FlatAppearance.BorderSize = 0;
-            this.btnKhach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnKhach.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnKhach.ForeColor = System.Drawing.Color.White;
-            this.btnKhach.Image = global::QuanLyKhachSan.Properties.Resources.round_account_button_with_user_inside_icon_icons_com_72596;
-            this.btnKhach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnKhach.Location = new System.Drawing.Point(0, 320);
-            this.btnKhach.Name = "btnKhach";
-            this.btnKhach.Size = new System.Drawing.Size(324, 76);
-            this.btnKhach.TabIndex = 3;
-            this.btnKhach.Text = "Khách";
-            this.btnKhach.UseVisualStyleBackColor = false;
-            this.btnKhach.Click += new System.EventHandler(this.btnKhach_Click);
-            this.btnKhach.MouseEnter += new System.EventHandler(this.btnKhach_MouseEnter);
-            this.btnKhach.MouseLeave += new System.EventHandler(this.btnKhach_MouseLeave);
-            // 
-            // btnTrangChu
-            // 
-            this.btnTrangChu.BackColor = System.Drawing.Color.Transparent;
-            this.btnTrangChu.FlatAppearance.BorderSize = 0;
-            this.btnTrangChu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTrangChu.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTrangChu.ForeColor = System.Drawing.Color.White;
-            this.btnTrangChu.Image = global::QuanLyKhachSan.Properties.Resources.homemono_105947__1_;
-            this.btnTrangChu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnTrangChu.Location = new System.Drawing.Point(0, 156);
-            this.btnTrangChu.Name = "btnTrangChu";
-            this.btnTrangChu.Size = new System.Drawing.Size(324, 76);
-            this.btnTrangChu.TabIndex = 1;
-            this.btnTrangChu.Text = "Trang Chủ";
-            this.btnTrangChu.UseVisualStyleBackColor = false;
-            this.btnTrangChu.Click += new System.EventHandler(this.button1_Click);
-            this.btnTrangChu.MouseEnter += new System.EventHandler(this.btnTrangChu_MouseEnter);
-            this.btnTrangChu.MouseLeave += new System.EventHandler(this.btnTrangChu_MouseLeave);
             // 
             // menuStrip1
             // 
@@ -520,6 +316,210 @@
             this.panelChinh.Name = "panelChinh";
             this.panelChinh.Size = new System.Drawing.Size(1654, 1046);
             this.panelChinh.TabIndex = 1;
+            // 
+            // btnPhong
+            // 
+            this.btnPhong.BackColor = System.Drawing.Color.Transparent;
+            this.btnPhong.FlatAppearance.BorderSize = 0;
+            this.btnPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPhong.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPhong.ForeColor = System.Drawing.Color.White;
+            this.btnPhong.Image = global::QuanLyKhachSan.Properties.Resources.room_icon_144154;
+            this.btnPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPhong.Location = new System.Drawing.Point(0, 484);
+            this.btnPhong.Name = "btnPhong";
+            this.btnPhong.Size = new System.Drawing.Size(324, 76);
+            this.btnPhong.TabIndex = 13;
+            this.btnPhong.Text = "Phòng";
+            this.btnPhong.UseVisualStyleBackColor = false;
+            this.btnPhong.Click += new System.EventHandler(this.btnPhong_Click);
+            this.btnPhong.MouseEnter += new System.EventHandler(this.btnPhong_MouseEnter);
+            this.btnPhong.MouseLeave += new System.EventHandler(this.btnPhong_MouseLeave);
+            // 
+            // btnDichVu
+            // 
+            this.btnDichVu.BackColor = System.Drawing.Color.Transparent;
+            this.btnDichVu.FlatAppearance.BorderSize = 0;
+            this.btnDichVu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDichVu.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDichVu.ForeColor = System.Drawing.Color.White;
+            this.btnDichVu.Image = global::QuanLyKhachSan.Properties.Resources._3709753_call_customer_relation_service_support_108076;
+            this.btnDichVu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDichVu.Location = new System.Drawing.Point(-3, 648);
+            this.btnDichVu.Name = "btnDichVu";
+            this.btnDichVu.Size = new System.Drawing.Size(324, 76);
+            this.btnDichVu.TabIndex = 12;
+            this.btnDichVu.Text = "Dịch Vụ";
+            this.btnDichVu.UseVisualStyleBackColor = false;
+            this.btnDichVu.Click += new System.EventHandler(this.btnDichVu_Click);
+            this.btnDichVu.MouseEnter += new System.EventHandler(this.btnDichVu_MouseEnter);
+            this.btnDichVu.MouseLeave += new System.EventHandler(this.btnDichVu_MouseLeave);
+            // 
+            // btnMyProfile
+            // 
+            this.btnMyProfile.BackColor = System.Drawing.Color.Transparent;
+            this.btnMyProfile.ContextMenuStrip = this.contextMenuProfile;
+            this.btnMyProfile.FlatAppearance.BorderSize = 0;
+            this.btnMyProfile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMyProfile.Font = new System.Drawing.Font("Corbel", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMyProfile.ForeColor = System.Drawing.Color.White;
+            this.btnMyProfile.Image = global::QuanLyKhachSan.Properties.Resources.setting_icon_184083;
+            this.btnMyProfile.Location = new System.Drawing.Point(222, 965);
+            this.btnMyProfile.Name = "btnMyProfile";
+            this.btnMyProfile.Size = new System.Drawing.Size(99, 78);
+            this.btnMyProfile.TabIndex = 9;
+            this.btnMyProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnMyProfile.UseVisualStyleBackColor = false;
+            this.btnMyProfile.Click += new System.EventHandler(this.btnMyProfile_Click);
+            // 
+            // btnQuyDinh
+            // 
+            this.btnQuyDinh.BackColor = System.Drawing.Color.Transparent;
+            this.btnQuyDinh.FlatAppearance.BorderSize = 0;
+            this.btnQuyDinh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQuyDinh.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnQuyDinh.ForeColor = System.Drawing.Color.White;
+            this.btnQuyDinh.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
+            this.btnQuyDinh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnQuyDinh.Location = new System.Drawing.Point(-3, 812);
+            this.btnQuyDinh.Name = "btnQuyDinh";
+            this.btnQuyDinh.Size = new System.Drawing.Size(324, 76);
+            this.btnQuyDinh.TabIndex = 8;
+            this.btnQuyDinh.Text = "Quy Định";
+            this.btnQuyDinh.UseVisualStyleBackColor = false;
+            this.btnQuyDinh.Click += new System.EventHandler(this.btnQuyDinh_Click);
+            this.btnQuyDinh.MouseEnter += new System.EventHandler(this.btnQuyDinh_MouseEnter);
+            this.btnQuyDinh.MouseLeave += new System.EventHandler(this.btnQuyDinh_MouseLeave);
+            // 
+            // btnNhanVien
+            // 
+            this.btnNhanVien.BackColor = System.Drawing.Color.Transparent;
+            this.btnNhanVien.FlatAppearance.BorderSize = 0;
+            this.btnNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNhanVien.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNhanVien.ForeColor = System.Drawing.Color.White;
+            this.btnNhanVien.Image = global::QuanLyKhachSan.Properties.Resources.group_profile_users_icon_icons_com_73540;
+            this.btnNhanVien.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNhanVien.Location = new System.Drawing.Point(0, 402);
+            this.btnNhanVien.Name = "btnNhanVien";
+            this.btnNhanVien.Size = new System.Drawing.Size(324, 76);
+            this.btnNhanVien.TabIndex = 2;
+            this.btnNhanVien.Text = "Nhân Viên";
+            this.btnNhanVien.UseVisualStyleBackColor = false;
+            this.btnNhanVien.Click += new System.EventHandler(this.btnNhanVien_Click);
+            this.btnNhanVien.MouseEnter += new System.EventHandler(this.btnNhanVien_MouseEnter);
+            this.btnNhanVien.MouseLeave += new System.EventHandler(this.btnNhanVien_MouseLeave);
+            // 
+            // btnDatPhong
+            // 
+            this.btnDatPhong.BackColor = System.Drawing.Color.Transparent;
+            this.btnDatPhong.FlatAppearance.BorderSize = 0;
+            this.btnDatPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDatPhong.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDatPhong.ForeColor = System.Drawing.Color.White;
+            this.btnDatPhong.Image = global::QuanLyKhachSan.Properties.Resources.meeting_room_118926;
+            this.btnDatPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDatPhong.Location = new System.Drawing.Point(0, 238);
+            this.btnDatPhong.Name = "btnDatPhong";
+            this.btnDatPhong.Size = new System.Drawing.Size(324, 76);
+            this.btnDatPhong.TabIndex = 5;
+            this.btnDatPhong.Text = "Đặt Phòng";
+            this.btnDatPhong.UseVisualStyleBackColor = false;
+            this.btnDatPhong.Click += new System.EventHandler(this.btnDatPhong_Click);
+            this.btnDatPhong.MouseEnter += new System.EventHandler(this.btnDatPhong_MouseEnter);
+            this.btnDatPhong.MouseLeave += new System.EventHandler(this.btnDatPhong_MouseLeave);
+            // 
+            // btnBaoCao
+            // 
+            this.btnBaoCao.BackColor = System.Drawing.Color.Transparent;
+            this.btnBaoCao.FlatAppearance.BorderSize = 0;
+            this.btnBaoCao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBaoCao.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBaoCao.ForeColor = System.Drawing.Color.White;
+            this.btnBaoCao.Image = global::QuanLyKhachSan.Properties.Resources.report_document_finance_business_analysis_analytics_chart_icon_188615;
+            this.btnBaoCao.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBaoCao.Location = new System.Drawing.Point(0, 730);
+            this.btnBaoCao.Name = "btnBaoCao";
+            this.btnBaoCao.Size = new System.Drawing.Size(324, 76);
+            this.btnBaoCao.TabIndex = 7;
+            this.btnBaoCao.Text = "Báo Cáo";
+            this.btnBaoCao.UseVisualStyleBackColor = false;
+            this.btnBaoCao.Click += new System.EventHandler(this.btnBaoCao_Click);
+            this.btnBaoCao.MouseEnter += new System.EventHandler(this.btnBaoCao_MouseEnter);
+            this.btnBaoCao.MouseLeave += new System.EventHandler(this.btnBaoCao_MouseLeave);
+            // 
+            // btnHoaDon
+            // 
+            this.btnHoaDon.BackColor = System.Drawing.Color.Transparent;
+            this.btnHoaDon.FlatAppearance.BorderSize = 0;
+            this.btnHoaDon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHoaDon.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHoaDon.ForeColor = System.Drawing.Color.White;
+            this.btnHoaDon.Image = global::QuanLyKhachSan.Properties.Resources.bill_4477;
+            this.btnHoaDon.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnHoaDon.Location = new System.Drawing.Point(0, 566);
+            this.btnHoaDon.Name = "btnHoaDon";
+            this.btnHoaDon.Size = new System.Drawing.Size(324, 76);
+            this.btnHoaDon.TabIndex = 6;
+            this.btnHoaDon.Text = "Hóa Đơn";
+            this.btnHoaDon.UseVisualStyleBackColor = false;
+            this.btnHoaDon.Click += new System.EventHandler(this.btnHoaDon_Click);
+            this.btnHoaDon.MouseEnter += new System.EventHandler(this.btnHoaDon_MouseEnter);
+            this.btnHoaDon.MouseLeave += new System.EventHandler(this.btnHoaDon_MouseLeave);
+            // 
+            // btnKhach
+            // 
+            this.btnKhach.BackColor = System.Drawing.Color.Transparent;
+            this.btnKhach.FlatAppearance.BorderSize = 0;
+            this.btnKhach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKhach.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKhach.ForeColor = System.Drawing.Color.White;
+            this.btnKhach.Image = global::QuanLyKhachSan.Properties.Resources.round_account_button_with_user_inside_icon_icons_com_72596;
+            this.btnKhach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnKhach.Location = new System.Drawing.Point(0, 320);
+            this.btnKhach.Name = "btnKhach";
+            this.btnKhach.Size = new System.Drawing.Size(324, 76);
+            this.btnKhach.TabIndex = 3;
+            this.btnKhach.Text = "Khách";
+            this.btnKhach.UseVisualStyleBackColor = false;
+            this.btnKhach.Click += new System.EventHandler(this.btnKhach_Click);
+            this.btnKhach.MouseEnter += new System.EventHandler(this.btnKhach_MouseEnter);
+            this.btnKhach.MouseLeave += new System.EventHandler(this.btnKhach_MouseLeave);
+            // 
+            // btnTrangChu
+            // 
+            this.btnTrangChu.BackColor = System.Drawing.Color.Transparent;
+            this.btnTrangChu.FlatAppearance.BorderSize = 0;
+            this.btnTrangChu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTrangChu.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTrangChu.ForeColor = System.Drawing.Color.White;
+            this.btnTrangChu.Image = global::QuanLyKhachSan.Properties.Resources.homemono_105947__1_;
+            this.btnTrangChu.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTrangChu.Location = new System.Drawing.Point(0, 156);
+            this.btnTrangChu.Name = "btnTrangChu";
+            this.btnTrangChu.Size = new System.Drawing.Size(324, 76);
+            this.btnTrangChu.TabIndex = 1;
+            this.btnTrangChu.Text = "Trang Chủ";
+            this.btnTrangChu.UseVisualStyleBackColor = false;
+            this.btnTrangChu.Click += new System.EventHandler(this.button1_Click);
+            this.btnTrangChu.MouseEnter += new System.EventHandler(this.btnTrangChu_MouseEnter);
+            this.btnTrangChu.MouseLeave += new System.EventHandler(this.btnTrangChu_MouseLeave);
+            // 
+            // thôngTinCáNhânToolStripMenuItem
+            // 
+            this.thôngTinCáNhânToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources._1486564400_account_81513;
+            this.thôngTinCáNhânToolStripMenuItem.Name = "thôngTinCáNhânToolStripMenuItem";
+            this.thôngTinCáNhânToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.thôngTinCáNhânToolStripMenuItem.Text = "Thông tin cá nhân";
+            this.thôngTinCáNhânToolStripMenuItem.Click += new System.EventHandler(this.thôngTinCáNhânToolStripMenuItem_Click);
+            // 
+            // đăngXuấtToolStripMenuItem
+            // 
+            this.đăngXuấtToolStripMenuItem.Image = global::QuanLyKhachSan.Properties.Resources.logout_icon_151219;
+            this.đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
+            this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
+            this.đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
+            this.đăngXuấtToolStripMenuItem.Click += new System.EventHandler(this.đăngXuấtToolStripMenuItem_Click);
             // 
             // TrangChu
             // 

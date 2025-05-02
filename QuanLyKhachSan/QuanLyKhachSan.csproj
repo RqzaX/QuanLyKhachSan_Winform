@@ -174,6 +174,12 @@
     <Compile Include="QL_KhuyenMai.Designer.cs">
       <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
     </Compile>
+    <Compile Include="Temp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Temp.Designer.cs">
+      <DependentUpon>Temp.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThemChucVu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +259,9 @@
     </Compile>
     <EmbeddedResource Include="QL_KhuyenMai.resx">
       <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Temp.resx">
+      <DependentUpon>Temp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ThemChucVu.resx">
       <DependentUpon>ThemChucVu.cs</DependentUpon>
@@ -374,6 +383,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash-can_115312.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash-can_115312 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

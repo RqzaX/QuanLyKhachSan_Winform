@@ -153,6 +153,16 @@ namespace QuanLyKhachSan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete {
+            get {
+                object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap group_profile_users_icon_icons_com_73540 {
             get {
                 object obj = ResourceManager.GetObject("group-profile-users_icon-icons.com_73540", resourceCulture);
@@ -346,6 +356,26 @@ namespace QuanLyKhachSan.Properties {
         internal static System.Drawing.Bitmap televisionshelf_117768__1_ {
             get {
                 object obj = ResourceManager.GetObject("televisionshelf_117768 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trash_can_115312 {
+            get {
+                object obj = ResourceManager.GetObject("trash-can_115312", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trash_can_115312__1_ {
+            get {
+                object obj = ResourceManager.GetObject("trash-can_115312 (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
