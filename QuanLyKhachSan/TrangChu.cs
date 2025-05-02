@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +17,14 @@ namespace QuanLyKhachSan
         public TrangChu()
         {
             InitializeComponent();
+            panel1.GetType()
+                  .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+                  .SetValue(panel1, true, null);
+
+            panel1.Paint += panel1_Paint;
+            panel1.Resize += (s, e) => panel1.Invalidate();
+
+
         }
         private void LoadFormIntoPanel(Form form)
         {
@@ -102,6 +112,140 @@ namespace QuanLyKhachSan
         {
             FrmPhong frm = new FrmPhong();
             LoadFormIntoPanel(frm);
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            Color cStart = Color.FromArgb(72, 209, 204);
+            Color cEnd = Color.FromArgb(37, 187, 179);
+
+            using (var brush = new LinearGradientBrush(
+                panel1.ClientRectangle,
+                cStart,
+                cEnd,
+                LinearGradientMode.Horizontal))
+            {
+                e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
+            }
+        }
+
+        private void btnTrangChu_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnTrangChu_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnDatPhong_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnDatPhong_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnKhach_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnKhach_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnNhanVien_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnNhanVien_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnPhong_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnPhong_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnHoaDon_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnHoaDon_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnDichVu_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnDichVu_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnBaoCao_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnBaoCao_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void btnQuyDinh_MouseEnter(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.Black;
+        }
+
+        private void btnQuyDinh_MouseLeave(object sender, EventArgs e)
+        {
+            var btn = sender as Button;
+            btn.ForeColor = Color.White;
+        }
+
+        private void quảnLýKhuyênMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QL_KhuyenMai frm = new QL_KhuyenMai();
+            frm.ShowDialog();
         }
     }
 }

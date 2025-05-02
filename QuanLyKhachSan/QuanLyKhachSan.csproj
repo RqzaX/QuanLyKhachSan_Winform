@@ -168,6 +168,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QLKS.dbml</DependentUpon>
     </Compile>
+    <Compile Include="QL_KhuyenMai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QL_KhuyenMai.Designer.cs">
+      <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThemChucVu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +251,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="QL_KhuyenMai.resx">
+      <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ThemChucVu.resx">
       <DependentUpon>ThemChucVu.cs</DependentUpon>
     </EmbeddedResource>
