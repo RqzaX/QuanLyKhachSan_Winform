@@ -93,6 +93,16 @@ namespace QuanLyKhachSan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap business_man_usersearch_thesearch_theclient_2356 {
+            get {
+                object obj = ResourceManager.GetObject("business_man_usersearch_thesearch_theclient_2356", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cancelled_rule_icon_217027 {
             get {
                 object obj = ResourceManager.GetObject("cancelled_rule_icon_217027", resourceCulture);
@@ -296,6 +306,16 @@ namespace QuanLyKhachSan.Properties {
         internal static System.Drawing.Bitmap PhongDaDat {
             get {
                 object obj = ResourceManager.GetObject("PhongDaDat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap phongTrong {
+            get {
+                object obj = ResourceManager.GetObject("phongTrong", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

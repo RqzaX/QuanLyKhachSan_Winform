@@ -48,7 +48,7 @@ namespace QuanLyKhachSan
                                 {
                                     p.so_phong,
                                     lp.ten_loai,
-                                    p.trang_thai
+                                    TrangThai = TranslateStatus(p.trang_thai)
                                 };
 
                     dgvPhong.DataSource = query.ToList();
@@ -58,6 +58,17 @@ namespace QuanLyKhachSan
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+        private string TranslateStatus(string status)
+        {
+            switch (status)
+            {
+                case "trong": return "Trống";
+                case "dang_su_dung": return "Đang sử dụng";
+                case "bao_tri": return "Bảo trì";
+                case "da_dat": return "Đã đặt";
+                default: return status;
             }
         }
     }

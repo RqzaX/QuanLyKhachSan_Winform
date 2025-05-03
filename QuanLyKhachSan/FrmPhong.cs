@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,6 +88,7 @@ namespace QuanLyKhachSan
                 c.HeaderText = "Giá theo đêm";
                 c.Name = "GiaTheoDem";
                 c.Width = 220;
+                c.DefaultCellStyle.Format = "N0";
             }
 
             if (dgvPhong.Columns.Contains("MoTa"))
@@ -130,13 +132,26 @@ namespace QuanLyKhachSan
 
         private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string trangThai = "";
+            if (e.RowIndex < 0) return;
             var row = dgvPhong.Rows[e.RowIndex];
+
             txtMaPhong.Text = row.Cells["Id"].Value?.ToString();
-            txtSoPhong.Text = row.Cells[2].Value?.ToString();
-            cbbLoaiPhong.Text = row.Cells[4].Value?.ToString();
-            txtGiaDem.Text = row.Cells[5].Value?.ToString();
-            cbbTrangThai.Text = row.Cells[6].Value?.ToString();
+            txtSoPhong.Text = row.Cells["SoPhong"].Value?.ToString();
+            cbbLoaiPhong.Text = row.Cells["LoaiPhong"].Value?.ToString();
+            cbbTrangThai.Text = row.Cells["TrangThai"].Value?.ToString();
+
+            //Lấy giá gốc
+            var val = row.Cells["GiaTheoDem"].Value;
+            if (val != null && decimal.TryParse(val.ToString(), out var gia))
+            {
+                // Format
+                var vi = new CultureInfo("vi-VN");
+                txtGiaDem.Text = gia.ToString("N0", vi);
+            }
+            else
+            {
+                txtGiaDem.Text = "";
+            }
         }
 
         private void dgvPhong_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -196,7 +211,7 @@ namespace QuanLyKhachSan
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtSoPhong.Text))
+            if (string.IsNullOrWhiteSpace(txtSoPhong.Text)) 
             {
                 MessageBox.Show("Chưa nhập số phòng!", "Lỗi",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -208,8 +223,15 @@ namespace QuanLyKhachSan
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            bool soPhong = db.Phongs.Any(p => p.so_phong == txtSoPhong.Text);
+            if (soPhong)
+            {
+                MessageBox.Show($"Số phòng \"{txtSoPhong.Text}\" đã tồn tại. Vui lòng chọn tên khác.",
+                                "Lỗi trùng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             string trangThai = cbbTrangThai.SelectedItem.ToString();
-            string trangThai_Thuc;
+            string trangThai_Thuc = "";
 
             switch (trangThai)
             {
@@ -241,18 +263,43 @@ namespace QuanLyKhachSan
             {
                 db.Phongs.InsertOnSubmit(newPhong);
                 db.SubmitChanges();
-
-                MessageBox.Show("Thêm phòng thành công!", "Thành công",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Thêm phòng thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LOAD();
-                txtSoPhong.Clear();
-                cbbTrangThai.SelectedIndex = -1;
-                cbbLoaiPhong.SelectedIndex = -1;
+            }
+            catch (System.Data.SqlClient.SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
+            {
+                // 2627 = Violation of UNIQUE KEY, 2601 = Cannot insert duplicate key row
+                MessageBox.Show($"Không thể thêm phòng vì mã \"{txtSoPhong.Text}\" đã tồn tại.",
+                                "Lỗi trùng khoá", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi thêm phòng:\n\n" + ex.Message, "Lỗi",
+                MessageBox.Show("Lỗi khi thêm phòng:\n" + ex.Message, "Lỗi",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cbbLoaiPhong_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(cbbLoaiPhong.Text)
+            {
+                case "Phòng gia đình":
+                    {
+                        txtGiaDem.Text = "1500000";
+                    }
+                    break;
+                case "Giường đôi":
+                    {
+                        txtGiaDem.Text = "2500000";
+                    }
+                    break;
+                case "Giường đơn":
+                    {
+                        txtGiaDem.Text = "800000";
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

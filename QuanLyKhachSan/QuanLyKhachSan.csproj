@@ -11,6 +11,7 @@
     <AssemblyName>QuanLyKhachSan</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>8.0</LangVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -40,6 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +51,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -88,6 +91,12 @@
     </Compile>
     <Compile Include="ChiTietPhongTrong.Designer.cs">
       <DependentUpon>ChiTietPhongTrong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChonKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChonKhachHang.Designer.cs">
+      <DependentUpon>ChonKhachHang.cs</DependentUpon>
     </Compile>
     <Compile Include="ChonPhongChuyen.cs">
       <SubType>Form</SubType>
@@ -174,6 +183,7 @@
     <Compile Include="QL_KhuyenMai.Designer.cs">
       <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlHelper.cs" />
     <Compile Include="Temp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ChiTietPhongTrong.resx">
       <DependentUpon>ChiTietPhongTrong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChonKhachHang.resx">
+      <DependentUpon>ChonKhachHang.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChonPhongChuyen.resx">
       <DependentUpon>ChonPhongChuyen.cs</DependentUpon>

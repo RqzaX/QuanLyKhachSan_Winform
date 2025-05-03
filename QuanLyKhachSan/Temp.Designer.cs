@@ -223,7 +223,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.Honeydew;
             this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Image = global::QuanLyKhachSan.Properties.Resources.televisionshelf_117768__1_;
+            this.button1.Image = global::QuanLyKhachSan.Properties.Resources.phongTrong;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.button1.Location = new System.Drawing.Point(22, 21);
             this.button1.Name = "button1";

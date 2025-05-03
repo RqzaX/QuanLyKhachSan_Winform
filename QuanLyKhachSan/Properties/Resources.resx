@@ -163,6 +163,9 @@
   <data name="3709753-call-customer-relation-service-support_108076" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3709753-call-customer-relation-service-support_108076.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="phongTrong" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\phongTrong.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="clean_icon_215881 (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\clean_icon_215881 (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -177,6 +180,9 @@
   </data>
   <data name="report_document_finance_business_analysis_analytics_chart_icon_188615" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\report_document_finance_business_analysis_analytics_chart_icon_188615.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="round-account-button-with-user-inside_icon-icons.com_72596" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\round-account-button-with-user-inside_icon-icons.com_72596.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -211,7 +217,7 @@
   <data name="meeting-room_116766" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\meeting-room_116766.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="business_man_usersearch_thesearch_theclient_2356" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\business_man_usersearch_thesearch_theclient_2356.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
