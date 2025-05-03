@@ -4,7 +4,7 @@
   <a href="#"><img src="https://img.shields.io/badge/.NET_Framework-4.7.2-blue" alt=".NET 4.7.2"/></a>
   <a href="#"><img src="https://img.shields.io/badge/LINQ–to–SQL-orange" alt="LINQ-to-SQL"/></a>
   <a href="#"><img src="https://img.shields.io/badge/WinForms-GDI%2B-green" alt="WinForms"/></a>
-  <a href="#"><img src="https://img.shields.io/badge/SQL–Server-2019-red" alt="SQL Server"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/SQL–Server-2020-red" alt="SQL Server"/></a>
 </p>
 
 # 🌟 Quản Lý Khách Sạn
