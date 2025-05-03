@@ -48,9 +48,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvKhachHang = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -95,7 +97,7 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(747, 183);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(106, 22);
+            this.label7.Size = new System.Drawing.Size(108, 24);
             this.label7.TabIndex = 12;
             this.label7.Text = "CMT/CCCD";
             // 
@@ -113,7 +115,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(799, 128);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 22);
+            this.label6.Size = new System.Drawing.Size(57, 24);
             this.label6.TabIndex = 10;
             this.label6.Text = "Email";
             // 
@@ -131,7 +133,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(738, 77);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(115, 22);
+            this.label5.Size = new System.Drawing.Size(121, 24);
             this.label5.TabIndex = 8;
             this.label5.Text = "Số điện thoại";
             // 
@@ -149,7 +151,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(297, 180);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 22);
+            this.label4.Size = new System.Drawing.Size(67, 24);
             this.label4.TabIndex = 6;
             this.label4.Text = "Địa chỉ";
             // 
@@ -167,7 +169,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(275, 127);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 22);
+            this.label3.Size = new System.Drawing.Size(90, 24);
             this.label3.TabIndex = 4;
             this.label3.Text = "Họ và tên";
             // 
@@ -185,7 +187,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(230, 82);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 22);
+            this.label2.Size = new System.Drawing.Size(140, 24);
             this.label2.TabIndex = 2;
             this.label2.Text = "Mã khách hàng";
             // 
@@ -255,12 +257,23 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(434, 77);
+            this.label1.Font = new System.Drawing.Font("Calibri", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(522, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(724, 69);
-            this.label1.TabIndex = 2;
+            this.label1.Size = new System.Drawing.Size(607, 73);
+            this.label1.TabIndex = 5;
             this.label1.Text = "QUẢN LÝ KHÁCH HÀNG";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1641, 132);
+            this.panel1.TabIndex = 8;
             // 
             // FrmKhachHang
             // 
@@ -268,7 +281,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1641, 1052);
             this.ControlBox = false;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -280,8 +293,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhachHang)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -289,7 +303,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label5;
@@ -305,5 +318,7 @@
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.DataGridView dgvKhachHang;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -52,7 +52,7 @@ namespace QuanLyKhachSan
             {
                 var c = dgvDichVu.Columns["gia"];
                 c.HeaderText = "Đơn giá";
-                c.DefaultCellStyle.Format = "N0";            // định dạng tièn
+                c.DefaultCellStyle.Format = "N0";// định dạng tièn
                 c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
 
@@ -381,9 +381,7 @@ namespace QuanLyKhachSan
             DateTime ngayCheckIn = dtCheckIn.Value.Date;
             DateTime ngayCheckOut = dtCheckOut.Value.Date;
 
-            // 3. Tự động set dat_truoc: nếu check-in > hôm nay
             bool isDatTruoc = ngayCheckIn > DateTime.Today;
-            cbDatTruoc.Checked = isDatTruoc;  // đồng bộ UI if bạn muốn
 
             using (var db = new QLKSDataContext())
             {

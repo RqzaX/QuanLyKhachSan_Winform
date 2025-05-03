@@ -30,6 +30,7 @@ namespace QuanLyKhachSan
             txtTaiKhoan.Enabled = false;
             txtMatKhau.Enabled = false;
             LoadNhanVien();
+            LoadComboChucVu();
         }
 
         private void btnThemChucVu_Click(object sender, EventArgs e)
@@ -61,9 +62,6 @@ namespace QuanLyKhachSan
             if (dgvNhanVien.Columns.Contains("nhan_vien_id"))
                 dgvNhanVien.Columns["nhan_vien_id"].Visible = false;
 
-            if (dgvNhanVien.Columns.Contains("ma_nhan_vien"))
-                dgvNhanVien.Columns["ma_nhan_vien"].HeaderText = "Mã NV";
-
             if (dgvNhanVien.Columns.Contains("ho_ten"))
                 dgvNhanVien.Columns["ho_ten"].HeaderText = "Họ và tên";
 
@@ -83,15 +81,12 @@ namespace QuanLyKhachSan
                 col.DefaultCellStyle.Format = "N0";
                 col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
-
-            if (dgvNhanVien.Columns.Contains("co_tai_khoan"))
-                dgvNhanVien.Columns["co_tai_khoan"].HeaderText = "Cấp TK";
-
             if (dgvNhanVien.Columns.Contains("tai_khoan"))
                 dgvNhanVien.Columns["tai_khoan"].HeaderText = "Tài khoản";
+            if (dgvNhanVien.Columns.Contains("mat_khau"))
+                dgvNhanVien.Columns["mat_khau"].HeaderText = "Mật khẩu";
 
             dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            if (dgvNhanVien.Columns.Contains("Mã NV")) dgvNhanVien.Columns["ma_nhan_vien"].FillWeight = 15;
             if (dgvNhanVien.Columns.Contains("Họ và tên")) dgvNhanVien.Columns["ho_ten"].FillWeight = 25;
             if (dgvNhanVien.Columns.Contains("SĐT")) dgvNhanVien.Columns["sdt"].FillWeight = 15;
             if (dgvNhanVien.Columns.Contains("Chức vụ")) dgvNhanVien.Columns["ten_vai_tro"].FillWeight = 20;
@@ -130,26 +125,82 @@ namespace QuanLyKhachSan
                     LoadNhanVien();
                 }
             }
-            // Ngược lại, click cell bình thường thì load chi tiết lên control
+        }
+
+        private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = dgvNhanVien.Rows[e.RowIndex];
+            txtMaNV.Text = row.Cells["nhan_vien_id"].Value?.ToString();
+            txtHoTen.Text = row.Cells["ho_ten"].Value?.ToString();
+            txtSDT.Text = row.Cells["sdt"].Value?.ToString();
+            cbbChucVu.Text = row.Cells["ten_vai_tro"].Value?.ToString();
+            cbbCaLamViec.Text = row.Cells["ca_lam_viec"].Value?.ToString();
+
+            // parse lương về số rồi format
+            if (decimal.TryParse(row.Cells["luong"].Value.ToString(), out var luong))
+                txtLuong.Text = luong.ToString("N0", new CultureInfo("vi-VN"));
+
+            if (row.Cells["tai_khoan"].Value?.ToString().Length > 0)
+            {
+                cbCapTaiKhoan.Checked = true;
+                txtTaiKhoan.Text = row.Cells["tai_khoan"].Value?.ToString();
+                txtMatKhau.Text = row.Cells["mat_khau"].Value?.ToString();
+            }
             else
             {
-                var row = dgvNhanVien.Rows[e.RowIndex];
-                txtMaNV.Text = row.Cells["ma_nhan_vien"].Value?.ToString();
-                txtHoTen.Text = row.Cells["ho_ten"].Value?.ToString();
-                txtSDT.Text = row.Cells["sdt"].Value?.ToString();
-                cbbChucVu.Text = row.Cells["ten_vai_tro"].Value?.ToString();
-                cbbCaLamViec.Text = row.Cells["ca_lam_viec"].Value?.ToString();
-
-                // parse lương về số rồi format
-                if (decimal.TryParse(row.Cells["luong"].Value.ToString(), out var luong))
-                    txtLuong.Text = luong.ToString("N0", new CultureInfo("vi-VN"));
-
-                cbCapTaiKhoan.Checked = row.Cells["co_tai_khoan"].Value as bool? == true;
-                txtTaiKhoan.Text = row.Cells["tai_khoan"].Value?.ToString();
-
-                // bật các nút Sửa / Xóa
-                btnSua.Enabled = true;
+                cbCapTaiKhoan.Checked = false;
+                txtTaiKhoan.Text = "";
+                txtMatKhau.Text = "";
             }
+        }
+        private void LoadComboChucVu()
+        {
+            using (var db = new QLKSDataContext())
+            {
+                var ds = db.VaiTros
+                           .OrderBy(v => v.vai_tro_id)
+                           .Select(v => new {
+                               v.vai_tro_id,
+                               v.ten_vai_tro
+                           })
+                           .ToList();
+
+                cbbChucVu.DataSource = ds;
+                cbbChucVu.DisplayMember = "ten_vai_tro";
+                cbbChucVu.ValueMember = "vai_tro_id";
+            }
+        }
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaNV.Text)) return;
+
+            int id = int.Parse(txtMaNV.Text);
+            var nhanVien = db.NhanViens.Single(nv => nv.nhan_vien_id == id);
+            nhanVien.ho_ten = txtHoTen.Text.Trim();
+            nhanVien.sdt = txtSDT.Text.Trim();
+            string chucVu = cbbChucVu.SelectedItem.ToString();
+            nhanVien.chuc_vu = chucVu;
+            nhanVien.ca_lam_viec = cbbCaLamViec.Text.Trim();
+            var vi = new CultureInfo("vi-VN");
+            if (decimal.TryParse(txtLuong.Text, NumberStyles.Number, vi, out decimal result))
+                nhanVien.luong = result;
+            if(txtTaiKhoan.Text.Length > 0 || txtMatKhau.Text.Length > 0)
+            {
+                nhanVien.tai_khoan = txtTaiKhoan.Text;
+                nhanVien.mat_khau = txtMatKhau.Text;
+            }
+            try
+            {
+                db.SubmitChanges();
+                MessageBox.Show("Cập nhật thành công!", "OK",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật:\n" + ex.Message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            LoadNhanVien();
         }
     }
 }
