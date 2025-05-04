@@ -14,7 +14,8 @@ namespace QuanLyKhachSan
 {
     public partial class TrangChu : Form
     {
-        public TrangChu()
+        private string _hoTen, _chucVu;
+        public TrangChu(string HoTen, string ChucVu)
         {
             InitializeComponent();
             panel1.GetType()
@@ -23,7 +24,8 @@ namespace QuanLyKhachSan
 
             panel1.Paint += panel1_Paint;
             panel1.Resize += (s, e) => panel1.Invalidate();
-
+            _hoTen = HoTen;
+            _chucVu = ChucVu;
 
         }
         private void LoadFormIntoPanel(Form form)

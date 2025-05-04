@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using Color = System.Drawing.Color;
 
 namespace QuanLyKhachSan
@@ -21,6 +22,7 @@ namespace QuanLyKhachSan
         private bool checkDichVu = false;
         private string trangThai;
         private int ID;
+        private decimal _giaTheoDem;
         private QLKSDataContext db = new QLKSDataContext();
         public ChiTietPhongTrong(int ID, string trangThai)
         {
@@ -28,6 +30,12 @@ namespace QuanLyKhachSan
             this.ID = ID;
             this.trangThai = trangThai;
             txtKhachId.Hide();
+            dtCheckOut.MinDate = DateTime.Now.AddDays(1);
+            UpdateSoDem();
+            lbTienDichVu.Text = "0";
+            lbTienThuePhong.Text = "0";
+            lbTongTien.Text = "0";
+            lbSoTienCanThanhToan.Text = "0";
         }
         private void LoadDichVu()
         {
@@ -201,11 +209,13 @@ namespace QuanLyKhachSan
                             }).SingleOrDefault();
                 if (room == null) return;
                 var val = room.Gia;
+                _giaTheoDem = val;
                 if (val != null && decimal.TryParse(val.ToString(), out var gia))
                 {
                     var vi = new CultureInfo("vi-VN");
                     txtGia.Text = gia.ToString("N0", vi);
-                } else txtGia.Text = "";
+                }
+                else txtGia.Text = "";
                 lbSoPhong.Text = room.so_phong;
                 txtSoPhong.Text = room.so_phong;
                 txtLoaiPhong.Text = room.TenLoai;
@@ -371,7 +381,8 @@ namespace QuanLyKhachSan
             if (!DieuKienKhachHang())
             {
                 return;
-            } else if (!KiemTraDate()) return;
+            }
+            else if (!KiemTraDate()) return;
             int khachId = int.Parse(txtKhachId.Text);
             //int nvId = CurrentUser.Id;   // hoặc lấy từ biến/phiên
             //int? kmId = cbbKhuyenMai.SelectedIndex >= 0
@@ -412,7 +423,7 @@ namespace QuanLyKhachSan
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // 7. Refresh UI: load lại danh sách phòng, báo cáo… nếu có
-            
+
         }
 
         private void dtCheckOut_ValueChanged(object sender, EventArgs e)
@@ -422,12 +433,41 @@ namespace QuanLyKhachSan
             DateTime ngayCheckIn = dtCheckIn.Value.Date;
             DateTime ngayCheckOut = dtCheckOut.Value.Date;
 
-            if(ngayCheckIn > ngayDat)
+            if (ngayCheckIn > ngayDat)
             {
                 cbDatTruoc.Checked = true;
-            } else
+            }
+            else
             {
                 cbDatTruoc.Checked = false;
+            }
+            UpdateSoDem();
+        }
+        private void UpdateSoDem()
+        {
+            DateTime ngayCheckIn = dtCheckIn.Value.Date;
+            DateTime ngayCheckOut = dtCheckOut.Value.Date;
+            int soNgay = (ngayCheckOut - ngayCheckIn).Days;
+            if (soNgay < 1) soNgay = 1;// Nếu khách check-out cùng ngày hoặc lỡ chọn trước check-in thì ít nhất 1 đêm
+            txtThoiHan.Text = soNgay + " Ngày";
+            decimal soTienThue = _giaTheoDem * soNgay;
+            lbTienThuePhong.Text = "Tiền thuê phòng: " + soTienThue.ToString("N0", new CultureInfo("vi-VN"));
+            lbTongTien.Text = soTienThue.ToString("N0", new CultureInfo("vi-VN"));
+            lbSoTienCanThanhToan.Text = soTienThue.ToString("N0", new CultureInfo("vi-VN"));
+        }
+
+        private void dtCheckIn_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime ngayCheckIn = dtCheckIn.Value.Date;
+            DateTime ngayCheckOut = dtCheckOut.Value.Date;
+            int soNgay = (ngayCheckOut - ngayCheckIn).Days;
+            if (soNgay == 0) soNgay = 1;
+            if (soNgay > 0)
+            {
+                UpdateSoDem();
+            } else
+            {
+                txtThoiHan.Text = "Vui lòng chọn ngày Check in < ngày Check out";
             }
         }
     }

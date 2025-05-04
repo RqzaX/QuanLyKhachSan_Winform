@@ -19,14 +19,11 @@
       <Association Name="Phong_DatPhong" Member="Phong" ThisKey="phong_id" OtherKey="phong_id" Type="Phong" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.ThanhToan" Member="ThanhToans">
-    <Type Name="ThanhToan">
-      <Column Name="thanh_toan_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="hoa_don_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="so_tien" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
-      <Column Name="phuong_thuc" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="ngay_thanh_toan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Association Name="HoaDon_ThanhToan" Member="HoaDon" ThisKey="hoa_don_id" OtherKey="hoa_don_id" Type="HoaDon" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+  <Table Name="dbo.VaiTro" Member="VaiTros">
+    <Type Name="VaiTro">
+      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ten_vai_tro" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="VaiTro_NhanVien" Member="NhanViens" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="NhanVien" />
     </Type>
   </Table>
   <Table Name="dbo.DichVu" Member="DichVus">
@@ -97,12 +94,11 @@
       <Column Name="nhan_vien_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ho_ten" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="sdt" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-      <Column Name="chuc_vu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ca_lam_viec" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="luong" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
       <Column Name="tai_khoan" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
       <Column Name="mat_khau" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
-      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="NhanVien_DatPhong" Member="DatPhongs" ThisKey="nhan_vien_id" OtherKey="nhan_vien_id" Type="DatPhong" />
       <Association Name="NhanVien_HoaDon" Member="HoaDons" ThisKey="nhan_vien_id" OtherKey="nhan_vien_id" Type="HoaDon" />
       <Association Name="VaiTro_NhanVien" Member="VaiTro" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="VaiTro" IsForeignKey="true" />
@@ -118,11 +114,14 @@
       <Association Name="LoaiPhong_Phong" Member="LoaiPhong" ThisKey="loai_phong_id" OtherKey="loai_phong_id" Type="LoaiPhong" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.VaiTro" Member="VaiTros">
-    <Type Name="VaiTro">
-      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ten_vai_tro" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="VaiTro_NhanVien" Member="NhanViens" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="NhanVien" />
+  <Table Name="dbo.ThanhToan" Member="ThanhToans">
+    <Type Name="ThanhToan">
+      <Column Name="thanh_toan_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="hoa_don_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="so_tien" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="phuong_thuc" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="ngay_thanh_toan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="HoaDon_ThanhToan" Member="HoaDon" ThisKey="hoa_don_id" OtherKey="hoa_don_id" Type="HoaDon" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>

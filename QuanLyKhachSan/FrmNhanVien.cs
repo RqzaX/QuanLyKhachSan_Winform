@@ -86,12 +86,24 @@ namespace QuanLyKhachSan
             if (dgvNhanVien.Columns.Contains("mat_khau"))
                 dgvNhanVien.Columns["mat_khau"].HeaderText = "Mật khẩu";
 
-            dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            if (dgvNhanVien.Columns.Contains("Họ và tên")) dgvNhanVien.Columns["ho_ten"].FillWeight = 25;
-            if (dgvNhanVien.Columns.Contains("SĐT")) dgvNhanVien.Columns["sdt"].FillWeight = 15;
-            if (dgvNhanVien.Columns.Contains("Chức vụ")) dgvNhanVien.Columns["ten_vai_tro"].FillWeight = 20;
-            if (dgvNhanVien.Columns.Contains("Ca làm việc")) dgvNhanVien.Columns["ca_lam_viec"].FillWeight = 15;
-            if (dgvNhanVien.Columns.Contains("Lương (VNĐ)")) dgvNhanVien.Columns["luong"].FillWeight = 20;
+            dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            if (dgvNhanVien.Columns.Contains("ho_ten"))
+                dgvNhanVien.Columns["ho_ten"].Width = 205;
+            if (dgvNhanVien.Columns.Contains("sdt"))
+                dgvNhanVien.Columns["sdt"].Width = 120;
+            if (dgvNhanVien.Columns.Contains("ten_vai_tro"))
+                dgvNhanVien.Columns["ten_vai_tro"].Width = 190;
+            if (dgvNhanVien.Columns.Contains("ca_lam_viec"))
+                dgvNhanVien.Columns["ca_lam_viec"].Width = 220;
+            if (dgvNhanVien.Columns.Contains("luong"))
+                dgvNhanVien.Columns["luong"].Width = 130;
+            if (dgvNhanVien.Columns.Contains("tai_khoan"))
+                dgvNhanVien.Columns["tai_khoan"].Width = 90;
+            if (dgvNhanVien.Columns.Contains("mat_khau"))
+                dgvNhanVien.Columns["mat_khau"].Width = 90;
+
+            dgvNhanVien.Columns["ca_lam_viec"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvNhanVien.Columns["ten_vai_tro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             dgvNhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNhanVien.MultiSelect = false;
@@ -112,9 +124,7 @@ namespace QuanLyKhachSan
                 int id = (int)row.Cells["nhan_vien_id"].Value;
                 string ten = row.Cells["ho_ten"].Value.ToString();
 
-                if (MessageBox.Show($"Xác nhận xóa nhân viên {ten}?",
-                                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
-                    == DialogResult.Yes)
+                if (MessageBox.Show($"Xác nhận xóa nhân viên {ten}?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     using (var db = new QLKSDataContext())
                     {
@@ -129,22 +139,21 @@ namespace QuanLyKhachSan
 
         private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            var row = dgvNhanVien.Rows[e.RowIndex];
-            txtMaNV.Text = row.Cells["nhan_vien_id"].Value?.ToString();
-            txtHoTen.Text = row.Cells["ho_ten"].Value?.ToString();
-            txtSDT.Text = row.Cells["sdt"].Value?.ToString();
-            cbbChucVu.Text = row.Cells["ten_vai_tro"].Value?.ToString();
-            cbbCaLamViec.Text = row.Cells["ca_lam_viec"].Value?.ToString();
+            txtMaNV.Text = dgvNhanVien.SelectedCells[0].Value.ToString();
+            txtHoTen.Text = dgvNhanVien.SelectedCells[1].Value.ToString();
+            txtSDT.Text = dgvNhanVien.SelectedCells[2].Value.ToString();
+            cbbChucVu.Text = dgvNhanVien.SelectedCells[3].Value.ToString();
+            cbbCaLamViec.Text = dgvNhanVien.SelectedCells[4].Value.ToString();
 
             // parse lương về số rồi format
-            if (decimal.TryParse(row.Cells["luong"].Value.ToString(), out var luong))
+            if (decimal.TryParse(dgvNhanVien.SelectedCells[5].Value.ToString(), out var luong))
                 txtLuong.Text = luong.ToString("N0", new CultureInfo("vi-VN"));
 
-            if (row.Cells["tai_khoan"].Value?.ToString().Length > 0)
+            if (dgvNhanVien.SelectedCells[6].Value.ToString().Length > 0)
             {
                 cbCapTaiKhoan.Checked = true;
-                txtTaiKhoan.Text = row.Cells["tai_khoan"].Value?.ToString();
-                txtMatKhau.Text = row.Cells["mat_khau"].Value?.ToString();
+                txtTaiKhoan.Text = dgvNhanVien.SelectedCells[6].Value.ToString();
+                txtMatKhau.Text = dgvNhanVien.SelectedCells[7].Value.ToString();
             }
             else
             {
@@ -159,7 +168,8 @@ namespace QuanLyKhachSan
             {
                 var ds = db.VaiTros
                            .OrderBy(v => v.vai_tro_id)
-                           .Select(v => new {
+                           .Select(v => new
+                           {
                                v.vai_tro_id,
                                v.ten_vai_tro
                            })
@@ -178,13 +188,14 @@ namespace QuanLyKhachSan
             var nhanVien = db.NhanViens.Single(nv => nv.nhan_vien_id == id);
             nhanVien.ho_ten = txtHoTen.Text.Trim();
             nhanVien.sdt = txtSDT.Text.Trim();
-            string chucVu = cbbChucVu.SelectedItem.ToString();
-            nhanVien.chuc_vu = chucVu;
+            if (cbbChucVu.SelectedValue != null)
+                nhanVien.vai_tro_id = Convert.ToInt32(cbbChucVu.SelectedValue);
             nhanVien.ca_lam_viec = cbbCaLamViec.Text.Trim();
+
             var vi = new CultureInfo("vi-VN");
             if (decimal.TryParse(txtLuong.Text, NumberStyles.Number, vi, out decimal result))
                 nhanVien.luong = result;
-            if(txtTaiKhoan.Text.Length > 0 || txtMatKhau.Text.Length > 0)
+            if (txtTaiKhoan.Text.Length > 0 || txtMatKhau.Text.Length > 0)
             {
                 nhanVien.tai_khoan = txtTaiKhoan.Text;
                 nhanVien.mat_khau = txtMatKhau.Text;
@@ -192,13 +203,11 @@ namespace QuanLyKhachSan
             try
             {
                 db.SubmitChanges();
-                MessageBox.Show("Cập nhật thành công!", "OK",
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cập nhật thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi khi cập nhật:\n" + ex.Message, "Error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             LoadNhanVien();
         }
