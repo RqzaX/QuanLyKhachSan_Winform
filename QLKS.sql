@@ -1,22 +1,21 @@
-﻿CREATE DATABASE QLKS
+CREATE DATABASE QLKS
 go
 USE QLKS
-go
-ALTER DATABASE QLKS COLLATE Vietnamese_CI_AS;
 go
 -- 1. Bảng phân quyền nhân viên
 CREATE TABLE VaiTro (
     vai_tro_id INT IDENTITY(1,1) PRIMARY KEY,
-    ten_vai_tro VARCHAR(50) NOT NULL UNIQUE
+    ten_vai_tro NVARCHAR(50) NOT NULL UNIQUE
 );
 go
 -- 2. Bảng loại phòng
 CREATE TABLE LoaiPhong (
     loai_phong_id INT IDENTITY(1,1) PRIMARY KEY,
-    ten_loai VARCHAR(50) NOT NULL,
-    mo_ta TEXT,
+    ten_loai NVARCHAR(50),
+    mo_ta NVARCHAR(MAX),
     gia_theo_dem DECIMAL(10, 2) NOT NULL
 );
+--select * from LoaiPhong
 go
 -- 3. Bảng phòng
 CREATE TABLE Phong (
@@ -30,7 +29,7 @@ go
 CREATE TABLE KhachHang (
     khach_hang_id INT IDENTITY(1,1) PRIMARY KEY,
     ho_ten NVARCHAR(100) NOT NULL,
-    dia_chi TEXT,
+    dia_chi NVARCHAR(MAX),
     so_dien_thoai NVARCHAR(15),
     email NVARCHAR(100),
     cccd NVARCHAR(20) NOT NULL UNIQUE
@@ -39,22 +38,21 @@ go
 -- 5. Bảng dịch vụ
 CREATE TABLE DichVu (
     dich_vu_id INT IDENTITY(1,1) PRIMARY KEY,
-    ten_dich_vu VARCHAR(100) NOT NULL,
-    mo_ta TEXT,
+    ten_dich_vu NVARCHAR(100),
+    mo_ta NVARCHAR(MAX),
     gia DECIMAL(10, 2) NOT NULL
 );
 go
 -- 6. Bảng nhân viên
 CREATE TABLE NhanVien (
     nhan_vien_id INT IDENTITY(1,1) PRIMARY KEY,
-    ho_ten NVARCHAR(100) NOT NULL,
-	sdt VARCHAR(10) NOT NULL,
-	chuc_vu NVARCHAR(50) NOT NULL,
-    ca_lam_viec VARCHAR(50),
+    ho_ten NVARCHAR(100),
+	sdt NVARCHAR(10),
+	vai_tro_id INT,
+    ca_lam_viec NVARCHAR(50),
     luong DECIMAL(10, 2),
-	tai_khoan VARCHAR(20),
-	mat_khau VARCHAR(20),
-	vai_tro_id INT
+	tai_khoan NVARCHAR(20),
+	mat_khau NVARCHAR(20)
 );
 go
 -- 7. Bảng đặt phòng
@@ -84,7 +82,7 @@ CREATE TABLE HoaDon (
     hoa_don_id INT IDENTITY(1,1) PRIMARY KEY,
     dat_phong_id INT NOT NULL,
     nhan_vien_id INT NOT NULL,
-	ten_nhan_vien NVARCHAR(100) NOT NULL,
+	ten_nhan_vien NVARCHAR(100),
     ngay_tao DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     tong_tien DECIMAL(10, 2) NOT NULL
 );
@@ -94,21 +92,23 @@ CREATE TABLE ThanhToan (
     thanh_toan_id INT IDENTITY(1,1) PRIMARY KEY,
     hoa_don_id INT NOT NULL,
     so_tien DECIMAL(10, 2) NOT NULL,
-    phuong_thuc NVARCHAR(10) NOT NULL,
+    phuong_thuc NVARCHAR(10),
     ngay_thanh_toan DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE)
 );
 go
 -- 11. Bảng chương trình khuyến mãi
 CREATE TABLE KhuyenMai (
     khuyen_mai_id INT IDENTITY(1,1) PRIMARY KEY,
-    ten_khuyen_mai NVARCHAR(50) NOT NULL,
+    ten_khuyen_mai NVARCHAR(50),
     phan_tram INT NOT NULL,
     ngay_bat_dau DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     ngay_ket_thuc DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE)
 );
 go
--- THÊM CÁC KHÓA
 -- 1. Phòng ↔ Loại phòng
+IF OBJECT_ID('FK_Phong_LoaiPhong','F') IS NOT NULL
+  ALTER TABLE Phong DROP CONSTRAINT FK_Phong_LoaiPhong;
+GO
 ALTER TABLE Phong
   ADD CONSTRAINT FK_Phong_LoaiPhong
     FOREIGN KEY (loai_phong_id)
@@ -116,6 +116,9 @@ ALTER TABLE Phong
 GO
 
 -- 2. Nhân viên ↔ Vai trò
+IF OBJECT_ID('FK_NhanVien_VaiTro','F') IS NOT NULL
+  ALTER TABLE NhanVien DROP CONSTRAINT FK_NhanVien_VaiTro;
+GO
 ALTER TABLE NhanVien
   ADD CONSTRAINT FK_NhanVien_VaiTro
     FOREIGN KEY (vai_tro_id)
@@ -123,110 +126,142 @@ ALTER TABLE NhanVien
 GO
 
 -- 3. Đặt phòng ↔ Khách hàng, Phòng, Khuyến mãi, Nhân viên
+--    Trong đó muốn xóa DatPhong khi xóa phòng, hoặc khi xóa khuyến mãi thì hủy booking
+IF OBJECT_ID('FK_DatPhong_KhachHang','F')     IS NOT NULL ALTER TABLE DatPhong DROP CONSTRAINT FK_DatPhong_KhachHang;
+IF OBJECT_ID('FK_DatPhong_Phong','F')         IS NOT NULL ALTER TABLE DatPhong DROP CONSTRAINT FK_DatPhong_Phong;
+IF OBJECT_ID('FK_DatPhong_KhuyenMai','F')     IS NOT NULL ALTER TABLE DatPhong DROP CONSTRAINT FK_DatPhong_KhuyenMai;
+IF OBJECT_ID('FK_DatPhong_NhanVien','F')      IS NOT NULL ALTER TABLE DatPhong DROP CONSTRAINT FK_DatPhong_NhanVien;
+GO
 ALTER TABLE DatPhong
   ADD CONSTRAINT FK_DatPhong_KhachHang
     FOREIGN KEY (khach_hang_id)
-    REFERENCES KhachHang(khach_hang_id),
+    REFERENCES KhachHang(khach_hang_id)
+    ON DELETE NO ACTION,
    CONSTRAINT FK_DatPhong_Phong
     FOREIGN KEY (phong_id)
-    REFERENCES Phong(phong_id),
+    REFERENCES Phong(phong_id)
+    ON DELETE CASCADE,
    CONSTRAINT FK_DatPhong_KhuyenMai
     FOREIGN KEY (khuyen_mai_id)
-    REFERENCES KhuyenMai(khuyen_mai_id),
+    REFERENCES KhuyenMai(khuyen_mai_id)
+    ON DELETE SET NULL,
    CONSTRAINT FK_DatPhong_NhanVien
     FOREIGN KEY (nhan_vien_id)
-    REFERENCES NhanVien(nhan_vien_id);
+    REFERENCES NhanVien(nhan_vien_id)
+    ON DELETE NO ACTION;
 GO
 
 -- 4. Dịch vụ đặt kèm ↔ Đặt phòng, Dịch vụ
+--    Xóa DichVuDatPhong khi xóa DatPhong
+IF OBJECT_ID('FK_DichVuDatPhong_DatPhong','F') IS NOT NULL ALTER TABLE DichVuDatPhong DROP CONSTRAINT FK_DichVuDatPhong_DatPhong;
+IF OBJECT_ID('FK_DichVuDatPhong_DichVu','F')    IS NOT NULL ALTER TABLE DichVuDatPhong DROP CONSTRAINT FK_DichVuDatPhong_DichVu;
+GO
 ALTER TABLE DichVuDatPhong
   ADD CONSTRAINT FK_DichVuDatPhong_DatPhong
     FOREIGN KEY (dat_phong_id)
-    REFERENCES DatPhong(dat_phong_id),
+    REFERENCES DatPhong(dat_phong_id)
+    ON DELETE CASCADE,
    CONSTRAINT FK_DichVuDatPhong_DichVu
     FOREIGN KEY (dich_vu_id)
-    REFERENCES DichVu(dich_vu_id);
+    REFERENCES DichVu(dich_vu_id)
+    ON DELETE NO ACTION;
 GO
 
 -- 5. Hóa đơn ↔ Đặt phòng, Nhân viên
+--    Xóa Hóa đơn khi xóa DatPhong
+IF OBJECT_ID('FK_HoaDon_DatPhong','F') IS NOT NULL ALTER TABLE HoaDon DROP CONSTRAINT FK_HoaDon_DatPhong;
+IF OBJECT_ID('FK_HoaDon_NhanVien','F') IS NOT NULL ALTER TABLE HoaDon DROP CONSTRAINT FK_HoaDon_NhanVien;
+GO
 ALTER TABLE HoaDon
   ADD CONSTRAINT FK_HoaDon_DatPhong
     FOREIGN KEY (dat_phong_id)
-    REFERENCES DatPhong(dat_phong_id),
+    REFERENCES DatPhong(dat_phong_id)
+    ON DELETE CASCADE,
    CONSTRAINT FK_HoaDon_NhanVien
     FOREIGN KEY (nhan_vien_id)
-    REFERENCES NhanVien(nhan_vien_id);
+    REFERENCES NhanVien(nhan_vien_id)
+    ON DELETE NO ACTION;
 GO
 
 -- 6. Thanh toán ↔ Hóa đơn
+--    Xóa Thanh toán khi xóa Hóa đơn
+IF OBJECT_ID('FK_ThanhToan_HoaDon','F') IS NOT NULL ALTER TABLE ThanhToan DROP CONSTRAINT FK_ThanhToan_HoaDon;
+GO
 ALTER TABLE ThanhToan
   ADD CONSTRAINT FK_ThanhToan_HoaDon
     FOREIGN KEY (hoa_don_id)
-    REFERENCES HoaDon(hoa_don_id);
-
-go
+    REFERENCES HoaDon(hoa_don_id)
+    ON DELETE CASCADE;
+GO
+--  Khóa ngoại NhanVien → VaiTro
+IF OBJECT_ID('FK_NhanVien_VaiTro','F') IS NOT NULL
+  ALTER TABLE NhanVien DROP CONSTRAINT FK_NhanVien_VaiTro;
+GO
+ALTER TABLE NhanVien
+  ADD CONSTRAINT FK_NhanVien_VaiTro
+    FOREIGN KEY (vai_tro_id)
+    REFERENCES VaiTro(vai_tro_id)
+    ON UPDATE CASCADE
+    ON DELETE NO ACTION;
+GO
 INSERT INTO KhuyenMai (ten_khuyen_mai, phan_tram, ngay_bat_dau, ngay_ket_thuc) VALUES
-  ('Lễ 30/4 – 1/5 giảm 30%', 30, '2025-04-29', '2025-05-02'),
-  ('Khuyến mãi mùa hè giảm 20%', 20, '2025-06-01', '2025-06-30');
+  (N'Lễ 30/4 – 1/5 giảm 30%', 30, '2025-04-29', '2025-05-02'),
+  (N'Khuyến mãi mùa hè giảm 20%', 20, '2025-06-01', '2025-06-30');
 go
 INSERT INTO VaiTro (ten_vai_tro) VALUES
-('ADMIN'),     -- 1
-('Quản Lý Khách Sạn'),     -- 2
-('Nhân Viên Lễ Tân'),     -- 3
-('Nhân Viên Buồng Phòng'),-- 4
-('Nhân Viên Phục Vụ'),    -- 5
-('Nhân Viên Bảo Vệ'),     -- 6
-('Nhân Viên Kế Toán'),    -- 7
-('Nhân Viên Kỹ Thuật');   -- 8
+(N'ADMIN'),     -- 1
+(N'Quản Lý Khách Sạn'),     -- 2
+(N'Nhân Viên Lễ Tân'),     -- 3
+(N'Nhân Viên Buồng Phòng'),-- 4
+(N'Nhân Viên Phục Vụ'),    -- 5
+(N'Nhân Viên Bảo Vệ'),     -- 6
+(N'Nhân Viên Kế Toán'),    -- 7
+(N'Nhân Viên Kỹ Thuật');   -- 8
 go
 INSERT INTO LoaiPhong (ten_loai, mo_ta, gia_theo_dem) VALUES
-('VIPP', 'Phòng rộng 30m2, view biển', 1500000),
-('VIP', 'Phòng 50m2, có bồn tắm', 2500000),
-('Thuong', 'Phòng tiêu chuẩn 20m2', 800000);
+(N'Phòng gia đình', N'Phòng 3 giường, rộng 60m2, view biển', 1500000),
+(N'Giường đôi', N'Phòng 50m2, có bồn tắm', 2500000),
+(N'Giường đơn', N'Phòng tiêu chuẩn 20m2', 800000);
 go
 INSERT INTO Phong (so_phong, loai_phong_id, trang_thai) VALUES
 ('P101', 1, 'trong'),
 ('P102', 1, 'dang_su_dung'),
-('P201', 2, 'trong'),
-('P202', 3, 'bao_tri');
+('P203', 2, 'trong'),
+('P204', 3, 'bao_tri'),
+('P105', 1, 'trong'),
+('P106', 1, 'dang_su_dung'),
+('P207', 2, 'trong'),
+('P208', 3, 'bao_tri'),
+('P109', 1, 'trong'),
+('P110', 1, 'dang_su_dung'),
+('P211', 2, 'trong'),
+('P212', 3, 'bao_tri');
 go
 INSERT INTO KhachHang (ho_ten, dia_chi, so_dien_thoai, email, cccd) VALUES
-('Nguyễn Văn A', 'Hà Nội', '0912345678', 'a.nguyen@gmail.com', '123456789'),
-('Trần Thị B', 'TP.HCM', '0987654321', 'b.tran@gmail.com', '987654321'),
-('Lê Văn C', 'Đà Nẵng', '0901122334', NULL, '1122334455');
+(N'Nguyễn Văn A', N'Hà Nội', '0912345678', 'a.nguyen@gmail.com', '123456789'),
+(N'Trần Thị B', N'TP.HCM', '0987654321', 'b.tran@gmail.com', '987654321'),
+(N'Lê Văn C', N'Đà Nẵng', '0901122334', NULL, '1122334455');
 go
 INSERT INTO DichVu (ten_dich_vu, mo_ta, gia) VALUES
-('Ăn sáng', 'Buffet sáng', 150000),
-('Giặt là', 'Giặt ủi quần áo', 100000),
-('Spa', 'Massage thư giãn', 500000);
+(N'Minibar', N'Nước ngọt, bia, snack', 50000),
+(N'Dọn phòng', N'Dọn phòng hàng ngày', 100000),
+(N'Ăn sáng', N'Buffet sáng tại nhà hàng', 150000),
+(N'Giặt ủi', N'Giặt ủi quần áo', 80000);
 go
-INSERT INTO NhanVien (ho_ten, sdt, chuc_vu, ca_lam_viec, luong, tai_khoan, mat_khau, vai_tro_id) VALUES
-('Nguyễn Văn Quản', '0912345678', 'Quản Lý Khách Sạn', 'Giờ hành chính', 25000000, 'quanly', '123456', 2),
-('Trần Thị Lễ', '0923456789', 'Nhân Viên Lễ Tân', 'Ca sáng', 12000000, 'letan1', '123456', 3),
-('Lê Văn Tân', '0934567890', 'Nhân Viên Lễ Tân', 'Ca chiều', 12000000, 'letan2', '123456', 3),
-('Phạm Thị Phòng', '0945678901', 'Nhân Viên Buồng Phòng', 'Ca sáng', 10000000, '', '', 4),
-('Đỗ Văn Phục', '0956789012', 'Nhân Viên Phục Vụ', 'Ca sáng', 9000000, '', '', 5),
-('Vũ Văn Vệ', '0967890123', 'Nhân Viên Bảo Vệ', 'Ca đêm', 8500000, '', '', 6),
-('Bùi Thị Toán', '0978901234', 'Nhân Viên Kế Toán', 'Giờ hành chính', 11000000, '', '', 7),
-('Quản trị viên', '00000000', 'ADMIN', '24/24', 0, 'admin', '123', 1);
-go
-INSERT INTO DatPhong (khach_hang_id, phong_id, nhan_vien_id, ngay_check_in, ngay_check_out, trang_thai) VALUES
-(1, 1, 2, '2024-10-20', '2024-10-23', 'da_xac_nhan'),
-(2, 3, 2, '2025-1-25', '2025-1-27', 'da_huy');
-go
-INSERT INTO HoaDon (dat_phong_id, nhan_vien_id, ten_nhan_vien, ngay_tao, tong_tien) VALUES
-  (1, 2, N'Trần Tuấn Anh', '2025-04-29', 1500000.00),
-  (2, 1, N'Võ Văn Thuận', '2025-05-02', 2200000.00);
-go
-INSERT INTO DichVuDatPhong (dat_phong_id, dich_vu_id, so_luong, ngay_su_dung) VALUES
-(1, 1, 2, '2024-10-21'), -- 2 suất ăn sáng
-(1, 2, 1, '2024-10-22'); -- 1 lần spa
-go
-INSERT INTO ThanhToan (hoa_don_id, so_tien, phuong_thuc) VALUES
-(1, 5650000, 'tien_mat');
+INSERT INTO NhanVien(ho_ten, sdt, vai_tro_id, ca_lam_viec, luong, tai_khoan, mat_khau) VALUES
+(N'Nguyễn Văn Quản', '0912345678', 2, N'Giờ hành chính', 25000000, 'quanly', '123456'),
+(N'Trần Thị Lễ', '0923456789', 3, N'Ca sáng', 12000000, 'letan1', '123456'),
+(N'Lê Văn Tân', '0934567890', 3, N'Ca chiều', 12000000, 'letan2', '123456'),
+(N'Phạm Thị Phòng', '0945678901', 4, N'Ca sáng', 10000000, '', ''),
+(N'Đỗ Văn Phục', '0956789012', 5, N'Ca sáng', 9000000, '', ''),
+(N'Vũ Văn Vệ', '0967890123', 6, N'Ca đêm', 8500000, '', ''),
+(N'Bùi Thị Toán', '0978901234', 7, N'Giờ hành chính', 11000000, '', ''),
+(N'Quản trị viên', '00000000', 1, N'24/24', 0, 'admin', '123');
+-- select * from NhanVien
 
 --SELECT * FROM DatPhong;
 
 --SELECT * FROM HoaDon;
+--SELECT * FROM LoaiPhong;
 
 --drop database QLKS
