@@ -121,6 +121,7 @@
             this.llbQuenMatKhau.TabIndex = 10;
             this.llbQuenMatKhau.TabStop = true;
             this.llbQuenMatKhau.Text = "Quên mật khẩu?";
+            this.llbQuenMatKhau.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llbQuenMatKhau_LinkClicked);
             // 
             // btnDangNhap
             // 
@@ -154,6 +155,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(365, 35);
             this.txtPassword.TabIndex = 5;
+            this.txtPassword.Text = "123";
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // pictureBox3
@@ -188,6 +190,7 @@
             this.txtTaiKhoan.Name = "txtTaiKhoan";
             this.txtTaiKhoan.Size = new System.Drawing.Size(365, 35);
             this.txtTaiKhoan.TabIndex = 4;
+            this.txtTaiKhoan.Text = "admin";
             // 
             // pictureBox2
             // 

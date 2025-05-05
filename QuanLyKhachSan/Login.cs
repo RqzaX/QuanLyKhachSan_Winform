@@ -15,6 +15,7 @@ namespace QuanLyKhachSan
         public Login()
         {
             InitializeComponent();
+            this.AcceptButton = btnDangNhap;
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -61,12 +62,17 @@ namespace QuanLyKhachSan
             {
                 using (var db = new QLKSDataContext())
                 {
-                    var ds = db.NhanViens.Select(nv => new
-                    {
-                        nv.nhan_vien_id,
-                        nv.ho_ten,
-                        ChucVu = nv.VaiTro.ten_vai_tro,
-                    });
+                    var nhanVien = (from x in db.NhanViens
+                              join vt in db.VaiTros on x.vai_tro_id equals vt.vai_tro_id
+                              where x.tai_khoan == userName
+                              select new
+                              {
+                                  Entity = x,
+                                  TenChucVu = vt.ten_vai_tro
+                              }).SingleOrDefault();
+
+                    if (nhanVien == null) { /* lỗi */ }
+
                     // Tìm user theo tài khoản
                     var nv = db.NhanViens
                                .SingleOrDefault(x => x.tai_khoan == userName);
@@ -87,9 +93,9 @@ namespace QuanLyKhachSan
                         txtPassword.Focus();
                         return;
                     }
-
+                    InfoNhanVien.CurrentUser = nv;
                     this.Hide();
-                    var main = new TrangChu(ds.ho_ten, ds.ChucVu);
+                    var main = new TrangChu(nhanVien.Entity.ho_ten, nhanVien.TenChucVu);
                     main.Show();
                 }
             }
@@ -97,6 +103,11 @@ namespace QuanLyKhachSan
             {
                 MessageBox.Show("Lỗi kết nối cơ sở dữ liệu:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void llbQuenMatKhau_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("Liên hệ quản trị viên hoặc quản lý để đổi lại mật khẩu !","Thông báo",MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

@@ -33,8 +33,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnPhong = new System.Windows.Forms.Button();
             this.btnDichVu = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbChucVu = new System.Windows.Forms.Label();
+            this.lbHoTen = new System.Windows.Forms.Label();
             this.btnMyProfile = new System.Windows.Forms.Button();
             this.contextMenuProfile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.thôngTinCáNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,8 +81,8 @@
             this.panel1.BackColor = System.Drawing.Color.MediumTurquoise;
             this.panel1.Controls.Add(this.btnPhong);
             this.panel1.Controls.Add(this.btnDichVu);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.lbChucVu);
+            this.panel1.Controls.Add(this.lbHoTen);
             this.panel1.Controls.Add(this.btnMyProfile);
             this.panel1.Controls.Add(this.btnQuyDinh);
             this.panel1.Controls.Add(this.btnNhanVien);
@@ -137,27 +137,27 @@
             this.btnDichVu.MouseEnter += new System.EventHandler(this.btnDichVu_MouseEnter);
             this.btnDichVu.MouseLeave += new System.EventHandler(this.btnDichVu_MouseLeave);
             // 
-            // label2
+            // lbChucVu
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 997);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(108, 29);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Quản Lý";
+            this.lbChucVu.AutoSize = true;
+            this.lbChucVu.BackColor = System.Drawing.Color.Transparent;
+            this.lbChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbChucVu.Location = new System.Drawing.Point(12, 997);
+            this.lbChucVu.Name = "lbChucVu";
+            this.lbChucVu.Size = new System.Drawing.Size(108, 29);
+            this.lbChucVu.TabIndex = 11;
+            this.lbChucVu.Text = "Quản Lý";
             // 
-            // label1
+            // lbHoTen
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 968);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(175, 29);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Võ Văn Thuận";
+            this.lbHoTen.AutoSize = true;
+            this.lbHoTen.BackColor = System.Drawing.Color.Transparent;
+            this.lbHoTen.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHoTen.Location = new System.Drawing.Point(12, 968);
+            this.lbHoTen.Name = "lbHoTen";
+            this.lbHoTen.Size = new System.Drawing.Size(175, 29);
+            this.lbHoTen.TabIndex = 10;
+            this.lbHoTen.Text = "Võ Văn Thuận";
             // 
             // btnMyProfile
             // 
@@ -562,8 +562,8 @@
         private System.Windows.Forms.ToolStripMenuItem thôngTinCáNhânToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbChucVu;
+        private System.Windows.Forms.Label lbHoTen;
         private System.Windows.Forms.Button btnDichVu;
         private System.Windows.Forms.Button btnPhong;
         private System.Windows.Forms.MenuStrip menuStrip1;

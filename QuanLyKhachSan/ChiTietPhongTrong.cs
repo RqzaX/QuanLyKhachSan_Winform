@@ -22,7 +22,7 @@ namespace QuanLyKhachSan
         private bool checkDichVu = false;
         private string trangThai;
         private int ID;
-        private decimal _giaTheoDem;
+        private decimal _giaTheoDem, _giaDichVu;
         private QLKSDataContext db = new QLKSDataContext();
         public ChiTietPhongTrong(int ID, string trangThai)
         {
@@ -30,12 +30,83 @@ namespace QuanLyKhachSan
             this.ID = ID;
             this.trangThai = trangThai;
             txtKhachId.Hide();
-            dtCheckOut.MinDate = DateTime.Now.AddDays(1);
-            UpdateSoDem();
-            lbTienDichVu.Text = "0";
-            lbTienThuePhong.Text = "0";
-            lbTongTien.Text = "0";
+            txtKhuyenMaiID.Hide();
+            dtCheckOut.Value = dtCheckIn.Value.AddDays(1);
+
+            UpdateSoTien();
+            lbTienDichVu.Text = "Tiền dịch vụ: 0";
+            lbTienThuePhong.Text = "Tiền thuê phòng: 0";
             lbSoTienCanThanhToan.Text = "0";
+            int pct = LayMaxGiaTriPhamTramKhuyenMai();
+            lbPhanTramKM.Text = pct > 0 ? pct + "%" : " → giảm 0%";
+            if(layMaKhuyenMai() > 0) txtKhuyenMaiID.Text = layMaKhuyenMai().ToString();
+        }
+        private int? layMaKhuyenMai()
+        {
+            DateTime today = DateTime.Today;
+            using (var db = new QLKSDataContext())
+            {
+                var top = db.KhuyenMais
+                            .Where(km => km.ngay_bat_dau <= today
+                                      && km.ngay_ket_thuc >= today)
+                            .OrderByDescending(km => km.phan_tram)
+                            .Select(km => km.khuyen_mai_id)
+                            .FirstOrDefault();
+                // FirstOrDefault trả về 0 nếu không tìm thấy
+                return top == 0 ? (int?)null : top;
+            }
+        }
+        private int LayMaxGiaTriPhamTramKhuyenMai()
+        {
+            DateTime today = DateTime.Today;
+
+            using (var db = new QLKSDataContext())
+            {
+                var active = db.KhuyenMais
+                               .Where(km =>
+                                   km.ngay_bat_dau <= today &&
+                                   km.ngay_ket_thuc >= today
+                               );
+
+                if (!active.Any())
+                    return 0;
+
+                int maxKM = active.Max(km => km.phan_tram);
+                return maxKM;
+            }
+        }
+        private string LayTenKhuyenMai()
+        {
+            DateTime today = DateTime.Today;
+
+            using (var db = new QLKSDataContext())
+            {
+                var names = db.KhuyenMais
+                              .Where(km => km.ngay_bat_dau <= today
+                                        && km.ngay_ket_thuc >= today)
+                              .Select(km => km.ten_khuyen_mai)
+                              .ToList();
+
+                if (!names.Any())
+                    return "Hôm nay không có khuyến mãi";
+
+                // Nối thành chuỗi
+                return string.Join(", ", names);
+            }
+        }
+        private void dgvDichVu_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            string moTa = dgvDichVu
+                .Rows[e.RowIndex]
+                .Cells["mo_ta"]
+                .Value?.ToString() ?? "";
+
+            foreach (DataGridViewCell cell in dgvDichVu.Rows[e.RowIndex].Cells)
+            {
+                cell.ToolTipText = moTa;
+            }
         }
         private void LoadDichVu()
         {
@@ -44,15 +115,19 @@ namespace QuanLyKhachSan
                        {
                            dv.dich_vu_id,
                            dv.ten_dich_vu,
+                           dv.mo_ta,
                            dv.gia
                        })
                        .ToList();
 
             dgvDichVu.DataSource = ds;
 
-            //Ẩn cột ID
+            //Ẩn cột ID và Mota
             if (dgvDichVu.Columns.Contains("dich_vu_id"))
                 dgvDichVu.Columns["dich_vu_id"].Visible = false;
+            if (dgvDichVu.Columns.Contains("mo_ta"))
+                dgvDichVu.Columns["mo_ta"].Visible = false;
+
             if (dgvDichVu.Columns.Contains("ten_dich_vu"))
                 dgvDichVu.Columns["ten_dich_vu"].HeaderText = "Tên dịch vụ";
 
@@ -64,7 +139,6 @@ namespace QuanLyKhachSan
                 c.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
 
-            // Auto-size
             dgvDichVu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             if (dgvDichVu.Columns.Contains("Tên dịch vụ"))
                 dgvDichVu.Columns["ten_dich_vu"].FillWeight = 100;
@@ -76,6 +150,7 @@ namespace QuanLyKhachSan
             dgvDichVu.AllowUserToAddRows = false;
             dgvDichVu.AllowUserToDeleteRows = false;
             dgvDichVu.ReadOnly = true;
+            dgvDichVu.ShowCellToolTips = true;
 
             if (!checkDichVu) ThemDichVu();
         }
@@ -95,53 +170,88 @@ namespace QuanLyKhachSan
 
         private void dgvDichVu_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 4 && e.RowIndex >= 0)
+            var vi = new CultureInfo("vi-VN");
+            if (dgvDichVu.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                DataGridViewRow selectedRow = dgvDichVu.Rows[e.RowIndex];
-                string tenDichVu = selectedRow.Cells[1].Value.ToString();
+                var src = dgvDichVu.Rows[e.RowIndex];
+                string ten = src.Cells["ten_dich_vu"].Value.ToString();
+                decimal gia = Convert.ToDecimal(src.Cells["gia"].Value);
 
-                // Kiểm tra trùng lặp
-                bool isDuplicate = false;
-                foreach (DataGridViewRow row in dgvDatDichVu.Rows)
+                // Kiểm tra trùng
+                var exist = dgvDatDichVu.Rows
+                    .OfType<DataGridViewRow>()
+                    .FirstOrDefault(r => r.Cells["ten_dich_vu"].Value?.ToString() == ten);
+
+                if (exist != null)
                 {
-                    if (row.Cells["TenDichVu"].Value != null &&
-                        row.Cells["TenDichVu"].Value.ToString() == tenDichVu)
-                    {
-                        // Tăng số lượng nếu trùng
-                        int soLuong = Convert.ToInt32(row.Cells["SoLuong"].Value);
-                        double gia = Convert.ToDouble(row.Cells["Gia"].Value);
-                        row.Cells["SoLuong"].Value = soLuong + 1;
-                        row.Cells["Gia"].Value = gia * soLuong;
-                        isDuplicate = true;
-                        break;
-                    }
+                    // tăng số lượng
+                    int qty = Convert.ToInt32(exist.Cells["so_luong"].Value) + 1;
+                    exist.Cells["so_luong"].Value = qty.ToString("N0", vi);
+                    exist.Cells["gia"].Value = (gia * qty).ToString("N0", vi);
+                    lbTienDichVu.Text = "Tiền dịch vụ: " + UpdateTongTienDichVu().ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                    _giaDichVu = UpdateTongTienDichVu();
+                    UpdateSoTien();
                 }
-
-                // Nếu không trùng
-                if (!isDuplicate)
+                else
                 {
-                    DataGridViewRow newRow = new DataGridViewRow();
-                    newRow.CreateCells(dgvDatDichVu);
-
-                    newRow.Cells[0].Value = selectedRow.Cells[0].Value; // mã dịch vụ
-                    newRow.Cells[1].Value = selectedRow.Cells[1].Value;
-                    newRow.Cells[2].Value = selectedRow.Cells[2].Value;
-                    newRow.Cells[4].Value = selectedRow.Cells[3].Value;
-                    newRow.Cells[3].Value = 1;
-                    dgvDatDichVu.Rows.Add(newRow);
+                    // Thêm row mới
+                    int idx = dgvDatDichVu.Rows.Add();
+                    var r2 = dgvDatDichVu.Rows[idx];
+                    r2.Cells["dich_vu_id"].Value = src.Cells["dich_vu_id"].Value;
+                    r2.Cells["ten_dich_vu"].Value = ten;
+                    r2.Cells["so_luong"].Value = 1;
+                    r2.Cells["gia"].Value = gia.ToString("N0", vi);
                     if (dgvDatDichVu.Columns["Delete"] == null)
                     {
                         DataGridViewButtonColumn btnDeleteColumn = new DataGridViewButtonColumn();
-                        btnDeleteColumn.Name = "Delete"; // Tên cột (dùng để kiểm tra)
+                        btnDeleteColumn.Name = "Delete";
                         btnDeleteColumn.HeaderText = "Thao tác";
                         btnDeleteColumn.Text = "Xóa";
                         btnDeleteColumn.UseColumnTextForButtonValue = true;
                         dgvDatDichVu.Columns.Add(btnDeleteColumn);
+                        lbTienDichVu.Text = "Tiền dịch vụ: " + UpdateTongTienDichVu().ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                        _giaDichVu = UpdateTongTienDichVu();
+                        UpdateSoTien();
                     }
+                    lbTienDichVu.Text = "Tiền dịch vụ: " + UpdateTongTienDichVu().ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                    _giaDichVu = UpdateTongTienDichVu();
+                    UpdateSoTien();
                 }
             }
         }
+        private decimal UpdateTongTienDichVu()
+        {
+            decimal total = 0m;
 
+            foreach (DataGridViewRow row in dgvDatDichVu.Rows)
+            {
+                // Bỏ qua hàng new-row
+                if (row.IsNewRow)
+                    continue;
+
+                var cellValue = row.Cells["gia"].Value;
+                if (cellValue == null)
+                    continue;
+
+                // Nếu Value đã là decimal
+                if (cellValue is decimal d)
+                {
+                    total += d;
+                }
+                else
+                {
+                    // Nếu Value là string -> vi
+                    var s = cellValue.ToString();
+                    if (decimal.TryParse(s, NumberStyles.Number,
+                                         CultureInfo.GetCultureInfo("vi-VN"),
+                                         out decimal val))
+                    {
+                        total += val;
+                    }
+                }
+            }
+            return total;
+        }
         private void dgvDatDichVu_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dgvDatDichVu.Columns[e.ColumnIndex].Name == "Delete" && e.RowIndex >= 0)
@@ -149,6 +259,9 @@ namespace QuanLyKhachSan
                 DataGridViewCell cell = dgvDatDichVu.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 cell.Style.ForeColor = Color.Red;
                 cell.Style.Font = new Font("Arial", 10, FontStyle.Bold);
+                lbTienDichVu.Text = "Tiền dịch vụ: " + UpdateTongTienDichVu().ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                _giaDichVu = UpdateTongTienDichVu();
+                UpdateSoTien();
             }
         }
 
@@ -157,6 +270,9 @@ namespace QuanLyKhachSan
             if (e.ColumnIndex == dgvDatDichVu.Columns["Delete"].Index && e.RowIndex >= 0)
             {
                 dgvDatDichVu.Rows.RemoveAt(e.RowIndex);
+                lbTienDichVu.Text = "Tiền dịch vụ: " + UpdateTongTienDichVu().ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                _giaDichVu = UpdateTongTienDichVu();
+                UpdateSoTien();
             }
         }
 
@@ -181,6 +297,24 @@ namespace QuanLyKhachSan
                 LoadDichVu();
                 dgvDatDichVu.Enabled = true;
                 checkDichVu = true;
+                if (dgvDatDichVu.Columns.Count == 0)
+                {
+                    dgvDatDichVu.Columns.Add("dich_vu_id", "Mã DV");
+                    dgvDatDichVu.Columns.Add("ten_dich_vu", "Tên dịch vụ");
+                    dgvDatDichVu.Columns.Add("so_luong", "Số lượng");
+                    dgvDatDichVu.Columns.Add("gia", "Giá");
+                    if (dgvDatDichVu.Columns.Contains("dich_vu_id"))
+                        dgvDatDichVu.Columns["dich_vu_id"].Visible = false;
+                    var btnDelete = new DataGridViewButtonColumn
+                    {
+                        Name = "Delete",
+                        HeaderText = "Thao tác",
+                        Text = "Xóa",
+                        UseColumnTextForButtonValue = true,
+                        Width = 60
+                    };
+                    dgvDatDichVu.Columns.Add(btnDelete);
+                }
             }
             else
             {
@@ -188,6 +322,9 @@ namespace QuanLyKhachSan
                 dgvDichVu.Columns.Clear();
                 dgvDatDichVu.Enabled = false;
                 checkDichVu = false;
+                dgvDatDichVu.Columns.Clear();
+                lbTienDichVu.Text = "Tiền dịch vụ: 0";
+                _giaDichVu = 0;
             }
         }
         private void LoadThongTin(int phongId)
@@ -209,7 +346,9 @@ namespace QuanLyKhachSan
                             }).SingleOrDefault();
                 if (room == null) return;
                 var val = room.Gia;
+
                 _giaTheoDem = val;
+
                 if (val != null && decimal.TryParse(val.ToString(), out var gia))
                 {
                     var vi = new CultureInfo("vi-VN");
@@ -378,52 +517,90 @@ namespace QuanLyKhachSan
 
         private void btnDatPhong_Click(object sender, EventArgs e)
         {
-            if (!DieuKienKhachHang())
+            if (DieuKienKhachHang())
             {
-                return;
-            }
-            else if (!KiemTraDate()) return;
-            int khachId = int.Parse(txtKhachId.Text);
-            //int nvId = CurrentUser.Id;   // hoặc lấy từ biến/phiên
-            //int? kmId = cbbKhuyenMai.SelectedIndex >= 0
-            //                ? (int?)cbbKhuyenMai.SelectedValue
-            //                : null;
-            DateTime ngayDat = dtNgayDat.Value.Date;
-            DateTime ngayCheckIn = dtCheckIn.Value.Date;
-            DateTime ngayCheckOut = dtCheckOut.Value.Date;
+                DateTime ngayDat = dtNgayDat.Value.Date;
+                DateTime ngayNhanPhong = dtCheckIn.Value.Date;
+                DateTime ngayTraPhong = dtCheckOut.Value.Date;
+                bool datTruoc = cbDatTruoc.Checked;
+                var infoNhanVien = InfoNhanVien.CurrentUser;
 
-            bool isDatTruoc = ngayCheckIn > DateTime.Today;
-
-            using (var db = new QLKSDataContext())
-            {
-                // 4. Tạo bản ghi DatPhong mới
-                var booking = new DatPhong
+                if (ngayNhanPhong < ngayDat)
                 {
-                    khach_hang_id = khachId,
-                    phong_id = ID,
-                    //nhan_vien_id = nvId,
-                    //khuyen_mai_id = kmId,
-                    ngay_dat = ngayDat,
-                    ngay_check_in = ngayCheckIn,
-                    ngay_check_out = ngayCheckOut,
-                    trang_thai = "dat_truoc"
-                };
-                db.DatPhongs.InsertOnSubmit(booking);
+                    MessageBox.Show("Ngày nhận phòng phải ≥ ngày đặt.", "Lỗi",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (ngayTraPhong <= ngayNhanPhong)
+                {
+                    MessageBox.Show("Ngày trả phải lớn hơn ngày nhận.", "Lỗi",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                // 5. Cập nhật lại trạng thái phòng
-                var room = db.Phongs.Single(p => p.phong_id == ID);
-                room.trang_thai = isDatTruoc
-                    ? "da_dat"         // đặt trước
-                    : "dang_su_dung";
+                using (var db = new QLKSDataContext())
+                {
+                    string trangThaiPhong = "";
+                    if (datTruoc) trangThaiPhong = "dat_truoc";
+                    else trangThaiPhong = "dang_su_dung";
+                    // Thêm DatPhong
+                    var dp = new DatPhong();
+                    if(txtKhachId.Text.Length > 0)
+                    {
+                        dp = new DatPhong
+                        {
+                            khach_hang_id = Convert.ToInt32(txtKhachId.Text),
+                            phong_id = ID,
+                            nhan_vien_id = infoNhanVien.nhan_vien_id,
+                            khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
+                            ngay_dat = ngayDat,
+                            ngay_check_in = ngayNhanPhong,
+                            ngay_check_out = ngayTraPhong,
+                            trang_thai = trangThaiPhong
+                        };
+                    } else
+                    {
+                        dp = new DatPhong
+                        {
+                            phong_id = ID,
+                            nhan_vien_id = infoNhanVien.nhan_vien_id,
+                            khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
+                            ngay_dat = ngayDat,
+                            ngay_check_in = ngayNhanPhong,
+                            ngay_check_out = ngayTraPhong,
+                            trang_thai = trangThaiPhong
+                        };
+                    }
+                    db.DatPhongs.InsertOnSubmit(dp);
+                    db.SubmitChanges();
 
-                db.SubmitChanges();
+                    // Thêm DichVuDatPhong cho từng dịch vụ
+                    foreach (DataGridViewRow row in dgvDatDichVu.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        int dvId = Convert.ToInt32(row.Cells["dich_vu_id"].Value);
+                        int soLuong = Convert.ToInt32(row.Cells["so_luong"].Value);
+
+                        var dvdp = new DichVuDatPhong
+                        {
+                            dat_phong_id = dp.dat_phong_id,
+                            dich_vu_id = dvId,
+                            so_luong = soLuong,
+                            ngay_su_dung = ngayNhanPhong 
+                        };
+                        db.DichVuDatPhongs.InsertOnSubmit(dvdp);
+                    }
+
+                    var phong = db.Phongs.Single(p => p.phong_id == ID);
+                    phong.trang_thai = datTruoc ? "da_dat" : "dang_su_dung";
+
+                    db.SubmitChanges();
+                }
+
+                MessageBox.Show("Đặt phòng thành công!", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
-
-            MessageBox.Show("Đặt phòng thành công!", "OK",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // 7. Refresh UI: load lại danh sách phòng, báo cáo… nếu có
-
         }
 
         private void dtCheckOut_ValueChanged(object sender, EventArgs e)
@@ -432,7 +609,44 @@ namespace QuanLyKhachSan
             DateTime ngayDat = dtNgayDat.Value.Date;
             DateTime ngayCheckIn = dtCheckIn.Value.Date;
             DateTime ngayCheckOut = dtCheckOut.Value.Date;
+            int soNgay = (ngayCheckOut - ngayCheckIn).Days;
+            if (soNgay == 0) soNgay = 1;
+            if (soNgay > 0)
+            {
+                UpdateSoTien();
+            }
+            else
+            {
+                txtThoiHan.Text = "Vui lòng chọn ngày Check in < ngày Check out";
+            }
+        }
+        private void UpdateSoTien()
+        {
+            DateTime ngayCheckIn = dtCheckIn.Value.Date;
+            DateTime ngayCheckOut = dtCheckOut.Value.Date;
 
+            int nights = (ngayCheckOut - ngayCheckIn).Days;
+            if (nights < 1) nights = 1;
+            txtThoiHan.Text = nights + " Ngày";
+            // Tính tiền
+            UpdateTongTienDichVu();
+            decimal tongTienThue = _giaTheoDem * nights;
+            decimal giamGia = (tongTienThue + _giaDichVu) * LayMaxGiaTriPhamTramKhuyenMai() / 100m;
+            decimal finalTotal = (tongTienThue + _giaDichVu) - giamGia;
+
+            var vi = new CultureInfo("vi-VN");
+            lbTienThuePhong.Text = "Tiền thuê phòng: " + tongTienThue.ToString("N0", vi);
+            lbMoTaKM.Text = LayTenKhuyenMai();
+            lbPhanTramKM.Text = $"{LayMaxGiaTriPhamTramKhuyenMai()}% → giảm {giamGia.ToString("N0", vi)}";
+            lbSoTienCanThanhToan.Text = finalTotal.ToString("N0", vi);
+        }
+
+        private void dtCheckIn_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime today = DateTime.Today;
+            DateTime ngayDat = dtNgayDat.Value.Date;
+            DateTime ngayCheckIn = dtCheckIn.Value.Date;
+            DateTime ngayCheckOut = dtCheckOut.Value.Date;
             if (ngayCheckIn > ngayDat)
             {
                 cbDatTruoc.Checked = true;
@@ -441,34 +655,7 @@ namespace QuanLyKhachSan
             {
                 cbDatTruoc.Checked = false;
             }
-            UpdateSoDem();
-        }
-        private void UpdateSoDem()
-        {
-            DateTime ngayCheckIn = dtCheckIn.Value.Date;
-            DateTime ngayCheckOut = dtCheckOut.Value.Date;
-            int soNgay = (ngayCheckOut - ngayCheckIn).Days;
-            if (soNgay < 1) soNgay = 1;// Nếu khách check-out cùng ngày hoặc lỡ chọn trước check-in thì ít nhất 1 đêm
-            txtThoiHan.Text = soNgay + " Ngày";
-            decimal soTienThue = _giaTheoDem * soNgay;
-            lbTienThuePhong.Text = "Tiền thuê phòng: " + soTienThue.ToString("N0", new CultureInfo("vi-VN"));
-            lbTongTien.Text = soTienThue.ToString("N0", new CultureInfo("vi-VN"));
-            lbSoTienCanThanhToan.Text = soTienThue.ToString("N0", new CultureInfo("vi-VN"));
-        }
-
-        private void dtCheckIn_ValueChanged(object sender, EventArgs e)
-        {
-            DateTime ngayCheckIn = dtCheckIn.Value.Date;
-            DateTime ngayCheckOut = dtCheckOut.Value.Date;
-            int soNgay = (ngayCheckOut - ngayCheckIn).Days;
-            if (soNgay == 0) soNgay = 1;
-            if (soNgay > 0)
-            {
-                UpdateSoDem();
-            } else
-            {
-                txtThoiHan.Text = "Vui lòng chọn ngày Check in < ngày Check out";
-            }
+            UpdateSoTien();
         }
     }
 }

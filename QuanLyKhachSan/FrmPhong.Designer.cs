@@ -34,6 +34,7 @@
             this.txtGiaDem = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbbLoaiPhong_TimKiem = new System.Windows.Forms.ComboBox();
             this.dgvPhong = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.txtSoPhong = new System.Windows.Forms.TextBox();
@@ -86,6 +87,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbbLoaiPhong_TimKiem);
             this.groupBox2.Controls.Add(this.dgvPhong);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(12, 315);
@@ -94,6 +96,16 @@
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách phòng";
+            // 
+            // cbbLoaiPhong_TimKiem
+            // 
+            this.cbbLoaiPhong_TimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbbLoaiPhong_TimKiem.FormattingEnabled = true;
+            this.cbbLoaiPhong_TimKiem.Location = new System.Drawing.Point(1346, 0);
+            this.cbbLoaiPhong_TimKiem.Name = "cbbLoaiPhong_TimKiem";
+            this.cbbLoaiPhong_TimKiem.Size = new System.Drawing.Size(265, 37);
+            this.cbbLoaiPhong_TimKiem.TabIndex = 19;
+            this.cbbLoaiPhong_TimKiem.SelectedIndexChanged += new System.EventHandler(this.cbbLoaiPhong_TimKiem_SelectedIndexChanged);
             // 
             // dgvPhong
             // 
@@ -107,7 +119,7 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvPhong.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvPhong.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPhong.Location = new System.Drawing.Point(6, 33);
+            this.dgvPhong.Location = new System.Drawing.Point(6, 43);
             this.dgvPhong.Name = "dgvPhong";
             this.dgvPhong.ReadOnly = true;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -122,7 +134,7 @@
             this.dgvPhong.RowHeadersWidth = 70;
             this.dgvPhong.RowTemplate.Height = 24;
             this.dgvPhong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPhong.Size = new System.Drawing.Size(1605, 688);
+            this.dgvPhong.Size = new System.Drawing.Size(1605, 678);
             this.dgvPhong.TabIndex = 0;
             this.dgvPhong.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhong_CellClick);
             this.dgvPhong.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhong_CellContentClick);
@@ -334,5 +346,6 @@
         private System.Windows.Forms.ComboBox cbbTrangThai;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cbbLoaiPhong_TimKiem;
     }
 }

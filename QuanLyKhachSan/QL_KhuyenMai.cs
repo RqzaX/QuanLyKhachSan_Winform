@@ -121,11 +121,11 @@ namespace QuanLyKhachSan
 
             using (var db = new QLKSDataContext())
             {
-                if (start <= today && today <= end)
-                {
-                    MessageBox.Show("Không thể xóa khuyến mãi đang còn hiệu lực.","Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                //if (start <= today && today <= end)
+                //{
+                //    MessageBox.Show("Không thể xóa khuyến mãi đang còn hiệu lực.","Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
 
                 bool used = db.DatPhongs.Any(dp => dp.khuyen_mai_id == kmId);
                 if (used)
@@ -155,11 +155,11 @@ namespace QuanLyKhachSan
                 var km = db.KhuyenMais.Single(k => k.khuyen_mai_id == kmId);
                 DateTime today = DateTime.Today;
 
-                if (km.ngay_bat_dau <= today && today <= km.ngay_ket_thuc)
-                {
-                    MessageBox.Show("Không thể sửa khuyến mãi đang có hiệu lực.","Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                //if (km.ngay_bat_dau <= today && today <= km.ngay_ket_thuc)
+                //{
+                //    MessageBox.Show("Không thể sửa khuyến mãi đang có hiệu lực.","Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
 
                 if (dtNgayBatDau.Value.Date > dtNgayKetThuc.Value.Date)
                 {

@@ -26,7 +26,8 @@ namespace QuanLyKhachSan
             panel1.Resize += (s, e) => panel1.Invalidate();
             _hoTen = HoTen;
             _chucVu = ChucVu;
-
+            lbHoTen.Text = HoTen;
+            lbChucVu.Text = ChucVu;
         }
         private void LoadFormIntoPanel(Form form)
         {

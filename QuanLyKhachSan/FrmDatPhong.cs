@@ -19,13 +19,30 @@ namespace QuanLyKhachSan
         {
             InitializeComponent();
             LoadPhongGrid();
+            LoadComboLoaiPhong();
         }
 
         private void DatPhong_Load(object sender, EventArgs e)
         {
 
         }
+        private void LoadComboLoaiPhong()
+        {
+            using (var db = new QLKSDataContext())
+            {
+                var ds = db.LoaiPhongs
+                           .Select(lp => new {
+                               lp.loai_phong_id,
+                               lp.ten_loai
+                           })
+                           .ToList();
 
+                cbbLoaiPhong.DataSource = ds;
+                cbbLoaiPhong.ValueMember = "loai_phong_id";
+                cbbLoaiPhong.DisplayMember = "ten_loai";
+                cbbLoaiPhong.SelectedIndex = -1; // chưa chọn
+            }
+        }
         private void LoadPhongGrid()
         {
             flowLayoutPanel1.Controls.Clear();
@@ -127,8 +144,10 @@ namespace QuanLyKhachSan
             {
                 case "trong":
                     {
-                        ChiTietPhongTrong frm = new ChiTietPhongTrong(phongId, trangThai);
-                        frm.ShowDialog();
+                        var f = new ChiTietPhongTrong(phongId, trangThai);
+                        f.FormClosed += (s, args) => LoadPhongGrid();
+                        f.Show();
+
                     }
                     break;
                 case "dang_su_dung":
@@ -172,6 +191,70 @@ namespace QuanLyKhachSan
             path.CloseFigure();
 
             btn.Region = new Region(path);
+        }
+
+        private void cbbLoaiPhong_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbLoaiPhong.SelectedValue is int id)
+                LoadPhongGrid(id);
+        }
+        private void LoadPhongGrid(int? loaiId = null)
+        {
+            flowLayoutPanel1.Controls.Clear();
+            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+            flowLayoutPanel1.WrapContents = true;
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.Padding = new Padding(20);
+            flowLayoutPanel1.BackColor = Color.White;
+
+            int btnWidth = 270;
+            int btnHeight = 140;
+            int margin = 5;
+
+            using (var db = new QLKSDataContext())
+            {
+                var q = db.Phongs
+                          .Join(db.LoaiPhongs,
+                                p => p.loai_phong_id,
+                                lp => lp.loai_phong_id,
+                                (p, lp) => new { p, lp })
+                          .Where(x => !loaiId.HasValue || x.p.loai_phong_id == loaiId)
+                          .OrderBy(x => x.p.so_phong);
+
+                foreach (var r in q)
+                {
+                    var btn = new Button
+                    {
+                        Size = new Size(btnWidth, btnHeight),
+                        BackColor = GetStatusColor(r.p.trang_thai),
+                        FlatStyle = FlatStyle.Flat,
+                        FlatAppearance = { BorderColor = Color.LightGray, BorderSize = 1 },
+                        Tag = r.p.phong_id,
+                        Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                        Text = $"Phòng {r.p.so_phong}\n{r.lp.ten_loai}\n\n{TranslateStatus(r.p.trang_thai)}",
+                        TextAlign = ContentAlignment.MiddleLeft,
+                        Image = GetStatusIcon(r.p.trang_thai),
+                        ImageAlign = ContentAlignment.MiddleRight,
+                        Margin = new Padding(margin),
+                        UseVisualStyleBackColor = false,
+                    };
+                    // cho phép multiline
+                    btn.AutoSize = false;
+                    btn.UseCompatibleTextRendering = true;
+                    btn.FlatAppearance.BorderSize = 0;
+                    btn.FlatAppearance.MouseOverBackColor = btn.BackColor;
+                    btn.FlatAppearance.MouseDownBackColor = btn.BackColor;
+
+                    btn.Click += (s, e) =>
+                    {
+                        int id = (int)((Button)s).Tag;
+                        string trangThai = r.p.trang_thai;
+                        OnRoomClicked(id, trangThai);
+                    };
+                    BoTronButton(btn, 20);
+                    flowLayoutPanel1.Controls.Add(btn);
+                }
+            }
         }
     }
 }

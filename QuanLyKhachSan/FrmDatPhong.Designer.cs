@@ -43,6 +43,7 @@
             this.cbbLoaiPhong.Name = "cbbLoaiPhong";
             this.cbbLoaiPhong.Size = new System.Drawing.Size(398, 37);
             this.cbbLoaiPhong.TabIndex = 3;
+            this.cbbLoaiPhong.SelectedIndexChanged += new System.EventHandler(this.cbbLoaiPhong_SelectedIndexChanged);
             // 
             // flowLayoutPanel1
             // 

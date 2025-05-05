@@ -69,17 +69,16 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtKhuyenMaiID = new System.Windows.Forms.TextBox();
             this.txtKhachId = new System.Windows.Forms.TextBox();
             this.cbDichVu = new System.Windows.Forms.CheckBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.lbSoTienCanThanhToan = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.lbPhanTramKM = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.lbTongTien = new System.Windows.Forms.Label();
-            this.lbTienDichVu = new System.Windows.Forms.Label();
             this.lbTienThuePhong = new System.Windows.Forms.Label();
+            this.lbTienDichVu = new System.Windows.Forms.Label();
+            this.lbMoTaKM = new System.Windows.Forms.Label();
+            this.lbPhanTramKM = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.lbSoTienCanThanhToan = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -202,7 +201,7 @@
             // txtMoTa
             // 
             this.txtMoTa.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMoTa.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMoTa.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMoTa.Location = new System.Drawing.Point(155, 163);
             this.txtMoTa.Multiline = true;
             this.txtMoTa.Name = "txtMoTa";
@@ -407,6 +406,7 @@
             this.dgvDichVu.Size = new System.Drawing.Size(640, 214);
             this.dgvDichVu.TabIndex = 1;
             this.dgvDichVu.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDichVu_CellClick);
+            this.dgvDichVu.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDichVu_CellMouseEnter);
             // 
             // dgvDatDichVu
             // 
@@ -553,6 +553,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.panel1.Controls.Add(this.txtKhuyenMaiID);
             this.panel1.Controls.Add(this.txtKhachId);
             this.panel1.Controls.Add(this.lbSoPhong);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -561,11 +562,18 @@
             this.panel1.Size = new System.Drawing.Size(1455, 148);
             this.panel1.TabIndex = 27;
             // 
+            // txtKhuyenMaiID
+            // 
+            this.txtKhuyenMaiID.Location = new System.Drawing.Point(362, 52);
+            this.txtKhuyenMaiID.Name = "txtKhuyenMaiID";
+            this.txtKhuyenMaiID.Size = new System.Drawing.Size(199, 22);
+            this.txtKhuyenMaiID.TabIndex = 13;
+            // 
             // txtKhachId
             // 
-            this.txtKhachId.Location = new System.Drawing.Point(349, 60);
+            this.txtKhachId.Location = new System.Drawing.Point(362, 12);
             this.txtKhachId.Name = "txtKhachId";
-            this.txtKhachId.Size = new System.Drawing.Size(100, 22);
+            this.txtKhachId.Size = new System.Drawing.Size(199, 22);
             this.txtKhachId.TabIndex = 12;
             // 
             // cbDichVu
@@ -581,35 +589,59 @@
             this.cbDichVu.UseVisualStyleBackColor = true;
             this.cbDichVu.CheckedChanged += new System.EventHandler(this.cbDichVu_CheckedChanged);
             // 
-            // groupBox6
+            // lbTienThuePhong
             // 
-            this.groupBox6.BackColor = System.Drawing.Color.White;
-            this.groupBox6.Controls.Add(this.label18);
-            this.groupBox6.Controls.Add(this.lbSoTienCanThanhToan);
-            this.groupBox6.Controls.Add(this.label16);
-            this.groupBox6.Controls.Add(this.lbPhanTramKM);
-            this.groupBox6.Controls.Add(this.label14);
-            this.groupBox6.Controls.Add(this.lbTongTien);
-            this.groupBox6.Controls.Add(this.lbTienDichVu);
-            this.groupBox6.Controls.Add(this.lbTienThuePhong);
-            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(12, 797);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(1086, 106);
-            this.groupBox6.TabIndex = 36;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Tổng số tiền dự kiến cần thanh toán";
+            this.lbTienThuePhong.AutoSize = true;
+            this.lbTienThuePhong.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTienThuePhong.Location = new System.Drawing.Point(9, 69);
+            this.lbTienThuePhong.Name = "lbTienThuePhong";
+            this.lbTienThuePhong.Size = new System.Drawing.Size(246, 28);
+            this.lbTienThuePhong.TabIndex = 0;
+            this.lbTienThuePhong.Text = "Tiền thuê phòng: 0";
             // 
-            // label18
+            // lbTienDichVu
             // 
-            this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.Transparent;
-            this.label18.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(447, 61);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(107, 24);
-            this.label18.TabIndex = 37;
-            this.label18.Text = "Tổng tiền:";
+            this.lbTienDichVu.AutoSize = true;
+            this.lbTienDichVu.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTienDichVu.Location = new System.Drawing.Point(9, 40);
+            this.lbTienDichVu.Name = "lbTienDichVu";
+            this.lbTienDichVu.Size = new System.Drawing.Size(207, 28);
+            this.lbTienDichVu.TabIndex = 1;
+            this.lbTienDichVu.Text = "Tiền dịch vụ: 0";
+            // 
+            // lbMoTaKM
+            // 
+            this.lbMoTaKM.AutoSize = true;
+            this.lbMoTaKM.BackColor = System.Drawing.Color.Transparent;
+            this.lbMoTaKM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMoTaKM.Location = new System.Drawing.Point(447, 24);
+            this.lbMoTaKM.Name = "lbMoTaKM";
+            this.lbMoTaKM.Size = new System.Drawing.Size(190, 25);
+            this.lbMoTaKM.TabIndex = 34;
+            this.lbMoTaKM.Text = "Khuyến mãi hiện có:";
+            // 
+            // lbPhanTramKM
+            // 
+            this.lbPhanTramKM.AutoSize = true;
+            this.lbPhanTramKM.BackColor = System.Drawing.Color.OrangeRed;
+            this.lbPhanTramKM.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPhanTramKM.ForeColor = System.Drawing.Color.White;
+            this.lbPhanTramKM.Location = new System.Drawing.Point(447, 58);
+            this.lbPhanTramKM.Name = "lbPhanTramKM";
+            this.lbPhanTramKM.Size = new System.Drawing.Size(60, 24);
+            this.lbPhanTramKM.TabIndex = 34;
+            this.lbPhanTramKM.Text = "100%";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(870, 24);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(166, 24);
+            this.label16.TabIndex = 35;
+            this.label16.Text = "Cần Thanh Toán";
             // 
             // lbSoTienCanThanhToan
             // 
@@ -623,70 +655,22 @@
             this.lbSoTienCanThanhToan.TabIndex = 36;
             this.lbSoTienCanThanhToan.Text = "22.000.000";
             // 
-            // label16
+            // groupBox6
             // 
-            this.label16.AutoSize = true;
-            this.label16.BackColor = System.Drawing.Color.Transparent;
-            this.label16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(870, 24);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(166, 24);
-            this.label16.TabIndex = 35;
-            this.label16.Text = "Cần Thanh Toán";
-            // 
-            // lbPhanTramKM
-            // 
-            this.lbPhanTramKM.AutoSize = true;
-            this.lbPhanTramKM.BackColor = System.Drawing.Color.Transparent;
-            this.lbPhanTramKM.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPhanTramKM.Location = new System.Drawing.Point(643, 25);
-            this.lbPhanTramKM.Name = "lbPhanTramKM";
-            this.lbPhanTramKM.Size = new System.Drawing.Size(60, 24);
-            this.lbPhanTramKM.TabIndex = 34;
-            this.lbPhanTramKM.Text = "100%";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.BackColor = System.Drawing.Color.Transparent;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(447, 24);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(190, 25);
-            this.label14.TabIndex = 34;
-            this.label14.Text = "Khuyến mãi hiện có:";
-            // 
-            // lbTongTien
-            // 
-            this.lbTongTien.AutoSize = true;
-            this.lbTongTien.BackColor = System.Drawing.Color.CadetBlue;
-            this.lbTongTien.Font = new System.Drawing.Font("Arial", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTongTien.ForeColor = System.Drawing.Color.White;
-            this.lbTongTien.Location = new System.Drawing.Point(569, 58);
-            this.lbTongTien.Name = "lbTongTien";
-            this.lbTongTien.Size = new System.Drawing.Size(131, 29);
-            this.lbTongTien.TabIndex = 2;
-            this.lbTongTien.Text = "10.000.000";
-            // 
-            // lbTienDichVu
-            // 
-            this.lbTienDichVu.AutoSize = true;
-            this.lbTienDichVu.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTienDichVu.Location = new System.Drawing.Point(9, 40);
-            this.lbTienDichVu.Name = "lbTienDichVu";
-            this.lbTienDichVu.Size = new System.Drawing.Size(207, 28);
-            this.lbTienDichVu.TabIndex = 1;
-            this.lbTienDichVu.Text = "Tiền dịch vụ: 0";
-            // 
-            // lbTienThuePhong
-            // 
-            this.lbTienThuePhong.AutoSize = true;
-            this.lbTienThuePhong.Font = new System.Drawing.Font("Consolas", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTienThuePhong.Location = new System.Drawing.Point(9, 69);
-            this.lbTienThuePhong.Name = "lbTienThuePhong";
-            this.lbTienThuePhong.Size = new System.Drawing.Size(246, 28);
-            this.lbTienThuePhong.TabIndex = 0;
-            this.lbTienThuePhong.Text = "Tiền thuê phòng: 0";
+            this.groupBox6.BackColor = System.Drawing.Color.White;
+            this.groupBox6.Controls.Add(this.lbSoTienCanThanhToan);
+            this.groupBox6.Controls.Add(this.label16);
+            this.groupBox6.Controls.Add(this.lbPhanTramKM);
+            this.groupBox6.Controls.Add(this.lbMoTaKM);
+            this.groupBox6.Controls.Add(this.lbTienDichVu);
+            this.groupBox6.Controls.Add(this.lbTienThuePhong);
+            this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.Location = new System.Drawing.Point(12, 797);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(1086, 106);
+            this.groupBox6.TabIndex = 36;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Tổng số tiền dự kiến cần thanh toán";
             // 
             // ChiTietPhongTrong
             // 
@@ -703,7 +687,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnDatPhong);
             this.Name = "ChiTietPhongTrong";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phòng trống";
             this.Load += new System.EventHandler(this.ChiTietPhongTrong_Load);
             this.groupBox1.ResumeLayout(false);
@@ -764,18 +748,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnChonKhach;
         private System.Windows.Forms.TextBox txtKhachId;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label lbTienDichVu;
-        private System.Windows.Forms.Label lbTienThuePhong;
         private System.Windows.Forms.TextBox txtGia;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label lbSoTienCanThanhToan;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label lbPhanTramKM;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label lbTongTien;
         private System.Windows.Forms.TextBox txtThoiHan;
+        private System.Windows.Forms.Label lbTienThuePhong;
+        private System.Windows.Forms.Label lbTienDichVu;
+        private System.Windows.Forms.Label lbMoTaKM;
+        private System.Windows.Forms.Label lbPhanTramKM;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label lbSoTienCanThanhToan;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TextBox txtKhuyenMaiID;
     }
 }

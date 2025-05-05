@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace QuanLyKhachSan
     public partial class FrmPhong : Form
     {
         QLKSDataContext db = new QLKSDataContext();
+        private List<LoaiPhong> _loaiPhongs;
         public FrmPhong()
         {
             InitializeComponent();
@@ -71,7 +73,7 @@ namespace QuanLyKhachSan
                 var c = dgvPhong.Columns["LoaiPhong"];
                 c.HeaderText = "Loại phòng";
                 c.Name = "LoaiPhong";
-                c.Width = 140;
+                c.Width = 180;
             }
 
             if (dgvPhong.Columns.Contains("TrangThai"))
@@ -79,7 +81,7 @@ namespace QuanLyKhachSan
                 var c = dgvPhong.Columns["TrangThai"];
                 c.HeaderText = "Trạng thái";
                 c.Name = "TrangThai";
-                c.Width = 220;
+                c.Width = 180;
             }
 
             if (dgvPhong.Columns.Contains("GiaTheoDem"))
@@ -87,7 +89,7 @@ namespace QuanLyKhachSan
                 var c = dgvPhong.Columns["GiaTheoDem"];
                 c.HeaderText = "Giá theo đêm";
                 c.Name = "GiaTheoDem";
-                c.Width = 220;
+                c.Width = 180;
                 c.DefaultCellStyle.Format = "N0";
             }
 
@@ -118,30 +120,38 @@ namespace QuanLyKhachSan
         private void LoadLoaiPhong()
         {
             var dsLoai = db.LoaiPhongs
-                           .Select(lp => new {
+                           .Select(lp => new
+                           {
                                lp.loai_phong_id,
                                lp.ten_loai
                            })
                            .ToList();
-
-            cbbLoaiPhong.DataSource = dsLoai;
+            using (var db = new QLKSDataContext())
+            {
+                _loaiPhongs = db.LoaiPhongs
+                                .OrderBy(lp => lp.ten_loai)
+                                .ToList();
+            }
+            cbbLoaiPhong.DataSource = _loaiPhongs;
             cbbLoaiPhong.DisplayMember = "ten_loai";
             cbbLoaiPhong.ValueMember = "loai_phong_id";
             cbbLoaiPhong.SelectedIndex = -1;
+            cbbLoaiPhong_TimKiem.DataSource = dsLoai;
+            cbbLoaiPhong_TimKiem.DisplayMember = "ten_loai";
+            cbbLoaiPhong_TimKiem.ValueMember = "loai_phong_id";
+            cbbLoaiPhong_TimKiem.SelectedIndex = -1;
         }
 
         private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             var row = dgvPhong.Rows[e.RowIndex];
-
             txtMaPhong.Text = row.Cells["Id"].Value?.ToString();
-            txtSoPhong.Text = row.Cells["SoPhong"].Value?.ToString();
+            txtSoPhong.Text = dgvPhong.SelectedCells[2].Value.ToString();
             cbbLoaiPhong.Text = row.Cells["LoaiPhong"].Value?.ToString();
-            cbbTrangThai.Text = row.Cells["TrangThai"].Value?.ToString();
-
+            cbbTrangThai.Text = dgvPhong.SelectedCells[6].Value.ToString();
             //Lấy giá gốc
-            var val = row.Cells["GiaTheoDem"].Value;
+            var val = dgvPhong.SelectedCells[5].Value.ToString();
             if (val != null && decimal.TryParse(val.ToString(), out var gia))
             {
                 // Format
@@ -281,25 +291,117 @@ namespace QuanLyKhachSan
 
         private void cbbLoaiPhong_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(cbbLoaiPhong.Text)
+            if (cbbLoaiPhong.SelectedValue is int id)
             {
-                case "Phòng gia đình":
+                // Lấy object
+                var lp = _loaiPhongs.FirstOrDefault(x => x.loai_phong_id == id);
+                if (lp != null)
+                {
+                    txtGiaDem.Text = lp.gia_theo_dem.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                }
+            }
+            else
+            {
+                txtGiaDem.Clear();
+            }
+        }
+
+        private void cbbLoaiPhong_TimKiem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!(cbbLoaiPhong_TimKiem.SelectedValue is int loaiId))
+                return;
+            //int loaiId = cbbLoaiPhong_TimKiem.SelectedValue;
+            LoadPhongTheoLoai(loaiId);
+        }
+        private void LoadPhongTheoLoai(int loaiPhongId)
+        {
+            using (var db = new QLKSDataContext())
+            {
+                var ds = (from p in db.Phongs
+                          join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                          where p.loai_phong_id == loaiPhongId
+                          orderby p.so_phong
+                          select new
+                          {
+                              Id = p.phong_id,
+                              SoPhong = p.so_phong,
+                              LoaiId = p.loai_phong_id,
+                              LoaiPhong = lp.ten_loai,
+                              GiaTheoDem = lp.gia_theo_dem,
+                              TrangThai = p.trang_thai == "trong" ? "Trống"
+                                     : p.trang_thai == "dang_su_dung" ? "Đang sử dụng"
+                                     : p.trang_thai == "bao_tri" ? "Bảo trì"
+                                     : p.trang_thai == "da_dat" ? "Đã đặt"
+                                     : p.trang_thai,
+                              MoTa = lp.mo_ta
+                          })
+                          .ToList();
+
+                dgvPhong.DataSource = ds;
+
+                // Ẩn cột
+                if (dgvPhong.Columns.Contains("Id"))
+                    dgvPhong.Columns["Id"].Visible = false;
+                if (dgvPhong.Columns.Contains("LoaiId"))
+                    dgvPhong.Columns["LoaiId"].Visible = false;
+
+                // Đổi header và Name
+                if (dgvPhong.Columns.Contains("SoPhong"))
+                {
+                    var c = dgvPhong.Columns["SoPhong"];
+                    c.HeaderText = "Số phòng";
+                    c.Name = "SoPhong";
+                    c.Width = 120;
+                }
+
+                if (dgvPhong.Columns.Contains("LoaiPhong"))
+                {
+                    var c = dgvPhong.Columns["LoaiPhong"];
+                    c.HeaderText = "Loại phòng";
+                    c.Name = "LoaiPhong";
+                    c.Width = 140;
+                }
+
+                if (dgvPhong.Columns.Contains("TrangThai"))
+                {
+                    var c = dgvPhong.Columns["TrangThai"];
+                    c.HeaderText = "Trạng thái";
+                    c.Name = "TrangThai";
+                    c.Width = 220;
+                }
+
+                if (dgvPhong.Columns.Contains("GiaTheoDem"))
+                {
+                    var c = dgvPhong.Columns["GiaTheoDem"];
+                    c.HeaderText = "Giá theo đêm";
+                    c.Name = "GiaTheoDem";
+                    c.Width = 220;
+                    c.DefaultCellStyle.Format = "N0";
+                }
+
+                if (dgvPhong.Columns.Contains("MoTa"))
+                {
+                    var c = dgvPhong.Columns["MoTa"];
+                    c.HeaderText = "Mô tả";
+                    c.Name = "MoTa";
+                    c.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+
+                // Thêm cột ảnh 1 lần (nếu chưa có)
+                if (!dgvPhong.Columns.Contains("ThaoTac"))
+                {
+                    var img = Properties.Resources.delete;
+                    var imgCol = new DataGridViewImageColumn
                     {
-                        txtGiaDem.Text = "1500000";
-                    }
-                    break;
-                case "Giường đôi":
-                    {
-                        txtGiaDem.Text = "2500000";
-                    }
-                    break;
-                case "Giường đơn":
-                    {
-                        txtGiaDem.Text = "800000";
-                    }
-                    break;
-                default:
-                    break;
+                        Name = "ThaoTac",
+                        HeaderText = "Thao tác",
+                        Image = img,
+                        ImageLayout = DataGridViewImageCellLayout.Zoom,
+                        Width = 95,
+                        SortMode = DataGridViewColumnSortMode.NotSortable
+                    };
+                    dgvPhong.Columns.Add(imgCol);
+                }
             }
         }
     }
