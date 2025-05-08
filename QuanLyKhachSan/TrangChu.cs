@@ -18,12 +18,12 @@ namespace QuanLyKhachSan
         public TrangChu(string HoTen, string ChucVu)
         {
             InitializeComponent();
-            panel1.GetType()
-                  .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
-                  .SetValue(panel1, true, null);
+            //panel1.GetType()
+            //      .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+            //      .SetValue(panel1, true, null);
 
-            panel1.Paint += panel1_Paint;
-            panel1.Resize += (s, e) => panel1.Invalidate();
+            //panel1.Paint += panel1_Paint;
+            //panel1.Resize += (s, e) => panel1.Invalidate();
             _hoTen = HoTen;
             _chucVu = ChucVu;
             lbHoTen.Text = HoTen;
@@ -76,6 +76,7 @@ namespace QuanLyKhachSan
 
         private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            InfoNhanVien.CurrentUser = null;
             Login login = new Login();
             login.Show();
             this.Hide();
@@ -124,17 +125,17 @@ namespace QuanLyKhachSan
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Color cStart = Color.FromArgb(72, 209, 204);
-            Color cEnd = Color.FromArgb(37, 187, 179);
+            //Color cStart = Color.FromArgb(72, 209, 204);
+            //Color cEnd = Color.FromArgb(37, 187, 179);
 
-            using (var brush = new LinearGradientBrush(
-                panel1.ClientRectangle,
-                cStart,
-                cEnd,
-                LinearGradientMode.Horizontal))
-            {
-                e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
-            }
+            //using (var brush = new LinearGradientBrush(
+            //    panel1.ClientRectangle,
+            //    cStart,
+            //    cEnd,
+            //    LinearGradientMode.Horizontal))
+            //{
+            //    e.Graphics.FillRectangle(brush, panel1.ClientRectangle);
+            //}
         }
 
         private void btnTrangChu_MouseEnter(object sender, EventArgs e)
