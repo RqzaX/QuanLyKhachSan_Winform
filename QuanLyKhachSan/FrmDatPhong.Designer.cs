@@ -32,6 +32,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.lbKhuyenMai = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.White;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(23, 200);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1569, 834);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1598, 834);
             this.flowLayoutPanel1.TabIndex = 6;
             // 
             // panel1
@@ -60,7 +61,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1604, 132);
+            this.panel1.Size = new System.Drawing.Size(1631, 132);
             this.panel1.TabIndex = 7;
             // 
             // label1
@@ -74,12 +75,23 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "ĐẶT PHÒNG";
             // 
+            // lbKhuyenMai
+            // 
+            this.lbKhuyenMai.AutoSize = true;
+            this.lbKhuyenMai.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbKhuyenMai.Location = new System.Drawing.Point(1014, 157);
+            this.lbKhuyenMai.Name = "lbKhuyenMai";
+            this.lbKhuyenMai.Size = new System.Drawing.Size(349, 24);
+            this.lbKhuyenMai.TabIndex = 8;
+            this.lbKhuyenMai.Text = "Hôm nay không có khuyến mãi nào!";
+            // 
             // FrmDatPhong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1604, 1046);
+            this.ClientSize = new System.Drawing.Size(1631, 1046);
             this.ControlBox = false;
+            this.Controls.Add(this.lbKhuyenMai);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.cbbLoaiPhong);
@@ -90,6 +102,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -98,5 +111,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbKhuyenMai;
     }
 }

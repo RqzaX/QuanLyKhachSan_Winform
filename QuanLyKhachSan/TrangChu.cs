@@ -246,6 +246,11 @@ namespace QuanLyKhachSan
             btn.ForeColor = Color.White;
         }
 
+        private void TrangChu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void quảnLýKhuyênMãiToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QL_KhuyenMai frm = new QL_KhuyenMai();

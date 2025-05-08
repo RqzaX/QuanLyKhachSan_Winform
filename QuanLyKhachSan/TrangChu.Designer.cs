@@ -31,16 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChu));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnPhong = new System.Windows.Forms.Button();
             this.btnDichVu = new System.Windows.Forms.Button();
-            this.lbChucVu = new System.Windows.Forms.Label();
-            this.lbHoTen = new System.Windows.Forms.Label();
+            this.lbChucVu = new RainbowGradientLabel();
+            this.lbHoTen = new RainbowGradientLabel();
             this.btnMyProfile = new System.Windows.Forms.Button();
             this.contextMenuProfile = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.thôngTinCáNhânToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnQuyDinh = new System.Windows.Forms.Button();
             this.btnNhanVien = new System.Windows.Forms.Button();
             this.btnDatPhong = new System.Windows.Forms.Button();
             this.btnBaoCao = new System.Windows.Forms.Button();
@@ -72,6 +72,7 @@
             this.xuấtChoTiếtHóaĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelChinh = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuProfile.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -79,12 +80,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.btnPhong);
             this.panel1.Controls.Add(this.btnDichVu);
             this.panel1.Controls.Add(this.lbChucVu);
             this.panel1.Controls.Add(this.lbHoTen);
             this.panel1.Controls.Add(this.btnMyProfile);
-            this.panel1.Controls.Add(this.btnQuyDinh);
             this.panel1.Controls.Add(this.btnNhanVien);
             this.panel1.Controls.Add(this.btnDatPhong);
             this.panel1.Controls.Add(this.btnBaoCao);
@@ -98,6 +99,17 @@
             this.panel1.Size = new System.Drawing.Size(324, 1046);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::QuanLyKhachSan.Properties.Resources.Neutral_Elegant_Minimalist_Jewelry_Logo_removebg_preview;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 39);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(324, 111);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // btnPhong
             // 
@@ -142,7 +154,7 @@
             this.lbChucVu.AutoSize = true;
             this.lbChucVu.BackColor = System.Drawing.Color.Transparent;
             this.lbChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbChucVu.Location = new System.Drawing.Point(12, 997);
+            this.lbChucVu.Location = new System.Drawing.Point(3, 861);
             this.lbChucVu.Name = "lbChucVu";
             this.lbChucVu.Size = new System.Drawing.Size(108, 29);
             this.lbChucVu.TabIndex = 11;
@@ -153,7 +165,7 @@
             this.lbHoTen.AutoSize = true;
             this.lbHoTen.BackColor = System.Drawing.Color.Transparent;
             this.lbHoTen.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHoTen.Location = new System.Drawing.Point(12, 968);
+            this.lbHoTen.Location = new System.Drawing.Point(3, 832);
             this.lbHoTen.Name = "lbHoTen";
             this.lbHoTen.Size = new System.Drawing.Size(175, 29);
             this.lbHoTen.TabIndex = 10;
@@ -168,9 +180,9 @@
             this.btnMyProfile.Font = new System.Drawing.Font("Corbel", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMyProfile.ForeColor = System.Drawing.Color.White;
             this.btnMyProfile.Image = global::QuanLyKhachSan.Properties.Resources.setting_icon_184083;
-            this.btnMyProfile.Location = new System.Drawing.Point(222, 965);
+            this.btnMyProfile.Location = new System.Drawing.Point(235, 820);
             this.btnMyProfile.Name = "btnMyProfile";
-            this.btnMyProfile.Size = new System.Drawing.Size(99, 78);
+            this.btnMyProfile.Size = new System.Drawing.Size(77, 80);
             this.btnMyProfile.TabIndex = 9;
             this.btnMyProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMyProfile.UseVisualStyleBackColor = false;
@@ -207,25 +219,6 @@
             this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(200, 26);
             this.đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
             this.đăngXuấtToolStripMenuItem.Click += new System.EventHandler(this.đăngXuấtToolStripMenuItem_Click);
-            // 
-            // btnQuyDinh
-            // 
-            this.btnQuyDinh.BackColor = System.Drawing.Color.Transparent;
-            this.btnQuyDinh.FlatAppearance.BorderSize = 0;
-            this.btnQuyDinh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnQuyDinh.Font = new System.Drawing.Font("Century Gothic", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQuyDinh.ForeColor = System.Drawing.Color.White;
-            this.btnQuyDinh.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
-            this.btnQuyDinh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnQuyDinh.Location = new System.Drawing.Point(0, 812);
-            this.btnQuyDinh.Name = "btnQuyDinh";
-            this.btnQuyDinh.Size = new System.Drawing.Size(324, 76);
-            this.btnQuyDinh.TabIndex = 8;
-            this.btnQuyDinh.Text = "Quy Định";
-            this.btnQuyDinh.UseVisualStyleBackColor = false;
-            this.btnQuyDinh.Click += new System.EventHandler(this.btnQuyDinh_Click);
-            this.btnQuyDinh.MouseEnter += new System.EventHandler(this.btnQuyDinh_MouseEnter);
-            this.btnQuyDinh.MouseLeave += new System.EventHandler(this.btnQuyDinh_MouseLeave);
             // 
             // btnNhanVien
             // 
@@ -527,9 +520,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1924, 1046);
             this.Controls.Add(this.panelChinh);
             this.Controls.Add(this.panel1);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
@@ -537,9 +532,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TrangChu_FormClosed);
             this.Load += new System.EventHandler(this.TrangChu_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.contextMenuProfile.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -551,7 +548,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnTrangChu;
-        private System.Windows.Forms.Button btnQuyDinh;
         private System.Windows.Forms.Button btnBaoCao;
         private System.Windows.Forms.Button btnHoaDon;
         private System.Windows.Forms.Button btnDatPhong;
@@ -563,8 +559,8 @@
         private System.Windows.Forms.ToolStripMenuItem thôngTinCáNhânToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
-        private System.Windows.Forms.Label lbChucVu;
-        private System.Windows.Forms.Label lbHoTen;
+        private RainbowGradientLabel lbHoTen;
+        private RainbowGradientLabel lbChucVu;
         private System.Windows.Forms.Button btnDichVu;
         private System.Windows.Forms.Button btnPhong;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -590,5 +586,6 @@
         private System.Windows.Forms.ToolStripMenuItem xuấtChoTiếtHóaĐơnToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem thoátToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -496,11 +496,11 @@ namespace QuanLyKhachSan
             var email = txtEmail.Text.Trim();
             if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
+                // có thể để trống gmail
+                if (txtEmail.Text.Length == 0) return true;
                 MessageBox.Show("Email không đúng định dạng.", "Lỗi định dạng",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
-                // có thể để trống gmail
-                if (txtEmail.Text.Length == 0) return true;
                 return false;
             }
 
@@ -533,10 +533,13 @@ namespace QuanLyKhachSan
                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (ngayTraPhong <= ngayNhanPhong)
+                int days = (ngayTraPhong - ngayNhanPhong).Days;
+                if (days == 0) days = 1;
+                if (days < 1)
                 {
-                    MessageBox.Show("Ngày trả phải lớn hơn ngày nhận.", "Lỗi",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Bạn phải chọn ngày trả sau ngày nhận ít nhất 1 ngày.", "Lỗi",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
                     return;
                 }
                 string trangThaiPhong = "";
@@ -560,8 +563,16 @@ namespace QuanLyKhachSan
                 }
                 else
                 {
+                    int newId = AddKhachHang(
+                               txtHoTen.Text,
+                               txtDiaChi.Text,
+                               txtSDT.Text,
+                               txtEmail.Text,
+                               txtCCCD.Text
+                               );
                     dp = new DatPhong
                     {
+                        khach_hang_id = newId,
                         phong_id = ID,
                         nhan_vien_id = infoNhanVien.nhan_vien_id,
                         khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
@@ -602,7 +613,23 @@ namespace QuanLyKhachSan
                 this.Close();
             }
         }
-
+        private int AddKhachHang(string hoTen, string diaChi, string sdt, string email, string cccd)
+        {
+            using (var db = new QLKSDataContext())
+            {
+                var kh = new KhachHang
+                {
+                    ho_ten = hoTen.Trim(),
+                    dia_chi = diaChi.Trim(),
+                    so_dien_thoai = sdt.Trim(),
+                    email = email.Trim(),
+                    cccd = cccd.Trim()
+                };
+                db.KhachHangs.InsertOnSubmit(kh);
+                db.SubmitChanges();
+                return kh.khach_hang_id;
+            }
+        }
         private void dtCheckOut_ValueChanged(object sender, EventArgs e)
         {
             DateTime today = DateTime.Today;

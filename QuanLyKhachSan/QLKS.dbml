@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLKS" Class="QLKSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-2L5G5GIH\SQLEXPRESS03;Initial Catalog=QLKS;Integrated Security=True;Encrypt=True" SettingsObjectName="QuanLyKhachSan.Properties.Settings" SettingsPropertyName="QLKSConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-R1ZAX\MSSQLSERVER01;Initial Catalog=QLKS;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="QuanLyKhachSan.Properties.Settings" SettingsPropertyName="QLKSConnectionString3" Provider="System.Data.SqlClient" />
   <Table Name="dbo.DatPhong" Member="DatPhongs">
     <Type Name="DatPhong">
       <Column Name="dat_phong_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -17,6 +17,13 @@
       <Association Name="KhuyenMai_DatPhong" Member="KhuyenMai" ThisKey="khuyen_mai_id" OtherKey="khuyen_mai_id" Type="KhuyenMai" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="NhanVien_DatPhong" Member="NhanVien" ThisKey="nhan_vien_id" OtherKey="nhan_vien_id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="Phong_DatPhong" Member="Phong" ThisKey="phong_id" OtherKey="phong_id" Type="Phong" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VaiTro" Member="VaiTros">
+    <Type Name="VaiTro">
+      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ten_vai_tro" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="VaiTro_NhanVien" Member="NhanViens" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="NhanVien" />
     </Type>
   </Table>
   <Table Name="dbo.DichVu" Member="DichVus">
@@ -86,12 +93,12 @@
     <Type Name="NhanVien">
       <Column Name="nhan_vien_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ho_ten" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="sdt" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="sdt" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
       <Column Name="vai_tro_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ca_lam_viec" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ca_lam_viec" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="luong" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
-      <Column Name="tai_khoan" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="mat_khau" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="tai_khoan" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="mat_khau" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
       <Association Name="NhanVien_DatPhong" Member="DatPhongs" ThisKey="nhan_vien_id" OtherKey="nhan_vien_id" Type="DatPhong" />
       <Association Name="NhanVien_HoaDon" Member="HoaDons" ThisKey="nhan_vien_id" OtherKey="nhan_vien_id" Type="HoaDon" />
       <Association Name="VaiTro_NhanVien" Member="VaiTro" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="VaiTro" IsForeignKey="true" />
@@ -115,13 +122,6 @@
       <Column Name="phuong_thuc" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
       <Column Name="ngay_thanh_toan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Association Name="HoaDon_ThanhToan" Member="HoaDon" ThisKey="hoa_don_id" OtherKey="hoa_don_id" Type="HoaDon" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.VaiTro" Member="VaiTros">
-    <Type Name="VaiTro">
-      <Column Name="vai_tro_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ten_vai_tro" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="VaiTro_NhanVien" Member="NhanViens" ThisKey="vai_tro_id" OtherKey="vai_tro_id" Type="NhanVien" />
     </Type>
   </Table>
 </Database>

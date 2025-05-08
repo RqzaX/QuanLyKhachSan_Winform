@@ -44,6 +44,7 @@
             this.dgvTimKiem = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbSoPhong = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTimKiem)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,9 +57,9 @@
             this.btnGoiDonPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGoiDonPhong.Image = global::QuanLyKhachSan.Properties.Resources.clean_icon_215881__2_;
             this.btnGoiDonPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGoiDonPhong.Location = new System.Drawing.Point(1007, 161);
+            this.btnGoiDonPhong.Location = new System.Drawing.Point(1250, 158);
             this.btnGoiDonPhong.Name = "btnGoiDonPhong";
-            this.btnGoiDonPhong.Size = new System.Drawing.Size(303, 85);
+            this.btnGoiDonPhong.Size = new System.Drawing.Size(265, 85);
             this.btnGoiDonPhong.TabIndex = 6;
             this.btnGoiDonPhong.Text = "Gọi Dọn Phòng";
             this.btnGoiDonPhong.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -73,9 +74,9 @@
             this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Image = global::QuanLyKhachSan.Properties.Resources.cancelled_rule_icon_217027;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button4.Location = new System.Drawing.Point(1007, 252);
+            this.button4.Location = new System.Drawing.Point(1250, 249);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(303, 83);
+            this.button4.Size = new System.Drawing.Size(265, 83);
             this.button4.TabIndex = 4;
             this.button4.Text = "Gọi Bảo Vệ";
             this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -87,14 +88,14 @@
             this.btnTongNhanVien.BackColor = System.Drawing.Color.Lavender;
             this.btnTongNhanVien.FlatAppearance.BorderSize = 0;
             this.btnTongNhanVien.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTongNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTongNhanVien.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTongNhanVien.Image = global::QuanLyKhachSan.Properties.Resources.group_profile_users_icon_icons_com_73540;
             this.btnTongNhanVien.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnTongNhanVien.Location = new System.Drawing.Point(580, 161);
+            this.btnTongNhanVien.Location = new System.Drawing.Point(859, 158);
             this.btnTongNhanVien.Name = "btnTongNhanVien";
-            this.btnTongNhanVien.Size = new System.Drawing.Size(412, 174);
+            this.btnTongNhanVien.Size = new System.Drawing.Size(385, 174);
             this.btnTongNhanVien.TabIndex = 2;
-            this.btnTongNhanVien.Text = "Tổng Nhân Viên: 10\r\n- Trong Ca: 6\r\n- Ngoài Ca: 4\r\n- Đuổi Việc: 1";
+            this.btnTongNhanVien.Text = "➜ Phòng đặt trước\r\ncheck-in hôm nay: 5";
             this.btnTongNhanVien.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTongNhanVien.UseVisualStyleBackColor = false;
             this.btnTongNhanVien.Click += new System.EventHandler(this.button2_Click);
@@ -104,10 +105,10 @@
             this.btnThongTinPhong.BackColor = System.Drawing.Color.PaleTurquoise;
             this.btnThongTinPhong.FlatAppearance.BorderSize = 0;
             this.btnThongTinPhong.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThongTinPhong.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnThongTinPhong.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThongTinPhong.Image = global::QuanLyKhachSan.Properties.Resources.homemono_105947__1_;
             this.btnThongTinPhong.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnThongTinPhong.Location = new System.Drawing.Point(153, 161);
+            this.btnThongTinPhong.Location = new System.Drawing.Point(23, 158);
             this.btnThongTinPhong.Name = "btnThongTinPhong";
             this.btnThongTinPhong.Size = new System.Drawing.Size(412, 174);
             this.btnThongTinPhong.TabIndex = 1;
@@ -147,6 +148,7 @@
             this.rdoPhong.TabStop = true;
             this.rdoPhong.Text = "Phòng";
             this.rdoPhong.UseVisualStyleBackColor = true;
+            this.rdoPhong.CheckedChanged += new System.EventHandler(this.rdoPhong_CheckedChanged);
             // 
             // rdoKhach
             // 
@@ -159,6 +161,7 @@
             this.rdoKhach.TabStop = true;
             this.rdoKhach.Text = "Khách";
             this.rdoKhach.UseVisualStyleBackColor = true;
+            this.rdoKhach.CheckedChanged += new System.EventHandler(this.rdoKhach_CheckedChanged);
             // 
             // rdoNhanVien
             // 
@@ -171,6 +174,7 @@
             this.rdoNhanVien.TabStop = true;
             this.rdoNhanVien.Text = "Nhân viên";
             this.rdoNhanVien.UseVisualStyleBackColor = true;
+            this.rdoNhanVien.CheckedChanged += new System.EventHandler(this.rdoNhanVien_CheckedChanged);
             // 
             // rdoHoaDon
             // 
@@ -183,6 +187,7 @@
             this.rdoHoaDon.TabStop = true;
             this.rdoHoaDon.Text = "Hóa đơn";
             this.rdoHoaDon.UseVisualStyleBackColor = true;
+            this.rdoHoaDon.CheckedChanged += new System.EventHandler(this.rdoHoaDon_CheckedChanged);
             // 
             // dgvTimKiem
             // 
@@ -232,7 +237,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1531, 126);
+            this.panel1.Size = new System.Drawing.Size(1531, 132);
             this.panel1.TabIndex = 28;
             // 
             // lbSoPhong
@@ -246,6 +251,22 @@
             this.lbSoPhong.TabIndex = 11;
             this.lbSoPhong.Text = "TRANG CHỦ TỔNG QUAN";
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Honeydew;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Arial", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Image = global::QuanLyKhachSan.Properties.Resources.group_profile_users_icon_icons_com_73540;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.Location = new System.Drawing.Point(441, 158);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(412, 174);
+            this.button1.TabIndex = 29;
+            this.button1.Text = "➜ Trả phòng hôm nay: 3";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // TrangChu2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -253,6 +274,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1531, 1046);
             this.ControlBox = false;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dgvTimKiem);
             this.Controls.Add(this.rdoHoaDon);
@@ -292,5 +314,6 @@
         private System.Windows.Forms.DataGridView dgvTimKiem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lbSoPhong;
+        private System.Windows.Forms.Button button1;
     }
 }

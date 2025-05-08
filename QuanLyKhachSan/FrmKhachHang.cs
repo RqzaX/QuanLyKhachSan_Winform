@@ -25,6 +25,7 @@ namespace QuanLyKhachSan
             FixColumnHeaders();
             dgvKhachHang.Columns[0].Visible = false;
             dgvKhachHang.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvKhachHang.RowTemplate.Height = 35;
         }
 
         private void Khach_FormClosing(object sender, FormClosingEventArgs e)

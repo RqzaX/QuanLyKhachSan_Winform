@@ -263,6 +263,16 @@ namespace QuanLyKhachSan.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Neutral_Elegant_Minimalist_Jewelry_Logo_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Neutral_Elegant_Minimalist_Jewelry_Logo-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap phone_call_auricular_symbol_in_black_icon_icons_com_56483 {
             get {
                 object obj = ResourceManager.GetObject("phone-call-auricular-symbol-in-black_icon-icons.com_56483", resourceCulture);
@@ -396,6 +406,26 @@ namespace QuanLyKhachSan.Properties {
         internal static System.Drawing.Bitmap trash_can_115312__1_ {
             get {
                 object obj = ResourceManager.GetObject("trash-can_115312 (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Vinpearl_Luxury_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Vinpearl_Luxury_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Vinpearl_Luxury_Logo_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Vinpearl_Luxury_Logo-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

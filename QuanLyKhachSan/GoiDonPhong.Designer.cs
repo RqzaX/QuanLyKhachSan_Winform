@@ -78,6 +78,7 @@
             this.dgvPhong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPhong.Size = new System.Drawing.Size(1027, 591);
             this.dgvPhong.TabIndex = 0;
+            this.dgvPhong.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhong_CellClick);
             // 
             // label1
             // 
@@ -89,14 +90,14 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Chọn phòng cần dọn";
             // 
-            // FrmGoiDonPhong
+            // GoiDonPhong
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1063, 750);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
-            this.Name = "FrmGoiDonPhong";
+            this.Name = "GoiDonPhong";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmGoiDonPhong";
             this.groupBox2.ResumeLayout(false);

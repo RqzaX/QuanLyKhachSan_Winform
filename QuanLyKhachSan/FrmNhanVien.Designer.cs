@@ -40,7 +40,6 @@
             this.btnThem = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbbCaLamViec = new System.Windows.Forms.ComboBox();
-            this.btnThemChucVu = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
             this.cbbChucVu = new System.Windows.Forms.ComboBox();
             this.cbCapTaiKhoan = new System.Windows.Forms.CheckBox();
@@ -78,7 +77,7 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(518, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(106, 22);
+            this.label7.Size = new System.Drawing.Size(113, 24);
             this.label7.TabIndex = 12;
             this.label7.Text = "Lương (vnđ)";
             // 
@@ -87,7 +86,7 @@
             this.txtLuong.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLuong.Location = new System.Drawing.Point(651, 145);
             this.txtLuong.Name = "txtLuong";
-            this.txtLuong.Size = new System.Drawing.Size(331, 30);
+            this.txtLuong.Size = new System.Drawing.Size(327, 30);
             this.txtLuong.TabIndex = 11;
             // 
             // label6
@@ -96,7 +95,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(523, 105);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(103, 22);
+            this.label6.Size = new System.Drawing.Size(107, 24);
             this.label6.TabIndex = 10;
             this.label6.Text = "Ca làm việc";
             // 
@@ -106,7 +105,7 @@
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(548, 60);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(76, 22);
+            this.label5.Size = new System.Drawing.Size(80, 24);
             this.label5.TabIndex = 8;
             this.label5.Text = "Chức vụ";
             // 
@@ -172,7 +171,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cbbCaLamViec);
-            this.groupBox1.Controls.Add(this.btnThemChucVu);
             this.groupBox1.Controls.Add(this.btnSua);
             this.groupBox1.Controls.Add(this.cbbChucVu);
             this.groupBox1.Controls.Add(this.cbCapTaiKhoan);
@@ -214,19 +212,6 @@
             this.cbbCaLamViec.Size = new System.Drawing.Size(327, 33);
             this.cbbCaLamViec.TabIndex = 21;
             // 
-            // btnThemChucVu
-            // 
-            this.btnThemChucVu.BackColor = System.Drawing.Color.Lime;
-            this.btnThemChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemChucVu.ForeColor = System.Drawing.Color.Black;
-            this.btnThemChucVu.Location = new System.Drawing.Point(941, 54);
-            this.btnThemChucVu.Name = "btnThemChucVu";
-            this.btnThemChucVu.Size = new System.Drawing.Size(37, 37);
-            this.btnThemChucVu.TabIndex = 20;
-            this.btnThemChucVu.Text = "✚";
-            this.btnThemChucVu.UseVisualStyleBackColor = false;
-            this.btnThemChucVu.Click += new System.EventHandler(this.btnThemChucVu_Click);
-            // 
             // btnSua
             // 
             this.btnSua.BackColor = System.Drawing.Color.LemonChiffon;
@@ -246,7 +231,7 @@
             this.cbbChucVu.FormattingEnabled = true;
             this.cbbChucVu.Location = new System.Drawing.Point(651, 55);
             this.cbbChucVu.Name = "cbbChucVu";
-            this.cbbChucVu.Size = new System.Drawing.Size(284, 33);
+            this.cbbChucVu.Size = new System.Drawing.Size(327, 33);
             this.cbbChucVu.TabIndex = 18;
             // 
             // cbCapTaiKhoan
@@ -267,7 +252,7 @@
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(1014, 138);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(83, 22);
+            this.label9.Size = new System.Drawing.Size(86, 24);
             this.label9.TabIndex = 16;
             this.label9.Text = "Mật khẩu";
             // 
@@ -285,7 +270,7 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(1007, 102);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 22);
+            this.label8.Size = new System.Drawing.Size(93, 24);
             this.label8.TabIndex = 14;
             this.label8.Text = "Tài khoản";
             // 
@@ -303,7 +288,7 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(12, 150);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(115, 22);
+            this.label12.Size = new System.Drawing.Size(121, 24);
             this.label12.TabIndex = 6;
             this.label12.Text = "Số điện thoại";
             // 
@@ -321,7 +306,7 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(40, 105);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(87, 22);
+            this.label11.Size = new System.Drawing.Size(90, 24);
             this.label11.TabIndex = 4;
             this.label11.Text = "Họ và tên";
             // 
@@ -339,7 +324,7 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(12, 60);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(117, 22);
+            this.label10.Size = new System.Drawing.Size(124, 24);
             this.label10.TabIndex = 2;
             this.label10.Text = "Mã nhân viên";
             // 
@@ -403,7 +388,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtTaiKhoan;
         private System.Windows.Forms.Button btnSua;
-        private System.Windows.Forms.Button btnThemChucVu;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtSDT;
         private System.Windows.Forms.Label label11;

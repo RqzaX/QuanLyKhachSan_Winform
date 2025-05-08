@@ -18,20 +18,50 @@ namespace QuanLyKhachSan
         public FrmDatPhong()
         {
             InitializeComponent();
-            LoadPhongGrid();
             LoadComboLoaiPhong();
+            ShowKhuyenMaiActive();
+            LoadPhongGrid();
         }
 
         private void DatPhong_Load(object sender, EventArgs e)
         {
 
         }
+        private void ShowKhuyenMaiActive()
+        {
+            DateTime today = DateTime.Today;
+            using (var db = new QLKSDataContext())
+            {
+                // Lấy danh sách tên KM đang có hiệu lực hôm nay
+                var names = db.KhuyenMais
+                              .Where(km => km.ngay_bat_dau <= today
+                                        && km.ngay_ket_thuc >= today)
+                              .Select(km => km.ten_khuyen_mai)
+                              .ToList();
+
+                if (names.Count == 0)
+                {
+                    lbKhuyenMai.Text = "Hôm nay không có khuyến mãi (≧﹏≦)";
+                }
+                else
+                {
+                    string topName = db.KhuyenMais
+                        .Where(km => km.ngay_bat_dau <= today && km.ngay_ket_thuc >= today)
+                        .OrderByDescending(km => km.phan_tram)
+                        .Select(km => km.ten_khuyen_mai)
+                        .FirstOrDefault();
+                    lbKhuyenMai.Text = "Khuyến mãi hôm nay: " + topName;
+                }
+            }
+        }
+
         private void LoadComboLoaiPhong()
         {
             using (var db = new QLKSDataContext())
             {
                 var ds = db.LoaiPhongs
-                           .Select(lp => new {
+                           .Select(lp => new
+                           {
                                lp.loai_phong_id,
                                lp.ten_loai
                            })
@@ -43,7 +73,7 @@ namespace QuanLyKhachSan
                 cbbLoaiPhong.SelectedIndex = -1; // chưa chọn
             }
         }
-        private void LoadPhongGrid()
+        private void LoadPhongGrid(int? loaiId = null)
         {
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
@@ -52,51 +82,81 @@ namespace QuanLyKhachSan
             flowLayoutPanel1.Padding = new Padding(20);
             flowLayoutPanel1.BackColor = Color.White;
 
-            int btnWidth = 270;
-            int btnHeight = 140;
-            int margin = 5;
+            int btnWidth = 270, btnHeight = 140, margin = 5;
+            DateTime today = DateTime.Today;
 
             using (var db = new QLKSDataContext())
             {
-                var ds = db.Phongs
-                           .Join(db.LoaiPhongs,
-                                 p => p.loai_phong_id,
-                                 lp => lp.loai_phong_id,
-                                 (p, lp) => new { p.phong_id, p.so_phong, p.trang_thai, TenLoai = lp.ten_loai })
-                           .OrderBy(x => x.so_phong)
-                           .ToList();
+                var ds = (from p in db.Phongs
+                          join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                          where !loaiId.HasValue || p.loai_phong_id == loaiId
+                          let bk = db.DatPhongs
+                                     .Where(dp => dp.phong_id == p.phong_id)
+                                     .OrderByDescending(dp => dp.ngay_check_out)
+                                     .FirstOrDefault()
+                          orderby p.so_phong
+                          select new
+                          {
+                              p.phong_id,
+                              p.so_phong,
+                              p.trang_thai,
+                              TenLoai = lp.ten_loai,
+                              CheckOutDate = (DateTime?)bk.ngay_check_out
+                          })
+                         .ToList();
 
                 foreach (var r in ds)
                 {
+                    // Màu mặc định theo trạng thái
+                    var defaultColor = GetStatusColor(r.trang_thai);
+
                     var btn = new Button
                     {
                         Size = new Size(btnWidth, btnHeight),
-                        BackColor = GetStatusColor(r.trang_thai),
+                        BackColor = defaultColor,
                         FlatStyle = FlatStyle.Flat,
-                        FlatAppearance = { BorderColor = Color.LightGray, BorderSize = 1 },
                         Tag = r.phong_id,
-                        Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                        Font = new Font("Segoe UI", 13, FontStyle.Bold),
                         Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\n{TranslateStatus(r.trang_thai)}",
                         TextAlign = ContentAlignment.MiddleLeft,
                         Image = GetStatusIcon(r.trang_thai),
                         ImageAlign = ContentAlignment.MiddleRight,
                         Margin = new Padding(margin),
-                        UseVisualStyleBackColor = false,
+                        UseVisualStyleBackColor = false
                     };
-                    // cho phép multiline
-                    btn.AutoSize = false;
-                    btn.UseCompatibleTextRendering = true;
                     btn.FlatAppearance.BorderSize = 0;
                     btn.FlatAppearance.MouseOverBackColor = btn.BackColor;
                     btn.FlatAppearance.MouseDownBackColor = btn.BackColor;
+                    btn.AutoSize = false;
+                    btn.UseCompatibleTextRendering = true;
+                    BoTronButton(btn, 20);
+
+                    // Chỉ áp dụng cho phòng đang sử dụng
+                    if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
+                    {
+                        var co = r.CheckOutDate.Value.Date;
+
+                        // 1) Nếu trả phòng đúng hôm nay → nền Lavender + hover sang Purple
+                        if (co == today)
+                        {
+                            btn.BackColor = Color.Lavender;
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nTrả Phòng hôm nay!";
+                        }
+                        // 2) Nếu quá hạn (today > checkout) → thêm vào list để nhấp nháy
+                        else if (co < today)
+                        {
+                            int soNgayQuaHan = (DateTime.Today - r.CheckOutDate.Value).Days;
+                            btn.BackColor = Color.Plum;
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã quá hạn trả phòng\n➜ {soNgayQuaHan} ngày";
+                        }
+                    }
 
                     btn.Click += (s, e) =>
                     {
-                        int id = (int)((Button)s).Tag;
-                        string trangThai = r.trang_thai;
-                        OnRoomClicked(id, trangThai);
+                        int id = (int)btn.Tag;
+                        OnRoomClicked(id, r.trang_thai);
                     };
-                    BoTronButton(btn, 20);
+
                     flowLayoutPanel1.Controls.Add(btn);
                 }
             }
@@ -152,7 +212,7 @@ namespace QuanLyKhachSan
                     break;
                 case "dang_su_dung":
                     {
-                        ChiTietPhongSuDung frm = new ChiTietPhongSuDung();
+                        ChiTietPhongSuDung frm = new ChiTietPhongSuDung(phongId);
                         frm.ShowDialog();
                     }
                     break;
@@ -196,9 +256,9 @@ namespace QuanLyKhachSan
         private void cbbLoaiPhong_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbbLoaiPhong.SelectedValue is int id)
-                LoadPhongGrid(id);
+                LoadPhongGrid_Loc(id);
         }
-        private void LoadPhongGrid(int? loaiId = null)
+        private void LoadPhongGrid_Loc(int? loaiId = null)
         {
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
@@ -206,54 +266,90 @@ namespace QuanLyKhachSan
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Padding = new Padding(20);
             flowLayoutPanel1.BackColor = Color.White;
-
+            DateTime today = DateTime.Today;
             int btnWidth = 270;
             int btnHeight = 140;
             int margin = 5;
 
-            using (var db = new QLKSDataContext())
+
+            var ds = (from p in db.Phongs
+                      join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+
+                      // group‐join với DatPhongs để có thể Left‐join
+                      join dp in db.DatPhongs
+                        on p.phong_id equals dp.phong_id into gj
+                      let last = gj
+                        .OrderByDescending(x => x.ngay_check_out)
+                        .FirstOrDefault()
+
+                      where !loaiId.HasValue
+                            || p.loai_phong_id == loaiId
+                      orderby p.so_phong
+
+                      select new
+                      {
+                          p.phong_id,
+                          p.so_phong,
+                          p.trang_thai,
+                          TenLoai = lp.ten_loai,
+                          // nếu last == null thì null, ngược lại lấy ngày trả
+                          CheckOutDate = (DateTime?)last.ngay_check_out
+                      })
+         .ToList();
+
+            foreach (var r in ds)
             {
-                var q = db.Phongs
-                          .Join(db.LoaiPhongs,
-                                p => p.loai_phong_id,
-                                lp => lp.loai_phong_id,
-                                (p, lp) => new { p, lp })
-                          .Where(x => !loaiId.HasValue || x.p.loai_phong_id == loaiId)
-                          .OrderBy(x => x.p.so_phong);
+                // Màu mặc định theo trạng thái
+                var defaultColor = GetStatusColor(r.trang_thai);
 
-                foreach (var r in q)
+                var btn = new Button
                 {
-                    var btn = new Button
-                    {
-                        Size = new Size(btnWidth, btnHeight),
-                        BackColor = GetStatusColor(r.p.trang_thai),
-                        FlatStyle = FlatStyle.Flat,
-                        FlatAppearance = { BorderColor = Color.LightGray, BorderSize = 1 },
-                        Tag = r.p.phong_id,
-                        Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                        Text = $"Phòng {r.p.so_phong}\n{r.lp.ten_loai}\n\n{TranslateStatus(r.p.trang_thai)}",
-                        TextAlign = ContentAlignment.MiddleLeft,
-                        Image = GetStatusIcon(r.p.trang_thai),
-                        ImageAlign = ContentAlignment.MiddleRight,
-                        Margin = new Padding(margin),
-                        UseVisualStyleBackColor = false,
-                    };
-                    // cho phép multiline
-                    btn.AutoSize = false;
-                    btn.UseCompatibleTextRendering = true;
-                    btn.FlatAppearance.BorderSize = 0;
-                    btn.FlatAppearance.MouseOverBackColor = btn.BackColor;
-                    btn.FlatAppearance.MouseDownBackColor = btn.BackColor;
+                    Size = new Size(btnWidth, btnHeight),
+                    BackColor = defaultColor,
+                    FlatStyle = FlatStyle.Flat,
+                    Tag = r.phong_id,
+                    Font = new Font("Segoe UI", 13, FontStyle.Bold),
+                    Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\n{TranslateStatus(r.trang_thai)}",
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Image = GetStatusIcon(r.trang_thai),
+                    ImageAlign = ContentAlignment.MiddleRight,
+                    Margin = new Padding(margin),
+                    UseVisualStyleBackColor = false
+                };
+                btn.FlatAppearance.BorderSize = 0;
+                btn.FlatAppearance.MouseOverBackColor = btn.BackColor;
+                btn.FlatAppearance.MouseDownBackColor = btn.BackColor;
+                btn.AutoSize = false;
+                btn.UseCompatibleTextRendering = true;
+                BoTronButton(btn, 20);
 
-                    btn.Click += (s, e) =>
+                // Chỉ áp dụng cho phòng đang sử dụng
+                if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
+                {
+                    var co = r.CheckOutDate.Value.Date;
+
+                    // 1) Nếu trả phòng đúng hôm nay → nền Lavender + hover sang Purple
+                    if (co == today)
                     {
-                        int id = (int)((Button)s).Tag;
-                        string trangThai = r.p.trang_thai;
-                        OnRoomClicked(id, trangThai);
-                    };
-                    BoTronButton(btn, 20);
-                    flowLayoutPanel1.Controls.Add(btn);
+                        btn.BackColor = Color.Lavender;
+                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nTrả Phòng hôm nay!";
+                    }
+                    // 2) Nếu quá hạn (today > checkout) → thêm vào list để nhấp nháy
+                    else if (co < today)
+                    {
+                        int soNgayQuaHan = (DateTime.Today - r.CheckOutDate.Value).Days;
+                        btn.BackColor = Color.Plum;
+                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã quá hạn trả phòng\n➜ {soNgayQuaHan} ngày";
+                    }
                 }
+
+                btn.Click += (s, e) =>
+                {
+                    int id = (int)btn.Tag;
+                    OnRoomClicked(id, r.trang_thai);
+                };
+
+                flowLayoutPanel1.Controls.Add(btn);
             }
         }
     }

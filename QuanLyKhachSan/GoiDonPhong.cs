@@ -40,36 +40,31 @@ namespace QuanLyKhachSan
         {
             try
             {
-                using (var db = new QLKSDataContext())
-                {
-                    var query = from p in db.Phongs
-                                join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-                                select new
-                                {
-                                    p.so_phong,
-                                    lp.ten_loai,
-                                    TrangThai = TranslateStatus(p.trang_thai)
-                                };
+                var query = from p in db.Phongs
+                            join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                            select new
+                            {
+                                p.so_phong,
+                                lp.ten_loai,
+                                TrangThai = p.trang_thai == "trong" ? "Trống"
+                                 : p.trang_thai == "dang_su_dung" ? "Đang sử dụng"
+                                 : p.trang_thai == "bao_tri" ? "Bảo trì"
+                                 : p.trang_thai == "da_dat" ? "Đã đặt"
+                                 : p.trang_thai,
+                            };
 
-                    dgvPhong.DataSource = query.ToList();
-                    AddButtonColumn();
-                }
+                dgvPhong.DataSource = query.ToList();
+                AddButtonColumn();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi: " + ex.Message);
             }
         }
-        private string TranslateStatus(string status)
+
+        private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            switch (status)
-            {
-                case "trong": return "Trống";
-                case "dang_su_dung": return "Đang sử dụng";
-                case "bao_tri": return "Bảo trì";
-                case "da_dat": return "Đã đặt";
-                default: return status;
-            }
+            MessageBox.Show(dgvPhong.SelectedCells[2].Value?.ToString());
         }
     }
 }

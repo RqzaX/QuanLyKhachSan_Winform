@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbNameKS = new RainbowGradientLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -43,6 +45,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.btnThoat = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -55,6 +58,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.panel1.Controls.Add(this.lbNameKS);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.pictureBox1);
@@ -64,23 +68,34 @@
             this.panel1.Size = new System.Drawing.Size(427, 575);
             this.panel1.TabIndex = 0;
             // 
+            // lbNameKS
+            // 
+            this.lbNameKS.AutoSize = true;
+            this.lbNameKS.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNameKS.Location = new System.Drawing.Point(22, 409);
+            this.lbNameKS.Name = "lbNameKS";
+            this.lbNameKS.Size = new System.Drawing.Size(378, 33);
+            this.lbNameKS.TabIndex = 3;
+            this.lbNameKS.Text = "Khách sạn Vinpearl Luxury";
+            this.lbNameKS.Paint += new System.Windows.Forms.PaintEventHandler(this.lbNameKS_Paint);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Century Gothic", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Arial", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(50, 369);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(313, 26);
+            this.label5.Size = new System.Drawing.Size(332, 27);
             this.label5.TabIndex = 2;
             this.label5.Text = "Hệ thống quản lý khách sạn!";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Arial", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(76, 327);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(269, 26);
+            this.label1.Size = new System.Drawing.Size(280, 27);
             this.label1.TabIndex = 1;
             this.label1.Text = "Chào mừng bạn đến với";
             // 
@@ -272,6 +287,8 @@
         private System.Windows.Forms.TextBox txtTaiKhoan;
         private System.Windows.Forms.Button btnDangNhap;
         private System.Windows.Forms.LinkLabel llbQuenMatKhau;
+        private RainbowGradientLabel lbNameKS;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

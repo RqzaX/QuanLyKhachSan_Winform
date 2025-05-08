@@ -155,5 +155,25 @@ namespace QuanLyKhachSan
         {
 
         }
+
+        private void rdoPhong_CheckedChanged(object sender, EventArgs e)
+        {
+            DoSearch();
+        }
+
+        private void rdoKhach_CheckedChanged(object sender, EventArgs e)
+        {
+            DoSearch();
+        }
+
+        private void rdoNhanVien_CheckedChanged(object sender, EventArgs e)
+        {
+            DoSearch();
+        }
+
+        private void rdoHoaDon_CheckedChanged(object sender, EventArgs e)
+        {
+            DoSearch();
+        }
     }
 }

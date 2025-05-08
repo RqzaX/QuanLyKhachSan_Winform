@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace QuanLyKhachSan
 {
@@ -17,7 +18,6 @@ namespace QuanLyKhachSan
             InitializeComponent();
             this.AcceptButton = btnDangNhap;
         }
-
         private void btnThoat_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -63,13 +63,13 @@ namespace QuanLyKhachSan
                 using (var db = new QLKSDataContext())
                 {
                     var nhanVien = (from x in db.NhanViens
-                              join vt in db.VaiTros on x.vai_tro_id equals vt.vai_tro_id
-                              where x.tai_khoan == userName
-                              select new
-                              {
-                                  Entity = x,
-                                  TenChucVu = vt.ten_vai_tro
-                              }).SingleOrDefault();
+                                    join vt in db.VaiTros on x.vai_tro_id equals vt.vai_tro_id
+                                    where x.tai_khoan == userName
+                                    select new
+                                    {
+                                        Entity = x,
+                                        TenChucVu = vt.ten_vai_tro
+                                    }).SingleOrDefault();
 
                     if (nhanVien == null) { /* lỗi */ }
 
@@ -107,7 +107,12 @@ namespace QuanLyKhachSan
 
         private void llbQuenMatKhau_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Liên hệ quản trị viên hoặc quản lý để đổi lại mật khẩu !","Thông báo",MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Liên hệ quản trị viên hoặc quản lý để đổi lại mật khẩu !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void lbNameKS_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }

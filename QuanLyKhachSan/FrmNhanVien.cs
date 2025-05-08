@@ -31,6 +31,7 @@ namespace QuanLyKhachSan
             txtMatKhau.Enabled = false;
             LoadNhanVien();
             LoadComboChucVu();
+            dgvNhanVien.RowTemplate.Height = 35;
         }
 
         private void btnThemChucVu_Click(object sender, EventArgs e)
@@ -88,22 +89,38 @@ namespace QuanLyKhachSan
 
             dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             if (dgvNhanVien.Columns.Contains("ho_ten"))
-                dgvNhanVien.Columns["ho_ten"].Width = 205;
+                dgvNhanVien.Columns["ho_ten"].Width = 180;
             if (dgvNhanVien.Columns.Contains("sdt"))
                 dgvNhanVien.Columns["sdt"].Width = 120;
             if (dgvNhanVien.Columns.Contains("ten_vai_tro"))
-                dgvNhanVien.Columns["ten_vai_tro"].Width = 190;
+                dgvNhanVien.Columns["ten_vai_tro"].Width = 120;
             if (dgvNhanVien.Columns.Contains("ca_lam_viec"))
-                dgvNhanVien.Columns["ca_lam_viec"].Width = 220;
+                dgvNhanVien.Columns["ca_lam_viec"].Width = 270;
             if (dgvNhanVien.Columns.Contains("luong"))
                 dgvNhanVien.Columns["luong"].Width = 130;
             if (dgvNhanVien.Columns.Contains("tai_khoan"))
-                dgvNhanVien.Columns["tai_khoan"].Width = 90;
+                dgvNhanVien.Columns["tai_khoan"].Width = 100;
             if (dgvNhanVien.Columns.Contains("mat_khau"))
-                dgvNhanVien.Columns["mat_khau"].Width = 90;
+                dgvNhanVien.Columns["mat_khau"].Width = 100;
 
-            dgvNhanVien.Columns["ca_lam_viec"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            
             dgvNhanVien.Columns["ten_vai_tro"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+
+            if (!dgvNhanVien.Columns.Contains("ThaoTac"))
+            {
+                var img = Properties.Resources.delete;
+                var imgCol = new DataGridViewImageColumn
+                {
+                    Name = "ThaoTac",
+                    HeaderText = "Thao tác",
+                    Image = img,
+                    ImageLayout = DataGridViewImageCellLayout.Zoom,
+                    Width = 30,
+                    SortMode = DataGridViewColumnSortMode.NotSortable
+                };
+                dgvNhanVien.Columns.Add(imgCol);
+            }
+            dgvNhanVien.Columns["ThaoTac"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             dgvNhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNhanVien.MultiSelect = false;

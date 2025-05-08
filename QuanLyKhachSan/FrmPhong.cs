@@ -24,7 +24,7 @@ namespace QuanLyKhachSan
             dgvPhong.RowTemplate.MinimumHeight = 30;
             LoadLoaiPhong();
             dgvPhong.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgvPhong.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            //dgvPhong.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 
         private void btnThemLoaiPhong_Click(object sender, EventArgs e)
