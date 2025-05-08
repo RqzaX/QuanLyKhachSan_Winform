@@ -19,17 +19,13 @@ namespace QuanLyKhachSan
         public TrangChu2()
         {
             InitializeComponent();
+            LoadThongTinChung();
+            rdoPhong.Checked = true;
         }
 
         private void TrangChu2_Load(object sender, EventArgs e)
         {
-            int tongSoPhong, phongTrong, phongSuDung, baoTri;
-            tongSoPhong = db.Phongs.Count();
-            phongTrong = db.Phongs.Count(p => p.trang_thai == "trong");
-            phongSuDung = db.Phongs.Count(p => p.trang_thai == "dang_su_dung");
-            baoTri = db.Phongs.Count(p => p.trang_thai == "bao_tri");
-            btnThongTinPhong.Text = $"Tổng số phòng: {tongSoPhong}\n- Phòng trống: {phongTrong}\n- Phòng đã sử dụng: {phongSuDung}\n- Phòng bảo trì: {baoTri}";
-            rdoPhong.Checked = true;
+            
         }
         private void DoSearch()
         {
@@ -124,6 +120,30 @@ namespace QuanLyKhachSan
             {
                 dgvTimKiem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
+
+        }
+        private void LoadThongTinChung()
+        {
+            DateTime today = DateTime.Today;
+
+            //Phòng trả hôm nay
+            int traPhongHomNay = db.DatPhongs
+                .Count(dp => dp.ngay_check_out == today);
+
+            // Phòng check-in hôm nay (đặt trước)
+            int datTruoc = db.DatPhongs
+            .Count(dp =>
+                dp.trang_thai == "da_dat"
+             && dp.ngay_check_in == today);
+            // Tổng sốphòng
+            int tongSoPhong, phongTrong, phongSuDung, baoTri;
+            tongSoPhong = db.Phongs.Count();
+            phongTrong = db.Phongs.Count(p => p.trang_thai == "trong");
+            phongSuDung = db.Phongs.Count(p => p.trang_thai == "dang_su_dung");
+            baoTri = db.Phongs.Count(p => p.trang_thai == "bao_tri");
+            btnThongTinPhong.Text = $"Tổng số phòng: {tongSoPhong}\n- Phòng trống: {phongTrong}\n- Phòng đã sử dụng: {phongSuDung}\n- Phòng bảo trì: {baoTri}";
+            btnTraPhongHomNay.Text = "➜ Trả phòng hôm nay: " + traPhongHomNay.ToString();
+            btnDatTruocHomNay.Text = "➜ Phòng đặt trước\r\ncheck-in hôm nay: " + datTruoc.ToString();
 
         }
         private void TrangChu2_FormClosing(object sender, FormClosingEventArgs e)

@@ -19,6 +19,8 @@ namespace QuanLyKhachSan
         private readonly int _datPhongId;
         private DatPhong _Booking;
         private Phong _Room;
+        private int _currentDatPhongId;    // đã được gán khi load chi tiết
+        private int _currentPhongId;       // id phòng hiện tại
         public ChiTietPhongSuDung(int datPhongId)
         {
             InitializeComponent();
@@ -47,7 +49,8 @@ namespace QuanLyKhachSan
                     this.Close();
                     return;
                 }
-
+                _currentDatPhongId = _Booking.dat_phong_id;
+                _currentPhongId = _Booking.phong_id;
                 _Room = db.Phongs
                     .SingleOrDefault(p => p.phong_id == _Booking.phong_id);
                 if (_Room == null)
@@ -84,23 +87,25 @@ namespace QuanLyKhachSan
                 UpdateSoNgayVaKM();
 
                 // Dịch vụ hiện có 
-                dgvDichVu.DataSource = db.DichVus.Select(x => new {
-                        x.dich_vu_id,
-                        x.ten_dich_vu,
-                        Gia = x.gia
-                    }).ToList();
+                dgvDichVu.DataSource = db.DichVus.Select(x => new
+                {
+                    x.dich_vu_id,
+                    x.ten_dich_vu,
+                    Gia = x.gia
+                }).ToList();
                 dgvDichVu.Columns["dich_vu_id"].Visible = false;
                 dgvDichVu.Columns["ten_dich_vu"].HeaderText = "Tên dịch vụ";
                 dgvDichVu.Columns["Gia"].HeaderText = "Giá";
                 dgvDichVu.Columns["Gia"].DefaultCellStyle.Format = "N0";
                 if (!checkDichVu) ThemDichVu();
                 // Dịch vụ khách đã đặt
-                dgvDatDichVu.DataSource = _Booking.DichVuDatPhongs.Select(x => new {
-                        x.dich_vu_id,
-                        ten_dich_vu = x.DichVu.ten_dich_vu,
-                        x.so_luong,
-                        ThanhTien = x.so_luong * x.DichVu.gia
-                    }).ToList();
+                dgvDatDichVu.DataSource = _Booking.DichVuDatPhongs.Select(x => new
+                {
+                    x.dich_vu_id,
+                    ten_dich_vu = x.DichVu.ten_dich_vu,
+                    x.so_luong,
+                    ThanhTien = x.so_luong * x.DichVu.gia
+                }).ToList();
                 dgvDatDichVu.Columns["dich_vu_id"].Visible = false;
                 dgvDatDichVu.Columns["ten_dich_vu"].HeaderText = "Tên dịch vụ";
                 dgvDatDichVu.Columns["so_luong"].HeaderText = "Số lượng";
@@ -145,7 +150,8 @@ namespace QuanLyKhachSan
                 decimal giamGia = (tongTienThue + tienDV) * top.phan_tram / 100m;
                 lbPhanTramKM.Text = top.phan_tram + "% → giảm " + giamGia.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
                 lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " + ((tongTienThue + tienDV) - giamGia).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
-            } else
+            }
+            else
             {
                 lbPhanTramKM.Text = "0%";
                 lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " + (tongTienThue + tienDV).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
@@ -186,6 +192,7 @@ namespace QuanLyKhachSan
         }
         private void ThemDichVu()
         {
+            if(dgvDichVu.Columns.Contains("Thao tác")) return;
             DataGridViewButtonColumn btnAdd = new DataGridViewButtonColumn();
             btnAdd.Name = "Thao tác";
             btnAdd.Text = "✛";
@@ -227,8 +234,110 @@ namespace QuanLyKhachSan
 
         private void btnChuyenPhong_Click(object sender, EventArgs e)
         {
-            ChonPhongChuyen frm = new ChonPhongChuyen();
-            frm.ShowDialog();
+            var chuyenForm = new ChonPhongChuyen(_currentDatPhongId);
+            if (chuyenForm.ShowDialog() == DialogResult.OK)
+            {
+                // lấy về phòng mới
+                int newPhongId = chuyenForm.SelectPhongId;
+
+                MessageBox.Show($"Chuyển thành công sang phòng mới: {newPhongId}",
+                                "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Load lại chi tiết với phòng mới
+                LoadChiTietPhongSuDung(newPhongId);
+
+                //LoadPhongGrid();
+            }
+        }
+        private void LoadChiTietPhongSuDung(int phongId)
+        {
+            _Booking = db.DatPhongs.SingleOrDefault(d => d.phong_id == phongId);
+
+            if (_Booking == null)
+            {
+                MessageBox.Show(
+                    $"Không tìm thấy đặt phòng ID = {phongId}",
+                    "Lỗi dữ liệu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            _Room = db.Phongs
+                .SingleOrDefault(p => p.phong_id == _Booking.phong_id);
+            if (_Room == null)
+            {
+                MessageBox.Show(
+                    $"Không tìm thấy phòng ID = {_Booking.phong_id}",
+                    "Lỗi dữ liệu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            //Thông tin phòng
+            txtSoPhong.Text = _Room.so_phong;
+            txtLoaiPhong.Text = _Room.LoaiPhong.ten_loai;
+            txtTrangThai.Text = TranslateStatus(_Room.trang_thai);
+            txtMoTa.Text = _Room.LoaiPhong.mo_ta;
+            txtGia.Text = _Room.LoaiPhong.gia_theo_dem.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+
+            // Thông tin khách
+            var kh = _Booking.KhachHang;
+            txtKhachId.Text = kh.khach_hang_id.ToString();
+            txtHoTen.Text = kh.ho_ten;
+            txtDiaChi.Text = kh.dia_chi;
+            txtSDT.Text = kh.so_dien_thoai;
+            txtEmail.Text = kh.email;
+            txtCCCD.Text = kh.cccd;
+
+            // Thời gian
+            dtNgayDat.Value = _Booking.ngay_dat;
+            dtNgayCheckIn.Value = _Booking.ngay_check_in;
+            dtNgayCheckOut.Value = _Booking.ngay_check_out;
+            UpdateSoNgayVaKM();
+
+            // Dịch vụ hiện có 
+            dgvDichVu.DataSource = db.DichVus.Select(x => new
+            {
+                x.dich_vu_id,
+                x.ten_dich_vu,
+                Gia = x.gia
+            }).ToList();
+            dgvDichVu.Columns["dich_vu_id"].Visible = false;
+            dgvDichVu.Columns["ten_dich_vu"].HeaderText = "Tên dịch vụ";
+            dgvDichVu.Columns["Gia"].HeaderText = "Giá";
+            dgvDichVu.Columns["Gia"].DefaultCellStyle.Format = "N0";
+            if (!checkDichVu) ThemDichVu();
+            // Dịch vụ khách đã đặt
+            dgvDatDichVu.DataSource = _Booking.DichVuDatPhongs.Select(x => new
+            {
+                x.dich_vu_id,
+                ten_dich_vu = x.DichVu.ten_dich_vu,
+                x.so_luong,
+                ThanhTien = x.so_luong * x.DichVu.gia
+            }).ToList();
+            dgvDatDichVu.Columns["dich_vu_id"].Visible = false;
+            dgvDatDichVu.Columns["ten_dich_vu"].HeaderText = "Tên dịch vụ";
+            dgvDatDichVu.Columns["so_luong"].HeaderText = "Số lượng";
+            dgvDatDichVu.Columns["ThanhTien"].HeaderText = "Giá";
+            dgvDatDichVu.Columns["ThanhTien"].DefaultCellStyle.Format = "N0";
+            ThemCotXoaDV();
+
+            // Khuyến mãi hiện có
+            if (_Booking.khuyen_mai_id.HasValue)
+            {
+                var km = _Booking.KhuyenMai;
+                //lbMoTaKM.Text = km.ten_khuyen_mai;
+                lbPhanTramKM.Text = $"{km.phan_tram}%";
+            }
+            else
+            {
+                //lbMoTaKM.Text = "Không có KM";
+                lbPhanTramKM.Text = "0%";
+            }
         }
         private string TranslateStatus(string st)
         => st switch

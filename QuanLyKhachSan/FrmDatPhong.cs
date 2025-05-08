@@ -212,14 +212,16 @@ namespace QuanLyKhachSan
                     break;
                 case "dang_su_dung":
                     {
-                        ChiTietPhongSuDung frm = new ChiTietPhongSuDung(phongId);
-                        frm.ShowDialog();
+                        var f = new ChiTietPhongSuDung(phongId);
+                        f.FormClosed += (s, args) => LoadPhongGrid();
+                        f.Show();
                     }
                     break;
                 case "da_dat":
                     {
-                        ChiTietPhongDatTruoc frm = new ChiTietPhongDatTruoc();
-                        frm.ShowDialog();
+                        var f = new ChiTietPhongDatTruoc(phongId);
+                        f.FormClosed += (s, args) => LoadPhongGrid();
+                        f.Show();
                     }
                     break;
                 case "bao_tri":
@@ -274,8 +276,6 @@ namespace QuanLyKhachSan
 
             var ds = (from p in db.Phongs
                       join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-
-                      // group‐join với DatPhongs để có thể Left‐join
                       join dp in db.DatPhongs
                         on p.phong_id equals dp.phong_id into gj
                       let last = gj
@@ -294,8 +294,7 @@ namespace QuanLyKhachSan
                           TenLoai = lp.ten_loai,
                           // nếu last == null thì null, ngược lại lấy ngày trả
                           CheckOutDate = (DateTime?)last.ngay_check_out
-                      })
-         .ToList();
+                      }).ToList();
 
             foreach (var r in ds)
             {
@@ -328,13 +327,13 @@ namespace QuanLyKhachSan
                 {
                     var co = r.CheckOutDate.Value.Date;
 
-                    // 1) Nếu trả phòng đúng hôm nay → nền Lavender + hover sang Purple
+                    // nền Lavender
                     if (co == today)
                     {
                         btn.BackColor = Color.Lavender;
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nTrả Phòng hôm nay!";
                     }
-                    // 2) Nếu quá hạn (today > checkout) → thêm vào list để nhấp nháy
+                    // Nếu quá hạn
                     else if (co < today)
                     {
                         int soNgayQuaHan = (DateTime.Today - r.CheckOutDate.Value).Days;

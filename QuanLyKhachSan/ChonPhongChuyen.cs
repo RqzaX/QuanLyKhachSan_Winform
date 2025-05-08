@@ -12,35 +12,50 @@ namespace QuanLyKhachSan
 {
     public partial class ChonPhongChuyen : Form
     {
-        public ChonPhongChuyen()
+        private readonly QLKSDataContext db = new QLKSDataContext();
+        private readonly int _datPhongId;
+        /// <summary>
+        /// SelectPhongId sẽ được parent đọc sau khi đóng form
+        /// </summary>
+        public int SelectPhongId { get; private set; }
+        public ChonPhongChuyen(int datPhongId)
         {
             InitializeComponent();
-            LoadDataToDataGridView();
-            dgvPhong.RowTemplate.Height = 30;
+            LoadDanhSachPhong();
+            dgvPhong.RowTemplate.Height = 40;
+            _datPhongId = datPhongId;
         }
-        private void LoadDataToDataGridView()
+        private void LoadDanhSachPhong()
         {
-            try
-            {
-                using (var db = new QLKSDataContext())
-                {
-                    var query = from p in db.Phongs
-                                join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-                                select new
-                                {
-                                    p.so_phong,
-                                    lp.ten_loai,
-                                    trang_thai = GetTrangThai(p.trang_thai)
-                                };
+            var ds = (from p in db.Phongs
+                      join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                      select new
+                      {
+                          p.phong_id,
+                          p.so_phong,
+                          Loai = lp.ten_loai,
+                          TrangThai = GetTrangThai(p.trang_thai)
+                      })
+                     .ToList();
 
-                    dgvPhong.DataSource = query.ToList();
-                    AddButtonColumn();
-                }
-            }
-            catch (Exception ex)
+            dgvPhong.DataSource = ds;
+
+            // Thêm cột button “Chuyển” nếu chưa có
+            if (!dgvPhong.Columns.Contains("Chuyen"))
             {
-                MessageBox.Show("Lỗi: " + ex.Message);
+                var btn = new DataGridViewButtonColumn
+                {
+                    Name = "Chuyen",
+                    HeaderText = "Thao tác",
+                    Text = "Chuyển",
+                    UseColumnTextForButtonValue = true,
+                    Width = 80
+                };
+                dgvPhong.Columns.Add(btn);
             }
+
+            // Ẩn cột id
+            dgvPhong.Columns["phong_id"].Visible = false;
         }
         private static string GetTrangThai(string trangThai)
         {
@@ -56,13 +71,46 @@ namespace QuanLyKhachSan
                     return trangThai;
             }
         }
-        private void AddButtonColumn()
+
+        private void dgvPhong_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
-            btnDelete.Name = "Thao tác";
-            btnDelete.Text = "Chuyển";
-            btnDelete.UseColumnTextForButtonValue = true;
-            dgvPhong.Columns.Add(btnDelete);
+            if (e.RowIndex < 0) return;
+            if (!(dgvPhong.Columns[e.ColumnIndex] is DataGridViewButtonColumn)) return;
+
+            int newPhongId = (int)dgvPhong.Rows[e.RowIndex].Cells["phong_id"].Value;
+
+            //Gọi confirm
+            var soPhong = dgvPhong.Rows[e.RowIndex].Cells["so_phong"].Value;
+            if (MessageBox.Show($"Bạn có chắc muốn chuyển sang phòng {soPhong} không?",
+                    "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            // Cập nhật booking
+            var dp = db.DatPhongs.SingleOrDefault(x => x.dat_phong_id == _datPhongId);
+            if (dp == null)
+            {
+                MessageBox.Show("Không tìm thấy booking đang mở để chuyển.",
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // trả lại trạng thái trống phòng cũ
+            var oldPhong = db.Phongs.Single(p => p.phong_id == dp.phong_id);
+            oldPhong.trang_thai = "trong";
+
+            dp.phong_id = newPhongId;
+            //dp.ngay_chuyen = DateTime.Now;
+            db.SubmitChanges();
+
+            // Cập nhật trạng thái phòng mới
+            var newPhong = db.Phongs.Single(p => p.phong_id == newPhongId);
+            newPhong.trang_thai = "dang_su_dung";
+            db.SubmitChanges();
+
+            // Trả về ID mới cho form cha
+            SelectPhongId = newPhongId;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

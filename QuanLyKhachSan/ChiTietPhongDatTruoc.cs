@@ -12,15 +12,17 @@ namespace QuanLyKhachSan
 {
     public partial class ChiTietPhongDatTruoc : Form
     {
-        public ChiTietPhongDatTruoc()
+        private int _maPhong;
+        public ChiTietPhongDatTruoc(int maPhong)
         {
             InitializeComponent();
+            _maPhong = maPhong;
         }
 
         private void btnChuyenPhong_Click(object sender, EventArgs e)
         {
-            ChonPhongChuyen frm = new ChonPhongChuyen();
-            frm.ShowDialog();
+            //ChonPhongChuyen frm = new ChonPhongChuyen();
+            //frm.ShowDialog();
         }
     }
 }

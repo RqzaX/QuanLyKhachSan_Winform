@@ -77,6 +77,7 @@
             this.dgvPhong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvPhong.Size = new System.Drawing.Size(1027, 591);
             this.dgvPhong.TabIndex = 0;
+            this.dgvPhong.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhong_CellContentClick);
             // 
             // groupBox2
             // 
