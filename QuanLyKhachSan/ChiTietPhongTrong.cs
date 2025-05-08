@@ -39,7 +39,7 @@ namespace QuanLyKhachSan
             lbSoTienCanThanhToan.Text = "0";
             int pct = LayMaxGiaTriPhamTramKhuyenMai();
             lbPhanTramKM.Text = pct > 0 ? pct + "%" : " → giảm 0%";
-            if(layMaKhuyenMai() > 0) txtKhuyenMaiID.Text = layMaKhuyenMai().ToString();
+            if (layMaKhuyenMai() > 0) txtKhuyenMaiID.Text = layMaKhuyenMai().ToString();
         }
         private int? layMaKhuyenMai()
         {
@@ -499,6 +499,8 @@ namespace QuanLyKhachSan
                 MessageBox.Show("Email không đúng định dạng.", "Lỗi định dạng",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtEmail.Focus();
+                // có thể để trống gmail
+                if (txtEmail.Text.Length == 0) return true;
                 return false;
             }
 
@@ -537,66 +539,64 @@ namespace QuanLyKhachSan
                                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                using (var db = new QLKSDataContext())
+                string trangThaiPhong = "";
+                if (datTruoc) trangThaiPhong = "dat_truoc";
+                else trangThaiPhong = "dang_su_dung";
+                // Thêm DatPhong
+                var dp = new DatPhong();
+                if (txtKhachId.Text.Length > 0)
                 {
-                    string trangThaiPhong = "";
-                    if (datTruoc) trangThaiPhong = "dat_truoc";
-                    else trangThaiPhong = "dang_su_dung";
-                    // Thêm DatPhong
-                    var dp = new DatPhong();
-                    if(txtKhachId.Text.Length > 0)
+                    dp = new DatPhong
                     {
-                        dp = new DatPhong
-                        {
-                            khach_hang_id = Convert.ToInt32(txtKhachId.Text),
-                            phong_id = ID,
-                            nhan_vien_id = infoNhanVien.nhan_vien_id,
-                            khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
-                            ngay_dat = ngayDat,
-                            ngay_check_in = ngayNhanPhong,
-                            ngay_check_out = ngayTraPhong,
-                            trang_thai = trangThaiPhong
-                        };
-                    } else
-                    {
-                        dp = new DatPhong
-                        {
-                            phong_id = ID,
-                            nhan_vien_id = infoNhanVien.nhan_vien_id,
-                            khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
-                            ngay_dat = ngayDat,
-                            ngay_check_in = ngayNhanPhong,
-                            ngay_check_out = ngayTraPhong,
-                            trang_thai = trangThaiPhong
-                        };
-                    }
-                    db.DatPhongs.InsertOnSubmit(dp);
-                    db.SubmitChanges();
-
-                    // Thêm DichVuDatPhong cho từng dịch vụ
-                    foreach (DataGridViewRow row in dgvDatDichVu.Rows)
-                    {
-                        if (row.IsNewRow) continue;
-
-                        int dvId = Convert.ToInt32(row.Cells["dich_vu_id"].Value);
-                        int soLuong = Convert.ToInt32(row.Cells["so_luong"].Value);
-
-                        var dvdp = new DichVuDatPhong
-                        {
-                            dat_phong_id = dp.dat_phong_id,
-                            dich_vu_id = dvId,
-                            so_luong = soLuong,
-                            ngay_su_dung = ngayNhanPhong 
-                        };
-                        db.DichVuDatPhongs.InsertOnSubmit(dvdp);
-                    }
-
-                    var phong = db.Phongs.Single(p => p.phong_id == ID);
-                    phong.trang_thai = datTruoc ? "da_dat" : "dang_su_dung";
-
-                    db.SubmitChanges();
+                        khach_hang_id = Convert.ToInt32(txtKhachId.Text),
+                        phong_id = ID,
+                        nhan_vien_id = infoNhanVien.nhan_vien_id,
+                        khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
+                        ngay_dat = ngayDat,
+                        ngay_check_in = ngayNhanPhong,
+                        ngay_check_out = ngayTraPhong,
+                        trang_thai = trangThaiPhong
+                    };
                 }
+                else
+                {
+                    dp = new DatPhong
+                    {
+                        phong_id = ID,
+                        nhan_vien_id = infoNhanVien.nhan_vien_id,
+                        khuyen_mai_id = Convert.ToInt32(txtKhuyenMaiID.Text),
+                        ngay_dat = ngayDat,
+                        ngay_check_in = ngayNhanPhong,
+                        ngay_check_out = ngayTraPhong,
+                        trang_thai = trangThaiPhong
+                    };
+                }
+                db.DatPhongs.InsertOnSubmit(dp);
+                db.SubmitChanges();
+
+                // Thêm DichVuDatPhong cho từng dịch vụ
+                foreach (DataGridViewRow row in dgvDatDichVu.Rows)
+                {
+                    if (row.IsNewRow) continue;
+
+                    int dvId = Convert.ToInt32(row.Cells["dich_vu_id"].Value);
+                    int soLuong = Convert.ToInt32(row.Cells["so_luong"].Value);
+
+                    var dvdp = new DichVuDatPhong
+                    {
+                        dat_phong_id = dp.dat_phong_id,
+                        dich_vu_id = dvId,
+                        so_luong = soLuong,
+                        ngay_su_dung = ngayNhanPhong
+                    };
+                    db.DichVuDatPhongs.InsertOnSubmit(dvdp);
+                }
+
+                var phong = db.Phongs.Single(p => p.phong_id == ID);
+                phong.trang_thai = datTruoc ? "da_dat" : "dang_su_dung";
+
+                db.SubmitChanges();
+
 
                 MessageBox.Show("Đặt phòng thành công!", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
