@@ -93,6 +93,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -216,11 +217,59 @@
       <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlHelper.cs" />
+    <Compile Include="ReportDatPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportDatPhong.Designer.cs">
+      <DependentUpon>ReportDatPhong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\ThongTinDatPhong.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ThongTinDatPhong.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reporting\ThongTinHoaDon.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ThongTinHoaDon.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\ThongTinNhanVien.cs">
+      <DependentUpon>ThongTinNhanVien.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reporting\ThongTinPhong.cs">
+      <DependentUpon>ThongTinPhong.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\ThongTinKhachHang.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ThongTinKhachHang.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportKhachHang.Designer.cs">
+      <DependentUpon>ReportKhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportNhanVien.Designer.cs">
+      <DependentUpon>ReportNhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportPhong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportPhong.Designer.cs">
+      <DependentUpon>ReportPhong.cs</DependentUpon>
     </Compile>
     <Compile Include="ReportThongTinHoaDon.cs">
       <SubType>Form</SubType>
@@ -320,9 +369,37 @@
     <EmbeddedResource Include="QL_KhuyenMai.resx">
       <DependentUpon>QL_KhuyenMai.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReportDatPhong.resx">
+      <DependentUpon>ReportDatPhong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\ThongTinDatPhong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ThongTinDatPhong.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reporting\ThongTinHoaDon.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ThongTinHoaDon.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\ThongTinNhanVien.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ThongTinNhanVien.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\ThongTinPhong.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ThongTinPhong.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\ThongTinKhachHang.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ThongTinKhachHang.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportKhachHang.resx">
+      <DependentUpon>ReportKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportNhanVien.resx">
+      <DependentUpon>ReportNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportPhong.resx">
+      <DependentUpon>ReportPhong.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportThongTinHoaDon.resx">
       <DependentUpon>ReportThongTinHoaDon.cs</DependentUpon>

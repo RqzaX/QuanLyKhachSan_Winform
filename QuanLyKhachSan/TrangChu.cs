@@ -24,10 +24,15 @@ namespace QuanLyKhachSan
 
             //panel1.Paint += panel1_Paint;
             //panel1.Resize += (s, e) => panel1.Invalidate();
-            _hoTen = HoTen;
-            _chucVu = ChucVu;
-            lbHoTen.Text = HoTen;
-            lbChucVu.Text = ChucVu;
+
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                // Ví dụ: gán icon, khởi tạo dữ liệu, gọi service,...
+                _hoTen = HoTen;
+                _chucVu = ChucVu;
+                lbHoTen.Text = HoTen;
+                lbChucVu.Text = ChucVu;
+            }
         }
         private void LoadFormIntoPanel(Form form)
         {
@@ -71,7 +76,7 @@ namespace QuanLyKhachSan
 
         private void thôngTinCáNhânToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
@@ -246,15 +251,44 @@ namespace QuanLyKhachSan
             btn.ForeColor = Color.White;
         }
 
-        private void TrangChu_FormClosed(object sender, FormClosedEventArgs e)
+        private void quảnLýKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            QL_KhuyenMai f = new QL_KhuyenMai();
+            f.ShowDialog();
+        }
+
+        private void thoátToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void quảnLýKhuyênMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        private void báoCáoĐặtPhòngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            QL_KhuyenMai frm = new QL_KhuyenMai();
-            frm.ShowDialog();
+            ReportDatPhong f = new ReportDatPhong();
+            f.ShowDialog();
+        }
+
+        private void báoCáoKháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportKhachHang f = new ReportKhachHang();
+            f.ShowDialog();
+        }
+
+        private void báoCáoNhânViênToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportNhanVien f = new ReportNhanVien();
+            f.ShowDialog();
+        }
+
+        private void báoCáoPhòngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReportPhong f = new ReportPhong();
+            f.ShowDialog();
+        }
+
+        private void TrangChu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

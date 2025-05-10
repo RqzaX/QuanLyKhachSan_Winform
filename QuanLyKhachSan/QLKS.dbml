@@ -139,4 +139,23 @@
       <Column Name="gia" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_ThongKeDatPhong" Method="sp_ThongKeDatPhong">
+    <ElementType Name="sp_ThongKeDatPhongResult">
+      <Column Name="loai_phong_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="loai_phong_dat_nhieu_nhat" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="so_lan_dat_loai_phong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="phong_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="phong_dat_nhieu_nhat" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="so_lan_dat_phong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="tong_dat_phong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="tong_so_phong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ty_le_dat_phong" Type="System.Decimal" DbType="Decimal(26,12)" CanBeNull="true" />
+      <Column Name="so_dat_ngay" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ty_le_dat_ngay" Type="System.Decimal" DbType="Decimal(26,12)" CanBeNull="true" />
+      <Column Name="so_ngay_trong_data" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="trung_binh_dat_tren_ngay" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="so_thang_trong_data" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="trung_binh_dat_tren_thang" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>
