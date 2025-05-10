@@ -67,6 +67,21 @@ CREATE TABLE DatPhong (
     ngay_dat DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     trang_thai NVARCHAR(20)
 );
+-- select * from KhachHang
+-- select * from DatPhong
+-- select * from Phong
+-- select * from HoaDon
+-- select * from ThanhToan
+-- select * from DichVuDatPhong
+-- DELETE FROM dbo.DatPhong;
+-- DELETE FROM dbo.Phong;
+/*
+UPDATE DatPhong
+SET ngay_check_out = CAST(DATEADD(DAY, 0, GETDATE()) AS DATE)
+WHERE dat_phong_id = 8;
+select * from DatPhong
+*/
+
 go
 -- 8. Bảng dịch vụ đi kèm đặt phòng
 CREATE TABLE DichVuDatPhong (
@@ -74,7 +89,7 @@ CREATE TABLE DichVuDatPhong (
     dat_phong_id INT NOT NULL,
     dich_vu_id INT NOT NULL,
     so_luong INT DEFAULT 1,
-    ngay_su_dung DATE NOT NULL
+    ngay_su_dung DATE NOT NULL 
 );
 go
 -- 9. Bảng hóa đơn
@@ -86,6 +101,7 @@ CREATE TABLE HoaDon (
     ngay_tao DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     tong_tien DECIMAL(10, 2) NOT NULL
 );
+-- select * from HoaDon
 go
 -- 10. Bảng thanh toán
 CREATE TABLE ThanhToan (
@@ -261,7 +277,38 @@ INSERT INTO NhanVien(ho_ten, sdt, vai_tro_id, ca_lam_viec, luong, tai_khoan, mat
 
 --SELECT * FROM DatPhong;
 
---SELECT * FROM HoaDon;
+--SELECT * FROM Phong;
 --SELECT * FROM LoaiPhong;
 
 --drop database QLKS
+-------------------------------- STORE --------------------------------
+go
+IF OBJECT_ID('dbo.sp_ThongTinHoaDon','P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_ThongTinHoaDon;
+GO
+
+CREATE PROCEDURE dbo.sp_ThongTinHoaDon
+    @hoa_don_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        hd.hoa_don_id,
+        hd.ngay_tao,
+        hd.tong_tien,
+        kh.ho_ten    AS khach_hang,
+        p.so_phong  AS phong,
+        dp.ngay_check_in,
+        dp.ngay_check_out,
+        dv.ten_dich_vu,
+        dvdp.so_luong,
+        dv.gia
+    FROM HoaDon hd
+    INNER JOIN DatPhong dp   ON hd.dat_phong_id = dp.dat_phong_id
+    INNER JOIN Phong p       ON dp.phong_id      = p.phong_id
+    INNER JOIN KhachHang kh  ON dp.khach_hang_id = kh.khach_hang_id
+    LEFT  JOIN DichVuDatPhong dvdp ON dp.dat_phong_id = dvdp.dat_phong_id
+    LEFT  JOIN DichVu dv     ON dvdp.dich_vu_id   = dv.dich_vu_id
+    WHERE hd.hoa_don_id = @hoa_don_id;
+END
