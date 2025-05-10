@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyKhachSan.Reporting;
-
+using QuanLyKhachSan.Helpers;
 
 namespace QuanLyKhachSan
 {
@@ -21,6 +21,7 @@ namespace QuanLyKhachSan
         {
             InitializeComponent();
             _hoaDonId = maHD;
+            // tool box ko kéo được
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.SuspendLayout();
             // 
@@ -38,41 +39,28 @@ namespace QuanLyKhachSan
         {
             ShowInvoice(_hoaDonId);
         }
-        private DataTable GetInvoiceDataTable(int hoaDonId)
-        {
-            DataTable dt = new DataTable();
-            string connStr = @"Server=LAPTOP-R1ZAX\MSSQLSERVER01;Database=QLKS;Integrated Security=true;";
-
-            using (var conn = new SqlConnection(connStr))
-            using (var cmd = new SqlCommand("dbo.sp_ThongTinHoaDon", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@hoa_don_id", hoaDonId);
-                conn.Open();
-
-                using (var rdr = cmd.ExecuteReader())
-                {
-                    dt.Load(rdr);
-                }
-            }
-
-            return dt;
-        }
 
         private void ShowInvoice(int id)
         {
-            DataTable dt = GetInvoiceDataTable(id);
+            using (var db = new QLKSDataContext())
+            {
+                var raw = db.sp_ThongTinHoaDon(id).ToList();
 
-            var rpt = new ThongTinHoaDon();
-            rpt.SetDataSource(dt);
+                // 3. Chuyển List<> thành DataTable
+                DataTable dt = raw.ToDataTable();
 
-            rpt.SetParameterValue("@hoa_don_id", id);
+                // 4. Tạo report và gán dữ liệu
+                var rpt = new ThongTinHoaDon();
+                rpt.SetDataSource(dt);
 
-            // Gán vào viewer
-            crystalReportViewer1.ReportSource = rpt;
-            crystalReportViewer1.Refresh();
+                // 5. (Nếu trong rpt có Parameter Field)
+                //    Tên param phải trùng với tên bạn tạo trong Crystal Designer
+                rpt.SetParameterValue("@hoa_don_id", id);
+
+                // 6. Đẩy vào viewer
+                crystalReportViewer1.ReportSource = rpt;
+                crystalReportViewer1.Refresh();
+            }
         }
-
-
     }
 }
