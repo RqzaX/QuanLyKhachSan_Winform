@@ -128,6 +128,7 @@
     <Compile Include="ChonPhongChuyen.Designer.cs">
       <DependentUpon>ChonPhongChuyen.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatDichVuDTO.cs" />
     <Compile Include="FrmDatPhong.cs">
       <SubType>Form</SubType>
     </Compile>

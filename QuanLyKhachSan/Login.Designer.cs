@@ -72,11 +72,11 @@
             // 
             this.lbNameKS.AutoSize = true;
             this.lbNameKS.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbNameKS.Location = new System.Drawing.Point(22, 409);
+            this.lbNameKS.Location = new System.Drawing.Point(12, 410);
             this.lbNameKS.Name = "lbNameKS";
-            this.lbNameKS.Size = new System.Drawing.Size(378, 33);
+            this.lbNameKS.Size = new System.Drawing.Size(394, 33);
             this.lbNameKS.TabIndex = 3;
-            this.lbNameKS.Text = "Khách sạn Vinpearl Luxury";
+            this.lbNameKS.Text = "Khách sạn Vinpearl Luxuryy";
             this.lbNameKS.Paint += new System.Windows.Forms.PaintEventHandler(this.lbNameKS_Paint);
             // 
             // label5
@@ -85,7 +85,7 @@
             this.label5.Font = new System.Drawing.Font("Arial", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(50, 369);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(332, 27);
+            this.label5.Size = new System.Drawing.Size(303, 26);
             this.label5.TabIndex = 2;
             this.label5.Text = "Hệ thống quản lý khách sạn!";
             // 
@@ -95,7 +95,7 @@
             this.label1.Font = new System.Drawing.Font("Arial", 13.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(76, 327);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(280, 27);
+            this.label1.Size = new System.Drawing.Size(261, 26);
             this.label1.TabIndex = 1;
             this.label1.Text = "Chào mừng bạn đến với";
             // 

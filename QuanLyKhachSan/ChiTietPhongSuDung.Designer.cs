@@ -39,7 +39,7 @@
             this.txtThoiHan = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.dtNgayCheckOut = new System.Windows.Forms.DateTimePicker();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cbGiaHan = new System.Windows.Forms.CheckBox();
             this.dgvDichVu = new System.Windows.Forms.DataGridView();
             this.txtCCCD = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -118,6 +118,7 @@
             this.dgvDatDichVu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDatDichVu.Size = new System.Drawing.Size(749, 234);
             this.dgvDatDichVu.TabIndex = 2;
+            this.dgvDatDichVu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatDichVu_CellContentClick);
             // 
             // dtNgayCheckIn
             // 
@@ -174,7 +175,7 @@
             this.groupBox5.Controls.Add(this.txtThoiHan);
             this.groupBox5.Controls.Add(this.label17);
             this.groupBox5.Controls.Add(this.dtNgayCheckOut);
-            this.groupBox5.Controls.Add(this.checkBox1);
+            this.groupBox5.Controls.Add(this.cbGiaHan);
             this.groupBox5.Controls.Add(this.dtNgayCheckIn);
             this.groupBox5.Controls.Add(this.dtNgayDat);
             this.groupBox5.Controls.Add(this.label12);
@@ -221,18 +222,18 @@
             this.dtNgayCheckOut.TabIndex = 31;
             this.dtNgayCheckOut.ValueChanged += new System.EventHandler(this.dtNgayCheckOut_ValueChanged);
             // 
-            // checkBox1
+            // cbGiaHan
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.checkBox1.Location = new System.Drawing.Point(32, 291);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(261, 29);
-            this.checkBox1.TabIndex = 26;
-            this.checkBox1.Text = "Gia hạn ngày check out";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.cbGiaHan.AutoSize = true;
+            this.cbGiaHan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbGiaHan.ForeColor = System.Drawing.Color.LightSeaGreen;
+            this.cbGiaHan.Location = new System.Drawing.Point(32, 291);
+            this.cbGiaHan.Name = "cbGiaHan";
+            this.cbGiaHan.Size = new System.Drawing.Size(261, 29);
+            this.cbGiaHan.TabIndex = 26;
+            this.cbGiaHan.Text = "Gia hạn ngày check out";
+            this.cbGiaHan.UseVisualStyleBackColor = true;
+            this.cbGiaHan.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // dgvDichVu
             // 
@@ -248,6 +249,7 @@
             this.dgvDichVu.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvDichVu.Size = new System.Drawing.Size(640, 234);
             this.dgvDichVu.TabIndex = 1;
+            this.dgvDichVu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDichVu_CellContentClick);
             // 
             // txtCCCD
             // 
@@ -535,6 +537,7 @@
             this.btnLuu.TabIndex = 28;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
             // btnThanhToan
             // 
@@ -547,6 +550,7 @@
             this.btnThanhToan.TabIndex = 34;
             this.btnThanhToan.Text = "Thanh Toán Ngay";
             this.btnThanhToan.UseVisualStyleBackColor = false;
+            this.btnThanhToan.Click += new System.EventHandler(this.btnThanhToan_Click);
             // 
             // groupBox6
             // 
@@ -572,7 +576,7 @@
             this.lbPhanTramKM.BackColor = System.Drawing.Color.OrangeRed;
             this.lbPhanTramKM.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbPhanTramKM.ForeColor = System.Drawing.Color.White;
-            this.lbPhanTramKM.Location = new System.Drawing.Point(232, 101);
+            this.lbPhanTramKM.Location = new System.Drawing.Point(155, 99);
             this.lbPhanTramKM.Name = "lbPhanTramKM";
             this.lbPhanTramKM.Size = new System.Drawing.Size(60, 24);
             this.lbPhanTramKM.TabIndex = 40;
@@ -585,9 +589,9 @@
             this.lbMoTaKM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbMoTaKM.Location = new System.Drawing.Point(27, 99);
             this.lbMoTaKM.Name = "lbMoTaKM";
-            this.lbMoTaKM.Size = new System.Drawing.Size(190, 25);
+            this.lbMoTaKM.Size = new System.Drawing.Size(122, 25);
             this.lbMoTaKM.TabIndex = 39;
-            this.lbMoTaKM.Text = "Khuyến mãi hiện có:";
+            this.lbMoTaKM.Text = "Khuyến mãi:";
             // 
             // lbTienDichVu
             // 
@@ -681,7 +685,7 @@
             this.lbSoPhong.AutoSize = true;
             this.lbSoPhong.Font = new System.Drawing.Font("Calibri", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbSoPhong.ForeColor = System.Drawing.Color.White;
-            this.lbSoPhong.Location = new System.Drawing.Point(617, 9);
+            this.lbSoPhong.Location = new System.Drawing.Point(679, 9);
             this.lbSoPhong.Name = "lbSoPhong";
             this.lbSoPhong.Size = new System.Drawing.Size(208, 97);
             this.lbSoPhong.TabIndex = 11;
@@ -755,7 +759,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.DateTimePicker dtNgayCheckOut;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox cbGiaHan;
         private System.Windows.Forms.DataGridView dgvDichVu;
         private System.Windows.Forms.TextBox txtCCCD;
         private System.Windows.Forms.Label label9;

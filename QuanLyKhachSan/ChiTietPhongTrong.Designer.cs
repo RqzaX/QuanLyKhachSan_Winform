@@ -361,6 +361,7 @@
             this.txtHoTen.Size = new System.Drawing.Size(352, 34);
             this.txtHoTen.TabIndex = 17;
             this.txtHoTen.Text = "Nguyễn Văn A";
+            this.txtHoTen.TextChanged += new System.EventHandler(this.txtHoTen_TextChanged);
             // 
             // label5
             // 
@@ -436,7 +437,7 @@
             this.cbDatTruoc.TabIndex = 26;
             this.cbDatTruoc.Text = "Đặt Trước";
             this.cbDatTruoc.UseVisualStyleBackColor = true;
-            this.cbDatTruoc.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.cbDatTruoc.CheckedChanged += new System.EventHandler(this.cbDatTruoc_CheckedChanged);
             // 
             // groupBox5
             // 

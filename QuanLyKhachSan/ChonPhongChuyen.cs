@@ -93,7 +93,21 @@ namespace QuanLyKhachSan
                                 "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            string trangThaiPhongOld = dp.trang_thai;
+            // Phòng mới không được trùng với phòng cũ
+            if (dp.phong_id == newPhongId)
+            {
+                MessageBox.Show("Phòng mới không được trùng với phòng cũ.",
+                                "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            // Phòng mới không được đang sử dụng
+            var phongMoi = db.Phongs.SingleOrDefault(p => p.phong_id == newPhongId);
+            if (phongMoi == null || phongMoi.trang_thai != "trong")
+            {
+                MessageBox.Show("Phòng mới không hợp lệ hoặc đang sử dụng.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             // trả lại trạng thái trống phòng cũ
             var oldPhong = db.Phongs.Single(p => p.phong_id == dp.phong_id);
             oldPhong.trang_thai = "trong";
@@ -104,7 +118,14 @@ namespace QuanLyKhachSan
 
             // Cập nhật trạng thái phòng mới
             var newPhong = db.Phongs.Single(p => p.phong_id == newPhongId);
-            newPhong.trang_thai = "dang_su_dung";
+            if(trangThaiPhongOld == "da_dat")
+            {
+                newPhong.trang_thai = "da_dat";
+            }
+            else
+            {
+                newPhong.trang_thai = "dang_su_dung";
+            }
             db.SubmitChanges();
 
             // Trả về ID mới cho form cha

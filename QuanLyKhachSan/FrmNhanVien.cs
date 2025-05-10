@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -156,21 +157,24 @@ namespace QuanLyKhachSan
 
         private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtMaNV.Text = dgvNhanVien.SelectedCells[0].Value.ToString();
-            txtHoTen.Text = dgvNhanVien.SelectedCells[1].Value.ToString();
-            txtSDT.Text = dgvNhanVien.SelectedCells[2].Value.ToString();
-            cbbChucVu.Text = dgvNhanVien.SelectedCells[3].Value.ToString();
-            cbbCaLamViec.Text = dgvNhanVien.SelectedCells[4].Value.ToString();
+            if (e.RowIndex < 0) return;
+            var row = dgvNhanVien.Rows[e.RowIndex];
+            //txtMaNV.Text = row.Cells["nhan_vien_id"].Value.ToString();
+            txtMaNV.Text = dgvNhanVien.SelectedCells[1].Value.ToString();
+            txtHoTen.Text = dgvNhanVien.SelectedCells[2].Value.ToString();
+            txtSDT.Text = dgvNhanVien.SelectedCells[3].Value.ToString();
+            cbbChucVu.Text = dgvNhanVien.SelectedCells[4].Value.ToString();
+            cbbCaLamViec.Text = dgvNhanVien.SelectedCells[5].Value.ToString();
 
             // parse lương về số rồi format
-            if (decimal.TryParse(dgvNhanVien.SelectedCells[5].Value.ToString(), out var luong))
+            if (decimal.TryParse(dgvNhanVien.SelectedCells[6].Value.ToString(), out var luong))
                 txtLuong.Text = luong.ToString("N0", new CultureInfo("vi-VN"));
 
             if (dgvNhanVien.SelectedCells[6].Value.ToString().Length > 0)
             {
                 cbCapTaiKhoan.Checked = true;
-                txtTaiKhoan.Text = dgvNhanVien.SelectedCells[6].Value.ToString();
-                txtMatKhau.Text = dgvNhanVien.SelectedCells[7].Value.ToString();
+                txtTaiKhoan.Text = dgvNhanVien.SelectedCells[7].Value.ToString();
+                txtMatKhau.Text = dgvNhanVien.SelectedCells[8].Value.ToString();
             }
             else
             {

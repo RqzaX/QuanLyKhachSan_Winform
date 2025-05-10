@@ -127,8 +127,8 @@ namespace QuanLyKhachSan
             DateTime today = DateTime.Today;
 
             //Phòng trả hôm nay
-            int traPhongHomNay = db.DatPhongs
-                .Count(dp => dp.ngay_check_out == today);
+            int traPhongHomNay = db.DatPhongs.Count(dp => dp.ngay_check_out == today);
+            if (traPhongHomNay == null) traPhongHomNay = 0;
 
             // Phòng check-in hôm nay (đặt trước)
             int datTruoc = db.DatPhongs

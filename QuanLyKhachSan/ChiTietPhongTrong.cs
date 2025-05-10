@@ -19,12 +19,13 @@ namespace QuanLyKhachSan
 {
     public partial class ChiTietPhongTrong : Form
     {
+        private QLKSDataContext db = new QLKSDataContext();
         private bool checkDichVu = false;
         private string trangThai;
         private int ID;
         private decimal _giaTheoDem, _giaDichVu;
-        private QLKSDataContext db = new QLKSDataContext();
-        public ChiTietPhongTrong(int ID, string trangThai)
+        private DatPhong _booking;
+        public ChiTietPhongTrong(int ID, string trangThai, DatPhong datPhong)
         {
             InitializeComponent();
             this.ID = ID;
@@ -32,14 +33,31 @@ namespace QuanLyKhachSan
             txtKhachId.Hide();
             txtKhuyenMaiID.Hide();
             dtCheckOut.Value = dtCheckIn.Value.AddDays(1);
-
+            txtSDT.MaxLength = 10;
+            txtCCCD.MaxLength = 12;
+            dgvDatDichVu.RowTemplate.Height = 30;
+            dgvDichVu.RowTemplate.Height = 30;
             UpdateSoTien();
             lbTienDichVu.Text = "Tiền dịch vụ: 0";
             lbTienThuePhong.Text = "Tiền thuê phòng: 0";
             lbSoTienCanThanhToan.Text = "0";
+            dtCheckIn.Enabled = false;
             int pct = LayMaxGiaTriPhamTramKhuyenMai();
             lbPhanTramKM.Text = pct > 0 ? pct + "%" : " → giảm 0%";
             if (layMaKhuyenMai() > 0) txtKhuyenMaiID.Text = layMaKhuyenMai().ToString();
+            if (datPhong != null)
+            {
+                _booking = datPhong;
+                txtKhachId.Text = datPhong.khach_hang_id.ToString();
+                txtHoTen.Text = datPhong.KhachHang.ho_ten;
+                txtDiaChi.Text = datPhong.KhachHang.dia_chi;
+                txtSDT.Text = datPhong.KhachHang.so_dien_thoai;
+                txtEmail.Text = datPhong.KhachHang.email;
+                txtCCCD.Text = datPhong.KhachHang.cccd;
+                dtNgayDat.Value = datPhong.ngay_dat;
+                dtCheckIn.Value = datPhong.ngay_check_in;
+                dtCheckOut.Value = datPhong.ngay_check_out;
+            }
         }
         private int? layMaKhuyenMai()
         {
@@ -158,7 +176,7 @@ namespace QuanLyKhachSan
         {
             DataGridViewButtonColumn btnAdd = new DataGridViewButtonColumn();
             btnAdd.Name = "Thao tác";
-            btnAdd.Text = "✛";
+            btnAdd.Text = "Thêm";
             btnAdd.UseColumnTextForButtonValue = true;
             dgvDichVu.Columns.Add(btnAdd);
         }
@@ -178,9 +196,7 @@ namespace QuanLyKhachSan
                 decimal gia = Convert.ToDecimal(src.Cells["gia"].Value);
 
                 // Kiểm tra trùng
-                var exist = dgvDatDichVu.Rows
-                    .OfType<DataGridViewRow>()
-                    .FirstOrDefault(r => r.Cells["ten_dich_vu"].Value?.ToString() == ten);
+                var exist = dgvDatDichVu.Rows.OfType<DataGridViewRow>().FirstOrDefault(r => r.Cells["ten_dich_vu"].Value?.ToString() == ten);
 
                 if (exist != null)
                 {
@@ -329,49 +345,47 @@ namespace QuanLyKhachSan
         }
         private void LoadThongTin(int phongId)
         {
-            using (var db = new QLKSDataContext())
+            var room = (from p in db.Phongs
+                        join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                        where p.phong_id == phongId
+                        select new
+                        {
+                            p.phong_id,
+                            p.so_phong,
+                            p.loai_phong_id,
+                            TenLoai = lp.ten_loai,
+                            MoTa = lp.mo_ta,
+                            Gia = lp.gia_theo_dem,
+                            p.trang_thai
+                        }).SingleOrDefault();
+            if (room == null) return;
+            var val = room.Gia;
+
+            _giaTheoDem = val;
+
+            if (val != null && decimal.TryParse(val.ToString(), out var gia))
             {
-                var room = (from p in db.Phongs
-                            join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-                            where p.phong_id == phongId
-                            select new
-                            {
-                                p.phong_id,
-                                p.so_phong,
-                                p.loai_phong_id,
-                                TenLoai = lp.ten_loai,
-                                MoTa = lp.mo_ta,
-                                Gia = lp.gia_theo_dem,
-                                p.trang_thai
-                            }).SingleOrDefault();
-                if (room == null) return;
-                var val = room.Gia;
-
-                _giaTheoDem = val;
-
-                if (val != null && decimal.TryParse(val.ToString(), out var gia))
-                {
-                    var vi = new CultureInfo("vi-VN");
-                    txtGia.Text = gia.ToString("N0", vi);
-                }
-                else txtGia.Text = "";
-                lbSoPhong.Text = room.so_phong;
-                txtSoPhong.Text = room.so_phong;
-                txtLoaiPhong.Text = room.TenLoai;
-                txtTrangThai.Text = TranslateStatus(trangThai);
-                txtMoTa.Text = room.MoTa;
-
-                txtHoTen.Clear();
-                txtDiaChi.Clear();
-                txtSDT.Clear();
-                txtEmail.Clear();
-                txtCCCD.Clear();
-
-                dtNgayDat.Value = DateTime.Today;
-                dtCheckIn.Value = DateTime.Today;
-                dtCheckOut.Value = DateTime.Today;
-                cbDatTruoc.Checked = false;
+                var vi = new CultureInfo("vi-VN");
+                txtGia.Text = gia.ToString("N0", vi);
             }
+            else txtGia.Text = "";
+            lbSoPhong.Text = room.so_phong;
+            txtSoPhong.Text = room.so_phong;
+            txtLoaiPhong.Text = room.TenLoai;
+            txtTrangThai.Text = TranslateStatus(trangThai);
+            txtMoTa.Text = room.MoTa;
+
+            txtHoTen.Clear();
+            txtDiaChi.Clear();
+            txtSDT.Clear();
+            txtEmail.Clear();
+            txtCCCD.Clear();
+
+            dtNgayDat.Value = DateTime.Today;
+            dtCheckIn.Value = DateTime.Today;
+            dtCheckOut.Value = DateTime.Today;
+            cbDatTruoc.Checked = false;
+
         }
         private string TranslateStatus(string status)
         {
@@ -399,69 +413,16 @@ namespace QuanLyKhachSan
         }
         private void LoadKhachHang(int khachHangId)
         {
-            using (var db = new QLKSDataContext())
-            {
-                var kh = db.KhachHangs
-                           .SingleOrDefault(k => k.khach_hang_id == khachHangId);
-                if (kh == null) return; // hoặc clear form nếu không tìm thấy
+            var kh = db.KhachHangs
+                       .SingleOrDefault(k => k.khach_hang_id == khachHangId);
+            if (kh == null) return; // hoặc clear form nếu không tìm thấy
 
-                txtHoTen.Text = kh.ho_ten;
-                txtDiaChi.Text = kh.dia_chi;
-                txtSDT.Text = kh.so_dien_thoai;
-                txtEmail.Text = kh.email;
-                txtCCCD.Text = kh.cccd;
-            }
-        }
-        private bool KiemTraDate()
-        {
-            DateTime today = DateTime.Today;
-            DateTime ngayDat = dtNgayDat.Value.Date;
-            DateTime ngayCheckIn = dtCheckIn.Value.Date;
-            DateTime ngayCheckOut = dtCheckOut.Value.Date;
-            bool datTruoc = cbDatTruoc.Checked;
+            txtHoTen.Text = kh.ho_ten;
+            txtDiaChi.Text = kh.dia_chi;
+            txtSDT.Text = kh.so_dien_thoai;
+            txtEmail.Text = kh.email;
+            txtCCCD.Text = kh.cccd;
 
-            if (!datTruoc)
-            {
-                // Nếu không đặt trước thì ngày đặt phải là hôm nay
-                if (ngayDat != today)
-                {
-                    MessageBox.Show("Nếu không đặt trước, Ngày đặt phải là hôm nay.",
-                                    "Lỗi ngày đặt", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dtNgayDat.Focus();
-                    return false;
-                }
-            }
-            else
-            {
-                // Nếu đặt trước thì ngày đặt phải > hôm nay
-                if (ngayDat <= today)
-                {
-                    MessageBox.Show("Nếu đánh dấu Đặt trước, Ngày đặt phải lớn hơn hôm nay.",
-                                    "Lỗi ngày đặt trước", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dtNgayDat.Focus();
-                    return false;
-                }
-            }
-
-            // Ngày check-in ≥ ngày đặt
-            if (ngayCheckIn < ngayDat)
-            {
-                MessageBox.Show("Ngày check-in phải bằng hoặc sau Ngày đặt.",
-                                "Lỗi ngày check-in", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                dtCheckIn.Focus();
-                return false;
-            }
-
-            // Ngày check-out > ngày check-in
-            if (ngayCheckOut <= ngayCheckIn)
-            {
-                MessageBox.Show("Ngày check-out phải sau Ngày check-in.",
-                                "Lỗi ngày check-out", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                dtCheckOut.Focus();
-                return false;
-            }
-
-            return true;
         }
         private bool DieuKienKhachHang()
         {
@@ -543,7 +504,7 @@ namespace QuanLyKhachSan
                     return;
                 }
                 string trangThaiPhong = "";
-                if (datTruoc) trangThaiPhong = "dat_truoc";
+                if (datTruoc) trangThaiPhong = "da_dat";
                 else trangThaiPhong = "dang_su_dung";
                 // Thêm DatPhong
                 var dp = new DatPhong();
@@ -638,13 +599,55 @@ namespace QuanLyKhachSan
             DateTime ngayCheckOut = dtCheckOut.Value.Date;
             int soNgay = (ngayCheckOut - ngayCheckIn).Days;
             if (soNgay == 0) soNgay = 1;
-            if (soNgay > 0)
+
+            // Lấy thông tin đặt phòng đã tồn tại từ cơ sở dữ liệu
+            int phongId = ID;
+            var datPhongInfo = (from dp in db.DatPhongs
+                                where dp.phong_id == phongId && dp.trang_thai == "da_dat" && dp.ngay_check_in > today
+                                orderby dp.ngay_check_in
+                                select new
+                                {
+                                    NgayCheckIn = dp.ngay_check_in,
+                                    NgayCheckOut = dp.ngay_check_out
+                                }).FirstOrDefault();
+
+            bool isValid = true;
+
+            // Kiểm tra điều kiện ngày check-in và check-out hợp lệ
+            if (soNgay <= 0)
             {
-                UpdateSoTien();
-            }
-            else
-            {
+                isValid = false;
                 txtThoiHan.Text = "Vui lòng chọn ngày Check in < ngày Check out";
+            }
+            // Kiểm tra nếu có đặt phòng đã tồn tại
+            else if (datPhongInfo != null)
+            {
+                // Kiểm tra điều kiện 1: Không được chọn ngày check-out vượt qua ngày check-in đã đặt
+                if (ngayCheckOut >= datPhongInfo.NgayCheckIn)
+                {
+                    isValid = false;
+                    string thongBao = $"Phòng đã có khách đặt trước vào ngày {datPhongInfo.NgayCheckIn.ToString("dd/MM/yyyy")}";
+                    thongBao += $"\nVui lòng chọn ngày check-out trước ngày {datPhongInfo.NgayCheckIn.ToString("dd/MM/yyyy")}";
+                    MessageBox.Show(thongBao, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    // Đề xuất ngày check-out hợp lệ
+                    dtCheckOut.Value = datPhongInfo.NgayCheckIn.AddDays(-1);
+                }
+
+                // Kiểm tra điều kiện 2: Hiển thị thông báo nếu đặt phòng trong khoảng 2 ngày trước ngày check-in
+                int soNgayTruocCheckIn = (datPhongInfo.NgayCheckIn - today).Days;
+                if (soNgayTruocCheckIn <= 2 && soNgayTruocCheckIn > 0)
+                {
+                    string thongBao = $"Lưu ý: Phòng này đã có khách đặt check-in vào ngày {datPhongInfo.NgayCheckIn.ToString("dd/MM/yyyy")}";
+                    MessageBox.Show(thongBao, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
+            // Nếu tất cả điều kiện hợp lệ
+            if (isValid)
+            {
+                txtThoiHan.Text = $"{soNgay} ngày";
+                UpdateSoTien();
             }
         }
         private void UpdateSoTien()
@@ -666,6 +669,28 @@ namespace QuanLyKhachSan
             lbMoTaKM.Text = LayTenKhuyenMai();
             lbPhanTramKM.Text = $"{LayMaxGiaTriPhamTramKhuyenMai()}% → giảm {giamGia.ToString("N0", vi)}";
             lbSoTienCanThanhToan.Text = finalTotal.ToString("N0", vi);
+        }
+
+        private void txtHoTen_TextChanged(object sender, EventArgs e)
+        {
+            if (txtHoTen.Text.Length == 0)
+            {
+                txtKhachId.Text = "";
+            }
+        }
+
+        private void cbDatTruoc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbDatTruoc.Checked)
+            {
+                cbDichVu.Enabled = false;
+                dtCheckIn.Enabled = true;
+            }
+            else
+            {
+                cbDichVu.Enabled = true;
+                dtCheckIn.Enabled = false;
+            }
         }
 
         private void dtCheckIn_ValueChanged(object sender, EventArgs e)
