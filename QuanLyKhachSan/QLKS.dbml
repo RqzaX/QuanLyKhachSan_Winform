@@ -124,4 +124,19 @@
       <Association Name="HoaDon_ThanhToan" Member="HoaDon" ThisKey="hoa_don_id" OtherKey="hoa_don_id" Type="HoaDon" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
+  <Function Name="dbo.sp_ThongTinHoaDon" Method="sp_ThongTinHoaDon">
+    <Parameter Name="hoa_don_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_ThongTinHoaDonResult">
+      <Column Name="hoa_don_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ngay_tao" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="tong_tien" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
+      <Column Name="khach_hang" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="phong" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="ngay_check_in" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ngay_check_out" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ten_dich_vu" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="so_luong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="gia" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

@@ -536,15 +536,13 @@ namespace QuanLyKhachSan
                     phong.trang_thai = "trong";
                 }
                 db.SubmitChanges();
-                MessageBox.Show(
-                "Thanh toán thành công!\n" +
-                $"Tổng tiền phòng: {tongTienThue:N0} VNĐ\n" +
-                $"Tổng tiền DV  : {tienDV:N0} VNĐ\n" +
-                $"Giảm giá      : -{giamGia:N0} VNĐ\n" +
-                $"=> Thanh toán : {tongCuoiCung:N0} VNĐ",
-                "Thanh toán", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var dr = MessageBox.Show("Thanh toán thành công!\n\nXác nhận in hóa đơn", "Thanh toán", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (dr == DialogResult.Yes)
+                {
+                    var rptForm = new ReportThongTinHoaDon(hd.hoa_don_id);
+                    rptForm.ShowDialog();
+                }
 
-                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (IOException ex)

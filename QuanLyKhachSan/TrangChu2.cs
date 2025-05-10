@@ -173,7 +173,7 @@ namespace QuanLyKhachSan
 
         private void button4_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Đã gọi bảo vệ đến quầy lễ tân.", "Thông báo");
         }
 
         private void rdoPhong_CheckedChanged(object sender, EventArgs e)

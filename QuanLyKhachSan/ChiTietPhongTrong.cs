@@ -292,20 +292,6 @@ namespace QuanLyKhachSan
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cbDatTruoc.Checked)
-            {
-                btnDatPhong.Text = "Đặt Trước Ngay";
-                btnDatPhong.BackColor = Color.FromArgb(0, 192, 192);
-            }
-            else
-            {
-                btnDatPhong.Text = "Đặt Phòng Ngay";
-                btnDatPhong.BackColor = Color.FromArgb(0, 192, 0);
-            }
-        }
-
         private void cbDichVu_CheckedChanged(object sender, EventArgs e)
         {
             if (cbDichVu.Checked)
@@ -685,11 +671,15 @@ namespace QuanLyKhachSan
             {
                 cbDichVu.Enabled = false;
                 dtCheckIn.Enabled = true;
+                btnDatPhong.BackColor = Color.FromArgb(0, 192, 192);
+                btnDatPhong.Text = "Đặt Trước Ngay";
             }
             else
             {
                 cbDichVu.Enabled = true;
                 dtCheckIn.Enabled = false;
+                btnDatPhong.Text = "Đặt Phòng Ngay";
+                btnDatPhong.BackColor = Color.FromArgb(0, 192, 0);
             }
         }
 

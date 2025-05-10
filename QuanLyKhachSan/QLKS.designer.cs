@@ -182,6 +182,13 @@ namespace QuanLyKhachSan
 				return this.GetTable<ThanhToan>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_ThongTinHoaDon")]
+		public ISingleResult<sp_ThongTinHoaDonResult> sp_ThongTinHoaDon([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> hoa_don_id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), hoa_don_id);
+			return ((ISingleResult<sp_ThongTinHoaDonResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DatPhong")]
@@ -2749,6 +2756,194 @@ namespace QuanLyKhachSan
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	public partial class sp_ThongTinHoaDonResult
+	{
+		
+		private int _hoa_don_id;
+		
+		private System.DateTime _ngay_tao;
+		
+		private decimal _tong_tien;
+		
+		private string _khach_hang;
+		
+		private string _phong;
+		
+		private System.DateTime _ngay_check_in;
+		
+		private System.DateTime _ngay_check_out;
+		
+		private string _ten_dich_vu;
+		
+		private System.Nullable<int> _so_luong;
+		
+		private System.Nullable<decimal> _gia;
+		
+		public sp_ThongTinHoaDonResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hoa_don_id", DbType="Int NOT NULL")]
+		public int hoa_don_id
+		{
+			get
+			{
+				return this._hoa_don_id;
+			}
+			set
+			{
+				if ((this._hoa_don_id != value))
+				{
+					this._hoa_don_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ngay_tao", DbType="Date NOT NULL")]
+		public System.DateTime ngay_tao
+		{
+			get
+			{
+				return this._ngay_tao;
+			}
+			set
+			{
+				if ((this._ngay_tao != value))
+				{
+					this._ngay_tao = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tong_tien", DbType="Decimal(10,2) NOT NULL")]
+		public decimal tong_tien
+		{
+			get
+			{
+				return this._tong_tien;
+			}
+			set
+			{
+				if ((this._tong_tien != value))
+				{
+					this._tong_tien = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_khach_hang", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string khach_hang
+		{
+			get
+			{
+				return this._khach_hang;
+			}
+			set
+			{
+				if ((this._khach_hang != value))
+				{
+					this._khach_hang = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_phong", DbType="NVarChar(10) NOT NULL", CanBeNull=false)]
+		public string phong
+		{
+			get
+			{
+				return this._phong;
+			}
+			set
+			{
+				if ((this._phong != value))
+				{
+					this._phong = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ngay_check_in", DbType="Date NOT NULL")]
+		public System.DateTime ngay_check_in
+		{
+			get
+			{
+				return this._ngay_check_in;
+			}
+			set
+			{
+				if ((this._ngay_check_in != value))
+				{
+					this._ngay_check_in = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ngay_check_out", DbType="Date NOT NULL")]
+		public System.DateTime ngay_check_out
+		{
+			get
+			{
+				return this._ngay_check_out;
+			}
+			set
+			{
+				if ((this._ngay_check_out != value))
+				{
+					this._ngay_check_out = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ten_dich_vu", DbType="NVarChar(100)")]
+		public string ten_dich_vu
+		{
+			get
+			{
+				return this._ten_dich_vu;
+			}
+			set
+			{
+				if ((this._ten_dich_vu != value))
+				{
+					this._ten_dich_vu = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_so_luong", DbType="Int")]
+		public System.Nullable<int> so_luong
+		{
+			get
+			{
+				return this._so_luong;
+			}
+			set
+			{
+				if ((this._so_luong != value))
+				{
+					this._so_luong = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gia", DbType="Decimal(10,2)")]
+		public System.Nullable<decimal> gia
+		{
+			get
+			{
+				return this._gia;
+			}
+			set
+			{
+				if ((this._gia != value))
+				{
+					this._gia = value;
+				}
 			}
 		}
 	}

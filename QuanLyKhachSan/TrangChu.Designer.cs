@@ -513,7 +513,7 @@
             this.panelChinh.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelChinh.Location = new System.Drawing.Point(324, 0);
             this.panelChinh.Name = "panelChinh";
-            this.panelChinh.Size = new System.Drawing.Size(1654, 1046);
+            this.panelChinh.Size = new System.Drawing.Size(1741, 1046);
             this.panelChinh.TabIndex = 1;
             // 
             // TrangChu
@@ -521,7 +521,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1924, 1046);
+            this.ClientSize = new System.Drawing.Size(2066, 1046);
             this.Controls.Add(this.panelChinh);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.Black;

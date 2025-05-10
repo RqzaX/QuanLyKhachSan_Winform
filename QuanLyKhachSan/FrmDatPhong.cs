@@ -97,29 +97,35 @@ namespace QuanLyKhachSan
             int btnWidth = 270, btnHeight = 140, margin = 5;
             DateTime today = DateTime.Today;
 
-            var ds = (from p in db.Phongs
-                      join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-                      join bk in db.DatPhongs on p.phong_id equals bk.phong_id into g
-                      from bk in g.DefaultIfEmpty()
-                      orderby p.so_phong
-                      select new
-                      {
-                          p.phong_id,
-                          p.so_phong,
-                          p.trang_thai,
-                          TenLoai = lp.ten_loai,
-                          CheckInDT = (DateTime?)bk.ngay_check_in,
-                          CheckOutDT = (DateTime?)bk.ngay_check_out
-                      }).AsEnumerable().Select(x => new
-                      {
-                          x.phong_id,
-                          x.so_phong,
-                          x.trang_thai,
-                          x.TenLoai,
-                          NgayCheckIn = x.CheckInDT,
-                          NgayCheckInString = x.CheckInDT?.ToString("dd/MM/yyyy"),
-                          CheckOutDate = x.CheckOutDT
-                      }).ToList();
+            // Truy vấn cơ sở dữ liệu với điều kiện lọc theo loại phòng nếu có
+            var query = from p in db.Phongs
+                        join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                        join bk in db.DatPhongs on p.phong_id equals bk.phong_id into g
+                        from bk in g.DefaultIfEmpty()
+                        where loaiId == null || p.loai_phong_id == loaiId
+                        orderby p.so_phong
+                        select new
+                        {
+                            p.phong_id,
+                            p.so_phong,
+                            p.trang_thai,
+                            p.loai_phong_id,
+                            TenLoai = lp.ten_loai,
+                            CheckInDT = (DateTime?)bk.ngay_check_in,
+                            CheckOutDT = (DateTime?)bk.ngay_check_out
+                        };
+
+            var ds = query.AsEnumerable().Select(x => new
+            {
+                x.phong_id,
+                x.so_phong,
+                x.trang_thai,
+                x.loai_phong_id,
+                x.TenLoai,
+                NgayCheckIn = x.CheckInDT,
+                NgayCheckInString = x.CheckInDT?.ToString("dd/MM/yyyy"),
+                CheckOutDate = x.CheckOutDT
+            }).ToList();
 
             foreach (var r in ds)
             {
@@ -156,14 +162,12 @@ namespace QuanLyKhachSan
                     {
                         btn.BackColor = Color.FromArgb(220, 255, 220); // Màu xanh lá nhạt
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng trống";
-                        // PhongTagInfo được tạo ở phần sự kiện click
                     }
                     // Trường hợp 2: Ngày hôm nay cách check-in ≤ 2 ngày
                     else
                     {
                         btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Nhận phòng vào {r.NgayCheckInString}";
-                        // PhongTagInfo được tạo ở phần sự kiện click
                     }
                 }
                 // Xử lý trạng thái đang sử dụng
@@ -256,16 +260,8 @@ namespace QuanLyKhachSan
             // Tạo form đặt phòng
             using (var frmDatPhong = new ChiTietPhongTrong(phongId, null, null))
             {
-                // Thiết lập giới hạn ngày check-out không được vượt quá ngày check-in đã tồn tại
-                //if (ngayCheckInDaTon.HasValue)
-                //{
-                //    frmDatPhong. = ngayCheckInDaTon.Value.AddDays(-1);
-                //}
-
-                // Hiển thị form
                 if (frmDatPhong.ShowDialog() == DialogResult.OK)
                 {
-                    // Xử lý sau khi đặt phòng thành công
                     LoadPhongGrid(); // Tải lại dữ liệu
                 }
             }
