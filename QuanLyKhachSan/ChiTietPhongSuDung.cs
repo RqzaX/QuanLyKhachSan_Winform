@@ -40,41 +40,50 @@ namespace QuanLyKhachSan
         }
         private void LoadChiTiet()
         {
-            //Load DatPhong cùng Phong & KhachHang & KhuyenMai
-            _Booking = db.DatPhongs.SingleOrDefault(d => d.phong_id == _datPhongId);
+            // Lấy hết booking của phòng
+            var allBookings = db.DatPhongs
+                .Where(d => d.phong_id == _datPhongId)
+                .OrderByDescending(d => d.ngay_dat)  //ưu tiên booking mới nhất
+                .ToList();
 
-            if (_Booking == null)
+            if (allBookings.Count == 0)
             {
                 MessageBox.Show(
-                    $"Không tìm thấy đặt phòng ID = {_datPhongId}",
-                    "Lỗi dữ liệu",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    $"Không tìm thấy đặt phòng nào cho phòng ID = {_datPhongId}",
+                    "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
+
+            // Ưu tiên booking đang sử dụng (CheckIn ≤ Today ≤ CheckOut)
+            var today = DateTime.Today;
+            _Booking = allBookings
+                .FirstOrDefault(d => d.ngay_check_in <= today && today <= d.ngay_check_out)
+                // Nếu không có booking "đang sử dụng" thì lấy booking "đặt trước" (ngày_check_in > Today)
+                ?? allBookings.FirstOrDefault(d => d.ngay_check_in > today)
+                // Nếu vẫn null, fallback lấy bản đầu tiên (mới nhất)
+                ?? allBookings.First();
+
             _currentDatPhongId = _Booking.dat_phong_id;
             _currentPhongId = _Booking.phong_id;
-            _Room = db.Phongs
-                .SingleOrDefault(p => p.phong_id == _Booking.phong_id);
+            _Room = db.Phongs.SingleOrDefault(p => p.phong_id == _Booking.phong_id);
             if (_Room == null)
             {
                 MessageBox.Show(
                     $"Không tìm thấy phòng ID = {_Booking.phong_id}",
-                    "Lỗi dữ liệu",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
                 return;
             }
 
-            //Thông tin phòng
+            // Thông tin phòng
             lbSoPhong.Text = _Room.so_phong;
             txtSoPhong.Text = _Room.so_phong;
             txtLoaiPhong.Text = _Room.LoaiPhong.ten_loai;
             txtTrangThai.Text = TranslateStatus(_Room.trang_thai);
             txtMoTa.Text = _Room.LoaiPhong.mo_ta;
-            txtGia.Text = _Room.LoaiPhong.gia_theo_dem.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+            txtGia.Text = _Room.LoaiPhong.gia_theo_dem
+                                      .ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
 
             // Thông tin khách
             var kh = _Booking.KhachHang;
@@ -129,36 +138,60 @@ namespace QuanLyKhachSan
         }
         private void UpdateSoNgayVaKM()
         {
-            // Tính số ngày
+            // Tính số ngày lưu trú
             int day = (dtNgayCheckOut.Value.Date - dtNgayCheckIn.Value.Date).Days;
             if (day < 1) day = 1;
             txtThoiHan.Text = $"{day} Ngày";
 
-            // Cập nhật khuyến mãi có % cao nhất
-            DateTime today = dtNgayCheckIn.Value.Date;
-            var top = db.KhuyenMais.Where(k => k.ngay_bat_dau <= today
-                                     && k.ngay_ket_thuc >= today)
-                            .OrderByDescending(k => k.phan_tram)
-                            .FirstOrDefault();
-            // Tổng tiền thuê phòng (ngày * giá 1 đêm)
+            DateTime today = DateTime.Today;
+
+            // Khuyến mãi
+            var top = db.KhuyenMais
+                        .Where(k => k.ngay_bat_dau <= today && k.ngay_ket_thuc >= today)
+                        .OrderByDescending(k => k.phan_tram)
+                        .FirstOrDefault();
+
+            // Tính tiền thuê và dịch vụ
             decimal giaNgay = _Room.LoaiPhong.gia_theo_dem;
             decimal tongTienThue = giaNgay * day;
             decimal tienDV = UpdateTongTienDichVu();
-            // Tính khuyến mãi nếu có
+            decimal tienPhuThu = 0;
+
+            // Kiểm tra nếu trả phòng trễ
+            if (today > dtNgayCheckOut.Value.Date)
+            {
+                int soNgayTre = (today - dtNgayCheckOut.Value.Date).Days;
+                tienPhuThu = soNgayTre * giaNgay;
+                txtThoiHan.Text = $"{day} Ngày + {soNgayTre} Ngày trễ";
+                lbTienPhuThu.Text = "Phụ thu trễ: " + tienPhuThu.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                lbTienPhuThu.Visible = true;
+            }
+            else
+            {
+                lbTienPhuThu.Text = "Phụ thu trễ: 0";
+                lbTienPhuThu.Visible = false;
+            }
+
+            // Tổng thanh toán
             if (top != null)
             {
                 decimal giamGia = (tongTienThue + tienDV) * top.phan_tram / 100m;
                 lbPhanTramKM.Text = top.phan_tram + "% → giảm " + giamGia.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
-                lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " + ((tongTienThue + tienDV) - giamGia).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " +
+                    ((tongTienThue + tienDV + tienPhuThu) - giamGia).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
             }
             else
             {
                 lbPhanTramKM.Text = "0%";
-                lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " + (tongTienThue + tienDV).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+                lbTongTienThanhToan.Text = "Tổng tiền thanh toán: " +
+                    (tongTienThue + tienDV + tienPhuThu).ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
             }
-            lbTienThuePhong.Text = "Tiền thuê phòng: " + tongTienThue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
+
+            // Cập nhật chi tiết
+            lbTienThuePhong.Text = "Tiền thuê phòng: " + tongTienThue.ToString("N0", CultureInfo.GetCultureInfo("vi-VN")) + " + " + tienPhuThu.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
             lbTienDichVu.Text = "Tiền dịch vụ: " + tienDV.ToString("N0", CultureInfo.GetCultureInfo("vi-VN"));
         }
+
         private decimal UpdateTongTienDichVu()
         {
             decimal total = 0m;
@@ -535,7 +568,16 @@ namespace QuanLyKhachSan
                 {
                     phong.trang_thai = "trong";
                 }
+                // Cập nhật lại trạng thái booking
+                var booking = db.DatPhongs.SingleOrDefault(d => d.dat_phong_id == _currentDatPhongId);
+                if (booking != null)
+                {
+                    booking.trang_thai = "da_thanh_toan";
+                    booking.ngay_check_out = dtNgayCheckOut.Value;
+                }
                 db.SubmitChanges();
+                // Sau khi thanh toán phòng thành công
+                FrmDatPhong.UpdatePhongStateAfterCheckout(_currentDatPhongId);
                 var dr = MessageBox.Show("Thanh toán thành công!\n\nXác nhận in hóa đơn", "Thanh toán", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (dr == DialogResult.Yes)
                 {

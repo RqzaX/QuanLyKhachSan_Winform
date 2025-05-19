@@ -81,6 +81,7 @@
             this.lbSoPhong = new System.Windows.Forms.Label();
             this.txtKhachId = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbTienPhuThu = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatDichVu)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -172,6 +173,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lbTienPhuThu);
             this.groupBox5.Controls.Add(this.txtThoiHan);
             this.groupBox5.Controls.Add(this.label17);
             this.groupBox5.Controls.Add(this.dtNgayCheckOut);
@@ -227,7 +229,7 @@
             this.cbGiaHan.AutoSize = true;
             this.cbGiaHan.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbGiaHan.ForeColor = System.Drawing.Color.LightSeaGreen;
-            this.cbGiaHan.Location = new System.Drawing.Point(32, 291);
+            this.cbGiaHan.Location = new System.Drawing.Point(17, 284);
             this.cbGiaHan.Name = "cbGiaHan";
             this.cbGiaHan.Size = new System.Drawing.Size(261, 29);
             this.cbGiaHan.TabIndex = 26;
@@ -710,6 +712,18 @@
             this.panel1.Size = new System.Drawing.Size(1455, 120);
             this.panel1.TabIndex = 36;
             // 
+            // lbTienPhuThu
+            // 
+            this.lbTienPhuThu.AutoSize = true;
+            this.lbTienPhuThu.BackColor = System.Drawing.Color.Transparent;
+            this.lbTienPhuThu.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTienPhuThu.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbTienPhuThu.Location = new System.Drawing.Point(24, 317);
+            this.lbTienPhuThu.Name = "lbTienPhuThu";
+            this.lbTienPhuThu.Size = new System.Drawing.Size(128, 25);
+            this.lbTienPhuThu.TabIndex = 36;
+            this.lbTienPhuThu.Text = "Phụ thu trễ: 0";
+            // 
             // ChiTietPhongSuDung
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -803,5 +817,6 @@
         private System.Windows.Forms.Label lbTienThuePhong;
         private System.Windows.Forms.Label lbMoTaKM;
         private System.Windows.Forms.Label lbPhanTramKM;
+        private System.Windows.Forms.Label lbTienPhuThu;
     }
 }

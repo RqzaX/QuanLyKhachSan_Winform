@@ -381,6 +381,9 @@
     <EmbeddedResource Include="ReportDatPhong.resx">
       <DependentUpon>ReportDatPhong.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\ThongTinDatPhong.resx">
+      <DependentUpon>ThongTinDatPhong.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reporting\ThongTinDatPhong.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ThongTinDatPhong.cs</LastGenOutput>

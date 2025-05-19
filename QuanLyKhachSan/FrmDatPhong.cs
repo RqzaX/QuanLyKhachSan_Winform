@@ -85,7 +85,48 @@ namespace QuanLyKhachSan
             public string TrangThai { get; set; }
             public DateTime? NgayCheckIn { get; set; }
         }
+        public static void UpdatePhongStateAfterCheckout(int phongId)
+        {
+            using (var db = new QLKSDataContext())
+            {
+                try
+                {
+                    // Kiểm tra xem phòng có booking nào trong tương lai không
+                    DateTime today = DateTime.Today;
+                    var futureBooking = db.DatPhongs
+                        .Where(b => b.phong_id == phongId &&
+                               b.ngay_check_in > today &&
+                               b.trang_thai != "da_huy" &&
+                               b.trang_thai != "qua_han_check_in" &&
+                               b.trang_thai != "da_thanh_toan")
+                        .OrderBy(b => b.ngay_check_in)
+                        .FirstOrDefault();
 
+                    // Lấy phòng cần cập nhật
+                    var phong = db.Phongs.Where(p => p.phong_id == phongId).FirstOrDefault();
+                    if (phong != null)
+                    {
+                        if (futureBooking != null)
+                        {
+                            // Nếu có booking tương lai, đặt trạng thái phòng là "da_dat"
+                            phong.trang_thai = "da_dat";
+                        }
+                        else
+                        {
+                            // Nếu không có booking nào trong tương lai, đặt trạng thái là "trong"
+                            phong.trang_thai = "trong";
+                        }
+                        db.SubmitChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi cập nhật trạng thái phòng sau thanh toán: " + ex.Message,
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        // Sửa đổi cho phương thức LoadPhongGrid để xử lý tốt hơn các phòng đã đặt trước
         private void LoadPhongGrid(int? loaiId = null)
         {
             if (db != null)
@@ -93,22 +134,36 @@ namespace QuanLyKhachSan
                 db.Dispose();
             }
             db = new QLKSDataContext();
-            // HỦY CÁC BOOKING QUÁ HẠN 1 NGÀY 
+
             DateTime today = DateTime.Today;
-            // Lấy tất cả các đặt phòng có ngày_check_in + 1 ngày < hôm nay
             var raw = db.DatPhongs.ToList();
-            var expired = raw.Where(bk => bk.ngay_check_in.AddDays(1) < DateTime.Today);
+
+            // Chỉ lấy các đặt phòng có trạng thái "da_dat" nhưng không đến check-in đúng ngày
+            var expired = raw.Where(bk =>
+                bk.ngay_check_in < today &&// Ngày check-in đã qua
+                bk.trang_thai == "da_dat"); // Chỉ áp dụng cho phòng đã đặt
 
             foreach (var bk in expired)
             {
-                // Trả trạng thái phòng về "trống"
+                // Cập nhật trạng thái phòng nếu cần
                 var room = db.Phongs.SingleOrDefault(p => p.phong_id == bk.phong_id);
                 if (room != null)
-                    room.trang_thai = "trong";
+                {
+                    // Kiểm tra còn booking tương lai không (khác chính booking này)
+                    var futureBooking = raw.FirstOrDefault(fb =>
+                        fb.phong_id == bk.phong_id &&
+                        fb.dat_phong_id != bk.dat_phong_id &&
+                        fb.ngay_check_in > today &&
+                        fb.trang_thai != "da_huy" &&
+                        fb.trang_thai != "qua_han_check_in");
 
-                // Xóa bản ghi đặt phòng
-                db.DatPhongs.DeleteOnSubmit(bk);
+                    room.trang_thai = futureBooking != null ? "da_dat" : "trong";
+                }
+
+                // Cập nhật trạng thái booking này thành "qua_han_check_in"
+                bk.trang_thai = "qua_han_check_in";
             }
+
             db.SubmitChanges();
 
             flowLayoutPanel1.Controls.Clear();
@@ -128,8 +183,10 @@ namespace QuanLyKhachSan
                          select new { p, lp })
                         .ToList();
 
-            //  Lấy toàn bộ booking hiện có sau khi đã xóa expired
-            var bookings = db.DatPhongs.ToList();
+            //  Lấy toàn bộ booking hợp lệ (không bị hủy, không quá hạn)
+            var bookings = db.DatPhongs
+                .Where(b => b.trang_thai != "da_huy" && b.trang_thai != "qua_han_check_in")
+                .ToList();
 
             // Xây dựng danh sách hiển thị, mỗi phòng 1 item
             var ds = rooms.Select(x =>
@@ -138,20 +195,33 @@ namespace QuanLyKhachSan
                 var chosen = (DatPhong)null;
                 if (x.p.trang_thai == "dang_su_dung")
                 {
-                    // booking hiện tại (đang sử dụng)
                     chosen = bookings
-                        .FirstOrDefault(b => b.phong_id == x.p.phong_id
-                                          && b.ngay_check_in <= today
-                                          && b.ngay_check_out >= today);
+                        .Where(b => b.phong_id == x.p.phong_id &&
+                                    b.ngay_check_in <= today)
+                        .OrderByDescending(b => b.ngay_check_in)
+                        .FirstOrDefault();
                 }
-                else if (x.p.trang_thai == "da_dat")
+                else if (x.p.trang_thai == "da_dat" || x.p.trang_thai == "trong")
                 {
-                    // booking tương lai gần nhất
+                    // Với phòng trống hoặc đã đặt, kiểm tra có đặt trước trong tương lai không
                     chosen = bookings
                         .Where(b => b.phong_id == x.p.phong_id
                                  && b.ngay_check_in >= today)
                         .OrderBy(b => b.ngay_check_in)
                         .FirstOrDefault();
+
+                    // Nếu có đặt trước và phòng đang hiển thị trống, cập nhật lại trạng thái
+                    if (chosen != null && x.p.trang_thai == "trong")
+                    {
+                        // Cập nhật trạng thái trong cơ sở dữ liệu
+                        var phong = db.Phongs.SingleOrDefault(p => p.phong_id == x.p.phong_id);
+                        if (phong != null)
+                        {
+                            phong.trang_thai = "da_dat";
+                            x.p.trang_thai = "da_dat"; // Cập nhật biến local để hiển thị đúng
+                            db.SubmitChanges();
+                        }
+                    }
                 }
 
                 return new
@@ -201,30 +271,36 @@ namespace QuanLyKhachSan
                     // 1: Ngày hôm nay < check-in 2 ngày (có thể đặt phòng)
                     if (soNgayConLai > 2)
                     {
-                        btn.BackColor = Color.FromArgb(220, 255, 220); // Màu xanh lá nhạt
-                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng trống";
+                        btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt (da_dat)
+                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã đặt trước\n➜ Ngày {r.NgayCheckInString}\nHiện tại có thể sử dụng ngay";
                     }
                     // 2: Ngày hôm nay cách check-in ≤ 2 ngày
                     else
                     {
-                        if(soNgayConLai == 0)
+                        if (soNgayConLai == 0)
                         {
                             btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt
-                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Nhận phòng vào {r.NgayCheckInString}";
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Nhận phòng hôm nay";
                         }
                         else if (soNgayConLai < 0)
                         {
                             btn.BackColor = Color.Plum; // Màu tím nhạt
                             btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã quá hạn nhận phòng\n➜ {Math.Abs(soNgayConLai)} ngày";
                         }
+                        else
+                        {
+                            btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Ngày {r.NgayCheckInString}";
+                        }
                     }
                 }
                 // Xử lý trạng thái đang sử dụng
-                if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
+                else if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
                 {
                     var co = r.CheckOutDate.Value.Date;
+                    int soNgayQuaHan = (today - co).Days;
                     // Nếu trả phòng đúng hôm nay
-                    if (co == today)
+                    if (soNgayQuaHan == 0)
                     {
                         btn.BackColor = Color.Lavender;
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nTrả Phòng hôm nay!";
@@ -232,7 +308,6 @@ namespace QuanLyKhachSan
                     // Nếu quá hạn
                     else if (co < today)
                     {
-                        int soNgayQuaHan = (DateTime.Today - r.CheckOutDate.Value).Days;
                         btn.BackColor = Color.Plum;
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã quá hạn trả phòng\n➜ {soNgayQuaHan} ngày";
                     }
@@ -245,7 +320,14 @@ namespace QuanLyKhachSan
                 // Các trạng thái khác
                 else
                 {
-                    btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\n{TranslateStatus(r.trang_thai)}";
+                    if (r.trang_thai == "trong")
+                    {
+                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng trống";
+                    }
+                    else
+                    {
+                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\n{TranslateStatus(r.trang_thai)}";
+                    }
                 }
 
                 // Gắn Tag để xử lý Click
@@ -258,6 +340,10 @@ namespace QuanLyKhachSan
                         TrangThai = soNgayConLai > 2 ? "co_the_dat" : "da_dat",
                         NgayCheckIn = r.NgayCheckIn
                     };
+                }
+                else
+                {
+                    btn.Tag = r.phong_id;
                 }
 
                 btn.Click += (s, e) =>

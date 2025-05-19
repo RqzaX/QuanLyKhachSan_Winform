@@ -26,6 +26,8 @@ namespace QuanLyKhachSan
             dgvKhachHang.Columns[0].Visible = false;
             dgvKhachHang.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dgvKhachHang.RowTemplate.Height = 35;
+            txtSDT.MaxLength = 10;
+            txtCCCD.MaxLength = 12;
         }
 
         private void Khach_FormClosing(object sender, FormClosingEventArgs e)
@@ -110,7 +112,7 @@ namespace QuanLyKhachSan
         {
             if (string.IsNullOrWhiteSpace(txtTenKH.Text))
             {
-                MessageBox.Show("Chưa nhập tên kháchh hàng!", "Lỗi",
+                MessageBox.Show("Chưa nhập tên khách hàng!", "Lỗi",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -179,6 +181,84 @@ namespace QuanLyKhachSan
             txtSDT.Text = dgvKhachHang.SelectedCells[4].Value.ToString();
             txtEmail.Text = dgvKhachHang.SelectedCells[5].Value?.ToString();
             txtCCCD.Text = dgvKhachHang.SelectedCells[6].Value.ToString();
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtTenKH.Text))
+            {
+                MessageBox.Show("Chưa nhập tên khách hàng!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtDiaChi.Text))
+            {
+                MessageBox.Show("Chưa nhập địa chỉ khách hàng!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtSDT.Text))
+            {
+                MessageBox.Show("Chưa nhập số điện thoại khách hàng!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtCCCD.Text))
+            {
+                MessageBox.Show("Chưa nhập số CCCD khách hàng!", "Lỗi",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            bool cccd = db.KhachHangs.Any(p => p.cccd == txtCCCD.Text);
+            if (cccd)
+            {
+                MessageBox.Show($"Số CCCD \"{txtCCCD.Text}\" đã tồn tại.",
+                                "Lỗi trùng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int id = Convert.ToInt32(txtMaKH.Text);
+            var khachHang = db.KhachHangs.SingleOrDefault(x => x.khach_hang_id == id);
+            if (khachHang != null)
+            {
+                khachHang.ho_ten = txtTenKH.Text.Trim();
+                khachHang.dia_chi = txtDiaChi.Text.Trim();
+                khachHang.so_dien_thoai = txtSDT.Text.Trim();
+                khachHang.email = txtEmail.Text.Trim();
+                khachHang.cccd = txtCCCD.Text.Trim();
+                try
+                {
+                    db.SubmitChanges();
+                    MessageBox.Show("Cập nhật khách hàng thành công!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadKhachHang();
+                    txtMaKH.Clear();
+                    txtTenKH.Clear();
+                    txtDiaChi.Clear();
+                    txtSDT.Clear();
+                    txtEmail.Clear();
+                    txtCCCD.Clear();
+                    txtTenKH.Focus();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi cập nhật khách hàng:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void txtSDT_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtCCCD_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

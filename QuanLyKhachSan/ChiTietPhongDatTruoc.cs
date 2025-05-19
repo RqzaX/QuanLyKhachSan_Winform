@@ -363,13 +363,16 @@ namespace QuanLyKhachSan
                 "Xác nhận hủy", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dr != DialogResult.Yes)
                 return;
-            db.DatPhongs.DeleteOnSubmit(dp);
+            //db.DatPhongs.DeleteOnSubmit(dp);
 
             // Cập nhật lại trạng thái phòng
             var phong = db.Phongs.SingleOrDefault(p => p.phong_id == dp.phong_id);
-            if (phong != null)
+            phong.trang_thai = "trong";
+            // Cập nhật lại trạng thái đặt phòng
+            var booking = db.DatPhongs.SingleOrDefault(b => b.dat_phong_id == dp.dat_phong_id);
+            if (booking != null)
             {
-                phong.trang_thai = "trong";
+                booking.trang_thai = "huy_dat";
             }
             try
             {
