@@ -15,7 +15,6 @@ CREATE TABLE LoaiPhong (
     mo_ta NVARCHAR(MAX),
     gia_theo_dem DECIMAL(10, 2) NOT NULL
 );
---select * from LoaiPhong
 go
 -- 3. Bảng phòng
 CREATE TABLE Phong (
@@ -67,20 +66,6 @@ CREATE TABLE DatPhong (
     ngay_dat DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     trang_thai NVARCHAR(20)
 );
--- select * from KhachHang
--- select * from DatPhong
--- select * from Phong
--- select * from HoaDon
--- select * from ThanhToan
--- select * from DichVuDatPhong
--- DELETE FROM dbo.DatPhong;
--- DELETE FROM dbo.Phong;
-/*
-UPDATE DatPhong
-SET ngay_check_out = CAST(DATEADD(DAY, 0, GETDATE()) AS DATE)
-WHERE dat_phong_id = 8;
-select * from DatPhong
-*/
 
 go
 -- 8. Bảng dịch vụ đi kèm đặt phòng
@@ -311,4 +296,365 @@ BEGIN
     LEFT  JOIN DichVuDatPhong dvdp ON dp.dat_phong_id = dvdp.dat_phong_id
     LEFT  JOIN DichVu dv     ON dvdp.dich_vu_id   = dv.dich_vu_id
     WHERE hd.hoa_don_id = @hoa_don_id;
+END
+go
+IF OBJECT_ID('dbo.sp_ThongKeDatPhong','P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_ThongKeDatPhong;
+GO
+CREATE PROCEDURE dbo.sp_GetAllDatPhong
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        dp.dat_phong_id            AS MaDatPhong,
+        dp.khach_hang_id           AS MaKhachHang,
+        kh.ho_ten                  AS TenKhachHang,
+        kh.dia_chi                 AS DiaChiKhachHang,
+        kh.so_dien_thoai           AS DienThoaiKhachHang,
+
+        dp.phong_id                AS MaPhong,
+        p.so_phong                 AS SoPhong,
+        p.trang_thai               AS TrangThaiPhong,
+
+        p.loai_phong_id            AS MaLoaiPhong,
+        lp.ten_loai                AS TenLoaiPhong,
+        lp.gia_theo_dem            AS GiaTheoDem,
+
+        dp.khuyen_mai_id           AS MaKhuyenMai,
+        km.ten_khuyen_mai          AS TenKhuyenMai,
+        km.phan_tram               AS PhanTramKhuyenMai,
+
+        dp.nhan_vien_id            AS MaNhanVien,
+        nv.ho_ten                  AS TenNhanVien,
+
+        dp.ngay_dat                AS NgayDat,
+        dp.ngay_check_in           AS NgayCheckIn,
+        dp.ngay_check_out          AS NgayCheckOut,
+        DATEDIFF(DAY, dp.ngay_check_in, dp.ngay_check_out) 
+                                   AS SoDemO,
+
+        dp.trang_thai              AS TrangThaiDatPhong
+    FROM DatPhong dp
+    INNER JOIN KhachHang      kh ON dp.khach_hang_id = kh.khach_hang_id
+    INNER JOIN Phong          p  ON dp.phong_id      = p.phong_id
+    INNER JOIN LoaiPhong      lp ON p.loai_phong_id   = lp.loai_phong_id
+    LEFT  JOIN KhuyenMai      km ON dp.khuyen_mai_id = km.khuyen_mai_id
+    INNER JOIN NhanVien       nv ON dp.nhan_vien_id   = nv.nhan_vien_id
+    ORDER BY dp.ngay_dat DESC, dp.dat_phong_id;
+END
+GO
+CREATE PROCEDURE dbo.sp_ThongKeDatPhong
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- 1. Các tổng cơ bản
+    DECLARE @totalBookings   INT = (SELECT COUNT(*) FROM DatPhong);
+    DECLARE @totalRooms      INT = (SELECT COUNT(*) FROM Phong);
+    DECLARE @sameDayBookings INT = (
+        SELECT COUNT(*) 
+        FROM DatPhong 
+        WHERE ngay_dat = ngay_check_in
+    );
+
+    -- 2. Xác định khoảng ngày & tháng trong data
+    DECLARE @minDate    DATE = (SELECT MIN(ngay_dat) FROM DatPhong);
+    DECLARE @maxDate    DATE = (SELECT MAX(ngay_dat) FROM DatPhong);
+    DECLARE @periodDays   INT = CASE 
+                                   WHEN @minDate IS NULL OR @maxDate IS NULL 
+                                   THEN 0 
+                                   ELSE DATEDIFF(DAY, @minDate, @maxDate) + 1 
+                                 END;
+    DECLARE @periodMonths INT = CASE 
+                                   WHEN @minDate IS NULL OR @maxDate IS NULL 
+                                   THEN 0 
+                                   ELSE DATEDIFF(MONTH, @minDate, @maxDate) + 1 
+                                 END;
+
+    -- 3. Tính trung bình
+    DECLARE @avgPerDay   DECIMAL(10,2) = CASE 
+                                            WHEN @periodDays   = 0 THEN 0 
+                                            ELSE ROUND(1.0 * @totalBookings   / @periodDays,   2) 
+                                         END;
+    DECLARE @avgPerMonth DECIMAL(10,2) = CASE 
+                                            WHEN @periodMonths = 0 THEN 0 
+                                            ELSE ROUND(1.0 * @totalBookings   / @periodMonths, 2) 
+                                         END;
+
+    -- 4. Lấy Top loại phòng và Top phòng
+    ;WITH TopType AS
+    (
+        SELECT TOP 1 
+            p.loai_phong_id,
+            lp.ten_loai,
+            COUNT(*) AS so_lan_dat
+        FROM DatPhong dp
+        JOIN Phong p      ON dp.phong_id      = p.phong_id
+        JOIN LoaiPhong lp ON p.loai_phong_id  = lp.loai_phong_id
+        GROUP BY p.loai_phong_id, lp.ten_loai
+        ORDER BY COUNT(*) DESC
+    ),
+    TopRoom AS
+    (
+        SELECT TOP 1
+            p.phong_id,
+            p.so_phong,
+            COUNT(*) AS so_lan_dat
+        FROM DatPhong dp
+        JOIN Phong p ON dp.phong_id = p.phong_id
+        GROUP BY p.phong_id, p.so_phong
+        ORDER BY COUNT(*) DESC
+    )
+    SELECT
+        tt.loai_phong_id,
+        tt.ten_loai               AS loai_phong_dat_nhieu_nhat,
+        tt.so_lan_dat             AS so_lan_dat_loai_phong,
+
+        tr.phong_id,
+        tr.so_phong               AS phong_dat_nhieu_nhat,
+        tr.so_lan_dat             AS so_lan_dat_phong,
+
+        @totalBookings            AS tong_dat_phong,
+        @totalRooms               AS tong_so_phong,
+        CASE 
+          WHEN @totalRooms = 0 THEN 0 
+          ELSE ROUND(@totalBookings * 100.0 / @totalRooms, 2)
+        END                        AS ty_le_dat_phong,
+
+        @sameDayBookings          AS so_dat_ngay,
+        CASE 
+          WHEN @totalBookings = 0 THEN 0 
+          ELSE ROUND(@sameDayBookings * 100.0 / @totalBookings, 2)
+        END                        AS ty_le_dat_ngay,
+
+        @periodDays               AS so_ngay_trong_data,
+        @avgPerDay                AS trung_binh_dat_tren_ngay,    -- thêm
+
+        @periodMonths             AS so_thang_trong_data,
+        @avgPerMonth              AS trung_binh_dat_tren_thang   -- thêm
+    FROM TopType tt
+    CROSS JOIN TopRoom tr;
+END
+go
+CREATE PROCEDURE dbo.sp_GetAllKhachHang
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        kh.khach_hang_id      AS MaKhachHang,
+        kh.ho_ten             AS TenKhachHang,
+        kh.dia_chi            AS DiaChi,
+        kh.so_dien_thoai      AS DienThoai,
+        kh.email              AS Email,
+        kh.cccd               AS CCCD,
+        -- Thống kê thêm:
+        COUNT(DISTINCT dp.dat_phong_id)       AS SoLanDatPhong,
+        COUNT(DISTINCT hd.hoa_don_id)         AS SoHoaDon,
+        SUM(hd.tong_tien)                     AS TongChiTieu
+    FROM KhachHang kh
+    LEFT JOIN DatPhong dp 
+        ON dp.khach_hang_id = kh.khach_hang_id
+    LEFT JOIN HoaDon hd 
+        ON hd.dat_phong_id = dp.dat_phong_id
+    GROUP BY
+        kh.khach_hang_id,
+        kh.ho_ten,
+        kh.dia_chi,
+        kh.so_dien_thoai,
+        kh.email,
+        kh.cccd
+    ORDER BY kh.ho_ten;
+END
+go
+CREATE PROCEDURE dbo.sp_PhongThongTinVaBaoCao
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ----------------------------------------
+    -- 1) Chi tiết mỗi phòng
+    ----------------------------------------
+    SELECT
+        p.phong_id            AS PhongID,
+        p.so_phong            AS SoPhong,
+        lp.ten_loai           AS LoaiPhong,
+        lp.gia_theo_dem       AS GiaTheoDem,
+        p.trang_thai          AS TrangThaiHienTai,
+
+        -- Số lần đặt
+        COUNT(dp.dat_phong_id)                                    AS SoLanDat,
+        -- Tổng doanh thu của phòng
+        SUM(ISNULL(hd.tong_tien,0))                               AS TongDoanhThu,
+        -- Tổng số đêm sử dụng
+        SUM(DATEDIFF(day, dp.ngay_check_in, dp.ngay_check_out))   AS TongSoDem
+    FROM Phong p
+    LEFT JOIN LoaiPhong lp  
+        ON p.loai_phong_id = lp.loai_phong_id
+    LEFT JOIN DatPhong dp  
+        ON p.phong_id      = dp.phong_id
+    LEFT JOIN HoaDon hd    
+        ON dp.dat_phong_id = hd.dat_phong_id
+    GROUP BY
+        p.phong_id, p.so_phong, lp.ten_loai, lp.gia_theo_dem, p.trang_thai
+    ORDER BY p.so_phong;
+
+    ----------------------------------------
+    -- 2) Báo cáo tổng hợp
+    ----------------------------------------
+    DECLARE 
+        @TotalRooms           INT       = (SELECT COUNT(*) FROM Phong),
+        @RoomsOccupied        INT       = (SELECT COUNT(*) FROM Phong WHERE trang_thai <> 'trong'),
+        @RoomsAvailable       INT       = (SELECT COUNT(*) FROM Phong WHERE trang_thai = 'trong'),
+        @TotalBookings        INT       = (SELECT COUNT(*) FROM DatPhong),
+        @TotalNights          INT       = (SELECT ISNULL(SUM(DATEDIFF(day, ngay_check_in, ngay_check_out)),0) FROM DatPhong),
+        @TotalRevenue         DECIMAL(18,2) = (SELECT ISNULL(SUM(tong_tien),0) FROM HoaDon);
+
+    DECLARE
+        @OccupancyRate        DECIMAL(5,2)  = CASE WHEN @TotalRooms=0 THEN 0 
+                                                  ELSE ROUND(@RoomsOccupied*100.0/@TotalRooms,2) END,
+        @AvgBookingsPerRoom   DECIMAL(10,2) = CASE WHEN @TotalRooms=0 THEN 0 
+                                                  ELSE ROUND(@TotalBookings*1.0/@TotalRooms,2) END,
+        @AvgNightsPerRoom     DECIMAL(10,2) = CASE WHEN @TotalRooms=0 THEN 0 
+                                                  ELSE ROUND(@TotalNights*1.0/@TotalRooms,2) END;
+
+    SELECT
+        @TotalRooms           AS TotalRooms,            -- Tổng số phòng
+        @RoomsOccupied        AS RoomsOccupied,         -- Phòng đang có khách
+        @RoomsAvailable       AS RoomsAvailable,        -- Phòng trống
+        @OccupancyRate        AS OccupancyRate,         -- Tỷ lệ lấp đầy (%)
+        @TotalBookings        AS TotalBookings,         -- Tổng lượt đặt
+        @AvgBookingsPerRoom   AS AvgBookingsPerRoom,    -- TB lượt đặt / phòng
+        @TotalNights          AS TotalNights,           -- Tổng số đêm sử dụng
+        @AvgNightsPerRoom     AS AvgNightsPerRoom,      -- TB số đêm / phòng
+        @TotalRevenue         AS TotalRevenue;          -- Tổng doanh thu
+END
+GO
+CREATE PROCEDURE dbo.sp_GetAllNhanVien
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    ----------------------------------------
+    -- 1) Chi tiết từng nhân viên
+    ----------------------------------------
+    SELECT
+        nv.nhan_vien_id        AS MaNhanVien,
+        nv.ho_ten              AS TenNhanVien,
+        vt.ten_vai_tro         AS TenVaiTro,
+        nv.ca_lam_viec         AS CaLamViec,
+        nv.luong               AS Luong,
+        nv.tai_khoan           AS TaiKhoan,
+        -- Thống kê:
+        COUNT(DISTINCT dp.dat_phong_id)    AS SoLuotDatPhong,
+        COUNT(DISTINCT hd.hoa_don_id)      AS SoHoaDon,
+        SUM(ISNULL(hd.tong_tien,0))        AS TongDoanhThu
+    FROM NhanVien nv
+    INNER JOIN VaiTro vt
+        ON nv.vai_tro_id = vt.vai_tro_id
+    LEFT JOIN DatPhong dp
+        ON dp.nhan_vien_id = nv.nhan_vien_id
+    LEFT JOIN HoaDon hd
+        ON hd.nhan_vien_id = nv.nhan_vien_id
+    GROUP BY
+        nv.nhan_vien_id, nv.ho_ten, vt.ten_vai_tro,
+        nv.ca_lam_viec, nv.luong, nv.tai_khoan
+    ORDER BY nv.ho_ten;
+
+    ----------------------------------------
+    -- 2) Báo cáo tổng hợp chung
+    ----------------------------------------
+    DECLARE
+        @TotalNV       INT           = (SELECT COUNT(*) FROM NhanVien),
+        @TotalDP       INT           = (SELECT COUNT(*) FROM DatPhong),
+        @TotalHD       INT           = (SELECT COUNT(*) FROM HoaDon),
+        @TotalRev      DECIMAL(18,2) = (SELECT ISNULL(SUM(tong_tien),0) FROM HoaDon);
+
+    DECLARE
+        @AvgDPPerNV    DECIMAL(10,2) = CASE WHEN @TotalNV=0 THEN 0 
+                                           ELSE ROUND(@TotalDP*1.0/@TotalNV,2) END,
+        @AvgHDPerNV    DECIMAL(10,2) = CASE WHEN @TotalNV=0 THEN 0 
+                                           ELSE ROUND(@TotalHD*1.0/@TotalNV,2) END,
+        @AvgRevPerNV   DECIMAL(18,2) = CASE WHEN @TotalNV=0 THEN 0 
+                                           ELSE ROUND(@TotalRev*1.0/@TotalNV,2) END;
+
+    SELECT
+        @TotalNV      AS TotalNhanVien,
+        @TotalDP      AS TotalDatPhong,
+        @AvgDPPerNV   AS AvgDatPhongPerNV,
+        @TotalHD      AS TotalHoaDon,
+        @AvgHDPerNV   AS AvgHoaDonPerNV,
+        @TotalRev     AS TotalDoanhThu,
+        @AvgRevPerNV  AS AvgDoanhThuPerNV;
+
+    ----------------------------------------
+    -- 3) Top toàn bộ nhân viên theo doanh thu
+    ----------------------------------------
+    ;WITH RevByNV AS
+    (
+        SELECT
+            nv.nhan_vien_id,
+            nv.ho_ten,
+            SUM(ISNULL(hd.tong_tien,0)) AS DoanhThu
+        FROM NhanVien nv
+        LEFT JOIN HoaDon hd
+            ON hd.nhan_vien_id = nv.nhan_vien_id
+        GROUP BY nv.nhan_vien_id, nv.ho_ten
+    )
+    SELECT TOP 1
+        nv.nhan_vien_id      AS TopNV_ID,
+        nv.ho_ten            AS TopNV_Ten,
+        nv.DoanhThu          AS TopNV_DoanhThu
+    FROM RevByNV nv
+    ORDER BY nv.DoanhThu DESC;
+
+    ----------------------------------------
+    -- 4) Top nhân viên 'Lễ tân' theo doanh thu
+    ----------------------------------------
+    ;WITH RevLeTan AS
+    (
+        SELECT
+            nv.nhan_vien_id,
+            nv.ho_ten,
+            SUM(ISNULL(hd.tong_tien,0)) AS DoanhThu
+        FROM NhanVien nv
+        INNER JOIN VaiTro vt
+            ON nv.vai_tro_id = vt.vai_tro_id
+           AND vt.ten_vai_tro = N'Lễ tân'
+        LEFT JOIN HoaDon hd
+            ON hd.nhan_vien_id = nv.nhan_vien_id
+        GROUP BY nv.nhan_vien_id, nv.ho_ten
+    )
+    SELECT TOP 1
+        lt.nhan_vien_id      AS TopLeTan_ID,
+        lt.ho_ten            AS TopLeTan_Ten,
+        lt.DoanhThu          AS TopLeTan_DoanhThu
+    FROM RevLeTan lt
+    ORDER BY lt.DoanhThu DESC;
+END
+GO
+CREATE PROCEDURE dbo.sp_GetTopNhanVienDoanhThu
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT TOP 1
+        nv.nhan_vien_id   AS MaNhanVien,
+        nv.ho_ten         AS TenNhanVien,
+        vt.ten_vai_tro    AS TenVaiTro,
+        SUM(ISNULL(hd.tong_tien, 0)) AS TongDoanhThu
+    FROM NhanVien nv
+    -- lấy doanh thu từ bảng hóa đơn
+    LEFT JOIN HoaDon hd 
+        ON hd.nhan_vien_id = nv.nhan_vien_id
+    -- link tới VaiTro để lấy tên vai trò
+    LEFT JOIN VaiTro vt 
+        ON nv.vai_tro_id   = vt.vai_tro_id
+    GROUP BY
+        nv.nhan_vien_id,
+        nv.ho_ten,
+        vt.ten_vai_tro
+    ORDER BY
+        SUM(ISNULL(hd.tong_tien, 0)) DESC;
 END
