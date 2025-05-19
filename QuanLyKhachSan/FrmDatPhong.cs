@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -87,6 +88,29 @@ namespace QuanLyKhachSan
 
         private void LoadPhongGrid(int? loaiId = null)
         {
+            if (db != null)
+            {
+                db.Dispose();
+            }
+            db = new QLKSDataContext();
+            // HỦY CÁC BOOKING QUÁ HẠN 1 NGÀY 
+            DateTime today = DateTime.Today;
+            // Lấy tất cả các đặt phòng có ngày_check_in + 1 ngày < hôm nay
+            var raw = db.DatPhongs.ToList();
+            var expired = raw.Where(bk => bk.ngay_check_in.AddDays(1) < DateTime.Today);
+
+            foreach (var bk in expired)
+            {
+                // Trả trạng thái phòng về "trống"
+                var room = db.Phongs.SingleOrDefault(p => p.phong_id == bk.phong_id);
+                if (room != null)
+                    room.trang_thai = "trong";
+
+                // Xóa bản ghi đặt phòng
+                db.DatPhongs.DeleteOnSubmit(bk);
+            }
+            db.SubmitChanges();
+
             flowLayoutPanel1.Controls.Clear();
             flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
             flowLayoutPanel1.WrapContents = true;
@@ -94,38 +118,55 @@ namespace QuanLyKhachSan
             flowLayoutPanel1.Padding = new Padding(20);
             flowLayoutPanel1.BackColor = Color.White;
 
-            int btnWidth = 270, btnHeight = 140, margin = 5;
-            DateTime today = DateTime.Today;
+            const int btnWidth = 270, btnHeight = 140, margin = 5;
 
-            // Truy vấn cơ sở dữ liệu với điều kiện lọc theo loại phòng nếu có
-            var query = from p in db.Phongs
-                        join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
-                        join bk in db.DatPhongs on p.phong_id equals bk.phong_id into g
-                        from bk in g.DefaultIfEmpty()
-                        where loaiId == null || p.loai_phong_id == loaiId
-                        orderby p.so_phong
-                        select new
-                        {
-                            p.phong_id,
-                            p.so_phong,
-                            p.trang_thai,
-                            p.loai_phong_id,
-                            TenLoai = lp.ten_loai,
-                            CheckInDT = (DateTime?)bk.ngay_check_in,
-                            CheckOutDT = (DateTime?)bk.ngay_check_out
-                        };
+            // Lấy danh sách phòng + loại
+            var rooms = (from p in db.Phongs
+                         join lp in db.LoaiPhongs on p.loai_phong_id equals lp.loai_phong_id
+                         where loaiId == null || p.loai_phong_id == loaiId
+                         orderby p.so_phong
+                         select new { p, lp })
+                        .ToList();
 
-            var ds = query.AsEnumerable().Select(x => new
+            //  Lấy toàn bộ booking hiện có sau khi đã xóa expired
+            var bookings = db.DatPhongs.ToList();
+
+            // Xây dựng danh sách hiển thị, mỗi phòng 1 item
+            var ds = rooms.Select(x =>
             {
-                x.phong_id,
-                x.so_phong,
-                x.trang_thai,
-                x.loai_phong_id,
-                x.TenLoai,
-                NgayCheckIn = x.CheckInDT,
-                NgayCheckInString = x.CheckInDT?.ToString("dd/MM/yyyy"),
-                CheckOutDate = x.CheckOutDT
-            }).ToList();
+                // Chọn booking đại diện
+                var chosen = (DatPhong)null;
+                if (x.p.trang_thai == "dang_su_dung")
+                {
+                    // booking hiện tại (đang sử dụng)
+                    chosen = bookings
+                        .FirstOrDefault(b => b.phong_id == x.p.phong_id
+                                          && b.ngay_check_in <= today
+                                          && b.ngay_check_out >= today);
+                }
+                else if (x.p.trang_thai == "da_dat")
+                {
+                    // booking tương lai gần nhất
+                    chosen = bookings
+                        .Where(b => b.phong_id == x.p.phong_id
+                                 && b.ngay_check_in >= today)
+                        .OrderBy(b => b.ngay_check_in)
+                        .FirstOrDefault();
+                }
+
+                return new
+                {
+                    x.p.phong_id,
+                    x.p.so_phong,
+                    x.p.trang_thai,
+                    x.p.loai_phong_id,
+                    TenLoai = x.lp.ten_loai,
+                    NgayCheckIn = (DateTime?)chosen?.ngay_check_in,
+                    NgayCheckInString = chosen?.ngay_check_in.ToString("dd/MM/yyyy"),
+                    CheckOutDate = (DateTime?)chosen?.ngay_check_out
+                };
+            })
+            .ToList();
 
             foreach (var r in ds)
             {
@@ -157,24 +198,31 @@ namespace QuanLyKhachSan
                     // Tính số ngày còn lại đến ngày check-in
                     int soNgayConLai = (r.NgayCheckIn.Value.Date - today).Days;
 
-                    // Trường hợp 1: Ngày hôm nay < check-in 2 ngày (có thể đặt phòng)
+                    // 1: Ngày hôm nay < check-in 2 ngày (có thể đặt phòng)
                     if (soNgayConLai > 2)
                     {
                         btn.BackColor = Color.FromArgb(220, 255, 220); // Màu xanh lá nhạt
                         btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng trống";
                     }
-                    // Trường hợp 2: Ngày hôm nay cách check-in ≤ 2 ngày
+                    // 2: Ngày hôm nay cách check-in ≤ 2 ngày
                     else
                     {
-                        btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt
-                        btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Nhận phòng vào {r.NgayCheckInString}";
+                        if(soNgayConLai == 0)
+                        {
+                            btn.BackColor = Color.FromArgb(200, 230, 255); // Màu xanh dương nhạt
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nPhòng đã đặt\n➜ Nhận phòng vào {r.NgayCheckInString}";
+                        }
+                        else if (soNgayConLai < 0)
+                        {
+                            btn.BackColor = Color.Plum; // Màu tím nhạt
+                            btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\nĐã quá hạn nhận phòng\n➜ {Math.Abs(soNgayConLai)} ngày";
+                        }
                     }
                 }
                 // Xử lý trạng thái đang sử dụng
-                else if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
+                if (r.trang_thai == "dang_su_dung" && r.CheckOutDate.HasValue)
                 {
                     var co = r.CheckOutDate.Value.Date;
-
                     // Nếu trả phòng đúng hôm nay
                     if (co == today)
                     {
@@ -200,51 +248,26 @@ namespace QuanLyKhachSan
                     btn.Text = $"Phòng {r.so_phong}\n{r.TenLoai}\n\n{TranslateStatus(r.trang_thai)}";
                 }
 
-                // Tạo một đối tượng PhongTagInfo để lưu trữ thông tin
+                // Gắn Tag để xử lý Click
                 if (r.trang_thai == "da_dat" && r.NgayCheckIn.HasValue)
                 {
                     int soNgayConLai = (r.NgayCheckIn.Value.Date - today).Days;
-                    if (soNgayConLai > 2)
+                    btn.Tag = new PhongTagInfo
                     {
-                        btn.Tag = new PhongTagInfo
-                        {
-                            PhongId = r.phong_id,
-                            TrangThai = "co_the_dat",
-                            NgayCheckIn = r.NgayCheckIn
-                        };
-                    }
-                    else
-                    {
-                        btn.Tag = new PhongTagInfo
-                        {
-                            PhongId = r.phong_id,
-                            TrangThai = "da_dat",
-                            NgayCheckIn = r.NgayCheckIn
-                        };
-                    }
-                }
-                else
-                {
-                    btn.Tag = r.phong_id;
+                        PhongId = r.phong_id,
+                        TrangThai = soNgayConLai > 2 ? "co_the_dat" : "da_dat",
+                        NgayCheckIn = r.NgayCheckIn
+                    };
                 }
 
                 btn.Click += (s, e) =>
                 {
-                    // Kiểm tra loại của Tag
                     if (btn.Tag is PhongTagInfo tagInfo)
                     {
-                        int id = tagInfo.PhongId;
-                        string trangThai = tagInfo.TrangThai;
-
-                        if (trangThai == "co_the_dat")
-                        {
-                            // Mở form đặt phòng với hạn chế
-                            MoFormDatPhong(id, tagInfo.NgayCheckIn);
-                        }
+                        if (tagInfo.TrangThai == "co_the_dat")
+                            MoFormDatPhong(tagInfo.PhongId, tagInfo.NgayCheckIn);
                         else
-                        {
-                            OnRoomClicked(id, r.trang_thai);
-                        }
+                            OnRoomClicked(tagInfo.PhongId, r.trang_thai);
                     }
                     else if (btn.Tag is int id)
                     {
@@ -310,7 +333,7 @@ namespace QuanLyKhachSan
                     {
                         var f = new ChiTietPhongTrong(phongId, trangThai, null);
                         f.FormClosed += (s, args) => LoadPhongGrid();
-                        f.Show();
+                        f.ShowDialog();
 
                     }
                     break;
@@ -318,14 +341,14 @@ namespace QuanLyKhachSan
                     {
                         var f = new ChiTietPhongSuDung(phongId);
                         f.FormClosed += (s, args) => LoadPhongGrid();
-                        f.Show();
+                        f.ShowDialog();
                     }
                     break;
                 case "da_dat":
                     {
                         var f = new ChiTietPhongDatTruoc(phongId);
                         f.FormClosed += (s, args) => LoadPhongGrid();
-                        f.Show();
+                        f.ShowDialog();
                     }
                     break;
                 case "bao_tri":

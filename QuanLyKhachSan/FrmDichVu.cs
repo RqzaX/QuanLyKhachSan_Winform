@@ -19,6 +19,7 @@ namespace QuanLyKhachSan
         {
             InitializeComponent();
             LoadDichVu();
+            dgvDichVu.RowTemplate.Height = 30;
         }
         public void LoadDichVu()
         {

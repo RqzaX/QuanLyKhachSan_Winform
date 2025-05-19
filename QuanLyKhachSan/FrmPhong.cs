@@ -23,7 +23,7 @@ namespace QuanLyKhachSan
             dgvPhong.RowTemplate.Height = 30;
             dgvPhong.RowTemplate.MinimumHeight = 30;
             LoadLoaiPhong();
-            dgvPhong.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            //dgvPhong.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             //dgvPhong.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
 

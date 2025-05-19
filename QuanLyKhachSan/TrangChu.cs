@@ -18,12 +18,6 @@ namespace QuanLyKhachSan
         public TrangChu(string HoTen, string ChucVu)
         {
             InitializeComponent();
-            //panel1.GetType()
-            //      .GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
-            //      .SetValue(panel1, true, null);
-
-            //panel1.Paint += panel1_Paint;
-            //panel1.Resize += (s, e) => panel1.Invalidate();
 
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
@@ -32,6 +26,26 @@ namespace QuanLyKhachSan
                 _chucVu = ChucVu;
                 lbHoTen.Text = HoTen;
                 lbChucVu.Text = ChucVu;
+
+                if(InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+                {
+                    btnKhach.Enabled = true;
+                    btnNhanVien.Enabled = true;
+                    btnPhong.Enabled = true;
+                    btnHoaDon.Enabled = true;
+                    btnDichVu.Enabled = true;
+                    btnBaoCao.Enabled = true;
+                    menuStrip1.Enabled = true;
+                } else
+                {
+                    btnKhach.Enabled = false;
+                    btnNhanVien.Enabled = false;
+                    btnPhong.Enabled = false;
+                    btnHoaDon.Enabled = false;
+                    btnDichVu.Enabled = false;
+                    btnBaoCao.Enabled = false;
+                    menuStrip1.Enabled = false;
+                }
             }
         }
         private void LoadFormIntoPanel(Form form)
@@ -59,8 +73,7 @@ namespace QuanLyKhachSan
 
         private void btnQuyDinh_Click(object sender, EventArgs e)
         {
-            FrmQuyDinh frm = new FrmQuyDinh();
-            LoadFormIntoPanel(frm);
+
         }
 
         private void btnDatPhong_Click(object sender, EventArgs e)
@@ -89,38 +102,79 @@ namespace QuanLyKhachSan
 
         private void btnKhach_Click(object sender, EventArgs e)
         {
-            FrmKhachHang k = new FrmKhachHang();
-            LoadFormIntoPanel(k);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmKhachHang k = new FrmKhachHang();
+                LoadFormIntoPanel(k);
+            } else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo",MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnNhanVien_Click(object sender, EventArgs e)
         {
-            FrmNhanVien frm = new FrmNhanVien();
-            LoadFormIntoPanel(frm);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmNhanVien frm = new FrmNhanVien();
+                LoadFormIntoPanel(frm);
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnHoaDon_Click(object sender, EventArgs e)
         {
-            FrmHoaDon frm = new FrmHoaDon();
-            LoadFormIntoPanel(frm);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmHoaDon frm = new FrmHoaDon();
+                LoadFormIntoPanel(frm);
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnDichVu_Click(object sender, EventArgs e)
         {
-            FrmDichVu frm = new FrmDichVu();
-            LoadFormIntoPanel(frm);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmDichVu frm = new FrmDichVu();
+                LoadFormIntoPanel(frm);
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
-            FrmBaoCao frm = new FrmBaoCao();
-            LoadFormIntoPanel(frm);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmBaoCao frm = new FrmBaoCao();
+                LoadFormIntoPanel(frm);
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnPhong_Click(object sender, EventArgs e)
         {
-            FrmPhong frm = new FrmPhong();
-            LoadFormIntoPanel(frm);
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                FrmPhong frm = new FrmPhong();
+                LoadFormIntoPanel(frm);
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
@@ -253,8 +307,15 @@ namespace QuanLyKhachSan
 
         private void quảnLýKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            QL_KhuyenMai f = new QL_KhuyenMai();
-            f.ShowDialog();
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                QL_KhuyenMai f = new QL_KhuyenMai();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void thoátToolStripMenuItem_Click(object sender, EventArgs e)
@@ -264,26 +325,68 @@ namespace QuanLyKhachSan
 
         private void báoCáoĐặtPhòngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportDatPhong f = new ReportDatPhong();
-            f.ShowDialog();
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                ReportDatPhong f = new ReportDatPhong();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void báoCáoKháchHàngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportKhachHang f = new ReportKhachHang();
-            f.ShowDialog();
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                ReportKhachHang f = new ReportKhachHang();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void báoCáoNhânViênToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportNhanVien f = new ReportNhanVien();
-            f.ShowDialog();
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                ReportNhanVien f = new ReportNhanVien();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
         }
 
         private void báoCáoPhòngToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReportPhong f = new ReportPhong();
-            f.ShowDialog();
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                ReportPhong f = new ReportPhong();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void quảnLýĐặtPhòngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (InfoNhanVien.CurrentUser.vai_tro_id == 1 || InfoNhanVien.CurrentUser.vai_tro_id == 2)
+            {
+                QL_DatPhong f = new QL_DatPhong();
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền vào chức năng này!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void TrangChu_FormClosed(object sender, FormClosedEventArgs e)

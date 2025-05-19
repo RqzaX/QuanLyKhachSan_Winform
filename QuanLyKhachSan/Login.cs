@@ -17,6 +17,8 @@ namespace QuanLyKhachSan
         {
             InitializeComponent();
             this.AcceptButton = btnDangNhap;
+            txtTaiKhoan.Text = "quanly";
+            txtPassword.Text = "123";
         }
         private void btnThoat_Click(object sender, EventArgs e)
         {

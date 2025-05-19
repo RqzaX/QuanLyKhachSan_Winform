@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.panel1 = new System.Windows.Forms.Panel();
             this.lbNameKS = new RainbowGradientLabel();
             this.label5 = new System.Windows.Forms.Label();
@@ -120,9 +121,9 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.panel2.Location = new System.Drawing.Point(424, 0);
+            this.panel2.Location = new System.Drawing.Point(422, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(462, 575);
+            this.panel2.Size = new System.Drawing.Size(464, 575);
             this.panel2.TabIndex = 1;
             // 
             // llbQuenMatKhau
@@ -170,7 +171,6 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(365, 35);
             this.txtPassword.TabIndex = 5;
-            this.txtPassword.Text = "123";
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // pictureBox3
@@ -205,7 +205,6 @@
             this.txtTaiKhoan.Name = "txtTaiKhoan";
             this.txtTaiKhoan.Size = new System.Drawing.Size(365, 35);
             this.txtTaiKhoan.TabIndex = 4;
-            this.txtTaiKhoan.Text = "admin";
             // 
             // pictureBox2
             // 
@@ -251,6 +250,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng Nhập";

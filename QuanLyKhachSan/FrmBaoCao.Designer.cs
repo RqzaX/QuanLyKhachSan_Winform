@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.dt_DoanhThu_DenNgay = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.dateTimePicker4 = new System.Windows.Forms.DateTimePicker();
+            this.dt_DoanhThu_TuNgay = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnXemBaoCao_DoanhThu = new System.Windows.Forms.Button();
             this.gbDoanhThu = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -65,11 +65,11 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
-            this.groupBox2.Controls.Add(this.dateTimePicker3);
+            this.groupBox2.Controls.Add(this.dt_DoanhThu_DenNgay);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.dateTimePicker4);
+            this.groupBox2.Controls.Add(this.dt_DoanhThu_TuNgay);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.btnXemBaoCao_DoanhThu);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(43, 130);
             this.groupBox2.Name = "groupBox2";
@@ -78,52 +78,52 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Báo cáo doanh thu theo tháng";
             // 
-            // dateTimePicker3
+            // dt_DoanhThu_DenNgay
             // 
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker3.Location = new System.Drawing.Point(148, 127);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(173, 30);
-            this.dateTimePicker3.TabIndex = 4;
+            this.dt_DoanhThu_DenNgay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dt_DoanhThu_DenNgay.Location = new System.Drawing.Point(148, 127);
+            this.dt_DoanhThu_DenNgay.Name = "dt_DoanhThu_DenNgay";
+            this.dt_DoanhThu_DenNgay.Size = new System.Drawing.Size(173, 30);
+            this.dt_DoanhThu_DenNgay.TabIndex = 4;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(44, 127);
+            this.label4.Location = new System.Drawing.Point(22, 127);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(102, 25);
             this.label4.TabIndex = 3;
             this.label4.Text = "Đến tháng";
             // 
-            // dateTimePicker4
+            // dt_DoanhThu_TuNgay
             // 
-            this.dateTimePicker4.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker4.Location = new System.Drawing.Point(148, 71);
-            this.dateTimePicker4.MaxDate = new System.DateTime(9998, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker4.Name = "dateTimePicker4";
-            this.dateTimePicker4.Size = new System.Drawing.Size(173, 30);
-            this.dateTimePicker4.TabIndex = 2;
+            this.dt_DoanhThu_TuNgay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dt_DoanhThu_TuNgay.Location = new System.Drawing.Point(148, 71);
+            this.dt_DoanhThu_TuNgay.MaxDate = new System.DateTime(9998, 12, 1, 0, 0, 0, 0);
+            this.dt_DoanhThu_TuNgay.Name = "dt_DoanhThu_TuNgay";
+            this.dt_DoanhThu_TuNgay.Size = new System.Drawing.Size(173, 30);
+            this.dt_DoanhThu_TuNgay.TabIndex = 2;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(44, 71);
+            this.label5.Location = new System.Drawing.Point(34, 71);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(90, 25);
             this.label5.TabIndex = 1;
             this.label5.Text = "Từ tháng";
             // 
-            // button2
+            // btnXemBaoCao_DoanhThu
             // 
-            this.button2.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.button2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(90, 206);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(231, 52);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Xem báo cáo";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnXemBaoCao_DoanhThu.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.btnXemBaoCao_DoanhThu.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXemBaoCao_DoanhThu.ForeColor = System.Drawing.Color.White;
+            this.btnXemBaoCao_DoanhThu.Location = new System.Drawing.Point(70, 206);
+            this.btnXemBaoCao_DoanhThu.Name = "btnXemBaoCao_DoanhThu";
+            this.btnXemBaoCao_DoanhThu.Size = new System.Drawing.Size(231, 52);
+            this.btnXemBaoCao_DoanhThu.TabIndex = 0;
+            this.btnXemBaoCao_DoanhThu.Text = "Xem báo cáo";
+            this.btnXemBaoCao_DoanhThu.UseVisualStyleBackColor = false;
             // 
             // gbDoanhThu
             // 
@@ -375,11 +375,11 @@
 
         #endregion
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
+        private System.Windows.Forms.DateTimePicker dt_DoanhThu_DenNgay;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker4;
+        private System.Windows.Forms.DateTimePicker dt_DoanhThu_TuNgay;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnXemBaoCao_DoanhThu;
         private System.Windows.Forms.GroupBox gbDoanhThu;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox1;
