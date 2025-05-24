@@ -158,4 +158,30 @@
       <Column Name="trung_binh_dat_tren_thang" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_ThongKeDoanhThuTheoThang" Method="sp_ThongKeDoanhThuTheoThang">
+    <Parameter Name="Thang" Parameter="thang" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nam" Parameter="nam" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_ThongKeDoanhThuTheoThangResult">
+      <Column Name="Ngay" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TongTien" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_ThongKeDichVuTheoThang" Method="sp_ThongKeDichVuTheoThang">
+    <Parameter Name="Thang" Parameter="thang" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Nam" Parameter="nam" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_ThongKeDichVuTheoThangResult">
+      <Column Name="DichVu" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SoLan" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_ThongKeDoanhThuTheoKhoang" Method="sp_ThongKeDoanhThuTheoKhoang">
+    <Parameter Name="TuNgay" Parameter="tuNgay" Type="System.DateTime" DbType="Date" />
+    <Parameter Name="DenNgay" Parameter="denNgay" Type="System.DateTime" DbType="Date" />
+    <ElementType Name="sp_ThongKeDoanhThuTheoKhoangResult">
+      <Column Name="Nam" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Thang" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ThangNam" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="TongTien" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

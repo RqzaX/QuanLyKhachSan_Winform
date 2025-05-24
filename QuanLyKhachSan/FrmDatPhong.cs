@@ -139,30 +139,30 @@ namespace QuanLyKhachSan
             var raw = db.DatPhongs.ToList();
 
             // Chỉ lấy các đặt phòng có trạng thái "da_dat" nhưng không đến check-in đúng ngày
-            var expired = raw.Where(bk =>
-                bk.ngay_check_in < today &&// Ngày check-in đã qua
-                bk.trang_thai == "da_dat"); // Chỉ áp dụng cho phòng đã đặt
+            //var expired = raw.Where(bk =>
+            //    bk.ngay_check_in < today &&// Ngày check-in đã qua
+            //    bk.trang_thai == "da_dat"); // Chỉ áp dụng cho phòng đã đặt
 
-            foreach (var bk in expired)
-            {
-                // Cập nhật trạng thái phòng nếu cần
-                var room = db.Phongs.SingleOrDefault(p => p.phong_id == bk.phong_id);
-                if (room != null)
-                {
-                    // Kiểm tra còn booking tương lai không (khác chính booking này)
-                    var futureBooking = raw.FirstOrDefault(fb =>
-                        fb.phong_id == bk.phong_id &&
-                        fb.dat_phong_id != bk.dat_phong_id &&
-                        fb.ngay_check_in > today &&
-                        fb.trang_thai != "da_huy" &&
-                        fb.trang_thai != "qua_han_check_in");
+            //foreach (var bk in expired)
+            //{
+            //    // Cập nhật trạng thái phòng nếu cần
+            //    var room = db.Phongs.SingleOrDefault(p => p.phong_id == bk.phong_id);
+            //    if (room != null)
+            //    {
+            //        // Kiểm tra còn booking tương lai không (khác chính booking này)
+            //        var futureBooking = raw.FirstOrDefault(fb =>
+            //            fb.phong_id == bk.phong_id &&
+            //            fb.dat_phong_id != bk.dat_phong_id &&
+            //            fb.ngay_check_in > today &&
+            //            fb.trang_thai != "da_huy" &&
+            //            fb.trang_thai != "qua_han_check_in");
 
-                    room.trang_thai = futureBooking != null ? "da_dat" : "trong";
-                }
+            //        room.trang_thai = futureBooking != null ? "da_dat" : "trong";
+            //    }
 
-                // Cập nhật trạng thái booking này thành "qua_han_check_in"
-                bk.trang_thai = "qua_han_check_in";
-            }
+            //    // Cập nhật trạng thái booking này thành "qua_han_check_in"
+            //    bk.trang_thai = "qua_han_check_in";
+            //}
 
             db.SubmitChanges();
 
@@ -201,28 +201,28 @@ namespace QuanLyKhachSan
                         .OrderByDescending(b => b.ngay_check_in)
                         .FirstOrDefault();
                 }
-                else if (x.p.trang_thai == "da_dat" || x.p.trang_thai == "trong")
-                {
-                    // Với phòng trống hoặc đã đặt, kiểm tra có đặt trước trong tương lai không
-                    chosen = bookings
-                        .Where(b => b.phong_id == x.p.phong_id
-                                 && b.ngay_check_in >= today)
-                        .OrderBy(b => b.ngay_check_in)
-                        .FirstOrDefault();
+                //else if (x.p.trang_thai == "da_dat" || x.p.trang_thai == "trong")
+                //{
+                //    // Với phòng trống hoặc đã đặt, kiểm tra có đặt trước trong tương lai không
+                //    chosen = bookings
+                //        .Where(b => b.phong_id == x.p.phong_id
+                //                 && b.ngay_check_in >= today)
+                //        .OrderBy(b => b.ngay_check_in)
+                //        .FirstOrDefault();
 
-                    // Nếu có đặt trước và phòng đang hiển thị trống, cập nhật lại trạng thái
-                    if (chosen != null && x.p.trang_thai == "trong")
-                    {
-                        // Cập nhật trạng thái trong cơ sở dữ liệu
-                        var phong = db.Phongs.SingleOrDefault(p => p.phong_id == x.p.phong_id);
-                        if (phong != null)
-                        {
-                            phong.trang_thai = "da_dat";
-                            x.p.trang_thai = "da_dat"; // Cập nhật biến local để hiển thị đúng
-                            db.SubmitChanges();
-                        }
-                    }
-                }
+                //    // Nếu có đặt trước và phòng đang hiển thị trống, cập nhật lại trạng thái
+                //    if (chosen != null && x.p.trang_thai == "trong")
+                //    {
+                //        // Cập nhật trạng thái trong cơ sở dữ liệu
+                //        var phong = db.Phongs.SingleOrDefault(p => p.phong_id == x.p.phong_id);
+                //        if (phong != null)
+                //        {
+                //            phong.trang_thai = "da_dat";
+                //            x.p.trang_thai = "da_dat"; // Cập nhật biến local để hiển thị đúng
+                //            db.SubmitChanges();
+                //        }
+                //    }
+                //}
 
                 return new
                 {

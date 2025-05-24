@@ -145,18 +145,18 @@ namespace QuanLyKhachSan
         private void dgvHoaDon_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            txtMaHD.Text = dgvHoaDon.SelectedCells[0].Value.ToString();
-            txtMaPhongDat.Text = dgvHoaDon.SelectedCells[1].Value.ToString();
-            txtSoPhong.Text = dgvHoaDon.SelectedCells[2].Value.ToString();
-            txtMaNhanVien.Text = dgvHoaDon.SelectedCells[3].Value.ToString();
-            txtTenNhanVien.Text = dgvHoaDon.SelectedCells[4].Value.ToString();
-            var cellValue = dgvHoaDon.Rows[e.RowIndex].Cells[5].Value;
+            txtMaHD.Text = dgvHoaDon.SelectedCells[1].Value.ToString();
+            txtMaPhongDat.Text = dgvHoaDon.SelectedCells[2].Value.ToString();
+            txtSoPhong.Text = dgvHoaDon.SelectedCells[3].Value.ToString();
+            txtMaNhanVien.Text = dgvHoaDon.SelectedCells[4].Value.ToString();
+            txtTenNhanVien.Text = dgvHoaDon.SelectedCells[5].Value.ToString();
+            var cellValue = dgvHoaDon.Rows[e.RowIndex].Cells[6].Value;
             if (cellValue != null && DateTime.TryParse(cellValue.ToString(), out DateTime ngayTao))
             {
                 dtNgayTao.Value = ngayTao;
             }
-            txtPhuongThuc.Text = dgvHoaDon.SelectedCells[6].Value.ToString();
-            txtTongTien.Text = dgvHoaDon.SelectedCells[7].Value.ToString();
+            txtPhuongThuc.Text = dgvHoaDon.SelectedCells[7].Value.ToString();
+            txtTongTien.Text = dgvHoaDon.SelectedCells[8].Value.ToString();
         }
     }
 }
